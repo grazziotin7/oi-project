@@ -272,7 +272,7 @@ function PemuraHome() {
     </section>
 
     <footer className="footer">
-      <div className="footer-main"><a href="#top" className="brand"><Logo/></a><p>{site.footer}</p><nav aria-label="Links do rodapé">{nav.map((item)=><a key={item.href} href={item.href}>{item.label}</a>)}</nav><a href="#top" className="back-top">VOLTAR AO TOPO ↑</a></div>
+      <div className="footer-main"><a href="#top" className="brand"><Logo/></a><p>{site.footer}</p><nav aria-label="Links do rodapé">{nav.map((item)=><a key={item.href} href={item.href}>{item.label}</a>)}</nav>{site.social.length > 0 && <div className="footer-social">{site.social.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noreferrer">{social.label}</a>)}</div>}<a href="#top" className="back-top">VOLTAR AO TOPO ↑</a></div>
       <div className="footer-bottom"><span>© 2026 PEMURA. TODOS OS DIREITOS RESERVADOS.</span><span>FEITO NO BRASIL.</span></div>
     </footer>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "PEMURA", description: "Óculos inteligentes com IA controlados por voz." }) }} />
