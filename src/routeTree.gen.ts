@@ -11,17 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LojaRouteImport } from './routes/loja'
-import { Route as AiRouteImport } from './routes/ai'
 
 const LojaRoute = LojaRouteImport.update({
   id: '/loja',
   path: '/loja',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const AiRoute = AiRouteImport.update({
-  id: '/ai',
-  path: '/ai',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -34,31 +27,27 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/loja': typeof LojaRoute
-  '/ai': typeof AiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/loja': typeof LojaRoute
-  '/ai': typeof AiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/loja': typeof LojaRoute
-  '/ai': typeof AiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/loja' | '/ai'
+  fullPaths: '/' | '/loja'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/loja' | '/ai'
-  id: '__root__' | '/' | '/loja' | '/ai'
+  to: '/' | '/loja'
+  id: '__root__' | '/' | '/loja'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LojaRoute: typeof LojaRoute
-  AiRoute: typeof AiRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -77,20 +66,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LojaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ai': {
-      id: '/ai'
-      path: '/ai'
-      fullPath: '/ai'
-      preLoaderRoute: typeof AiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LojaRoute: LojaRoute,
-  AiRoute: AiRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
