@@ -495,3 +495,25 @@ a {
 .store-header nav{gap:clamp(16px,2vw,30px)}
 .store-header nav a,.store-back{font:9px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:rgba(245,247,250,.68)}
 .store-header nav .store-nav-active{color:#c3b2ff;border-bottom:1px solid rgba(139,92,255,.75);padding-bottom:8px}
+
+
+/* PEMURA — ajustes de layout e loja */
+@media(min-width:901px){.hero-copy{left:5%!important;width:25%!important;max-width:340px!important}.hero-side{right:5%!important;width:22%!important;max-width:300px!important}.scroll{right:5%!important}}
+.store-header{display:grid;grid-template-columns:1fr auto 1fr;gap:28px}
+.store-header nav{position:static;inset:auto;height:auto;display:flex;align-items:center;justify-content:center;background:none;border:0;backdrop-filter:none;gap:clamp(14px,2.4vw,34px)}
+.store-header nav a{font:9px var(--display);letter-spacing:.08em;text-transform:uppercase;color:rgba(245,247,250,.65)}
+.store-header nav a.store-nav-active{color:#c2b3ff}
+.store-back{justify-self:end}
+.store-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:28px clamp(22px,8vw,130px);background:#080910;border-block:1px solid rgba(255,255,255,.08)}
+.store-highlights article{display:flex;align-items:flex-start;gap:17px;padding:12px 26px;border-right:1px solid rgba(255,255,255,.09)}
+.store-highlights article:first-child{padding-left:0}.store-highlights article:last-child{border:0}
+.store-highlights article>span{font:11px var(--display);color:#a99aff}
+.store-highlights b{font:600 10px var(--display);letter-spacing:.12em}
+.store-highlights p{font-size:11px;color:rgba(245,247,250,.48);margin:7px 0 0;line-height:1.6}
+.store-product-section{background:radial-gradient(ellipse at 85% 15%,rgba(113,81,230,.11),transparent 34%),linear-gradient(180deg,#090a12,#07080d)}
+.store-product-panel{border-radius:18px;border-color:rgba(157,133,255,.2);background:linear-gradient(125deg,rgba(255,255,255,.055),rgba(111,80,230,.075))}
+.store-product-summary{padding:clamp(32px,5vw,72px)}
+.store-summary-art{background:radial-gradient(ellipse,rgba(112,85,236,.25),transparent 68%)}
+.store-part{min-height:205px;padding:24px 20px}
+.store-part h4{font-size:14px;line-height:1.4}
+@media(max-width:900px){.store-header{display:flex}.store-header nav{display:none}.store-highlights{grid-template-columns:1fr;gap:0}.store-highlights article,.store-highlights article:first-child{padding:16px 0;border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.store-highlights article:last-child{border-bottom:0}}
