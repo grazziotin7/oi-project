@@ -185,13 +185,13 @@ function PemuraHome() {
         <div className="demo-shell">
           <aside className="demo-sidebar" aria-label="Cenários da demonstração">
             <span className="eyebrow">ESCOLHA UMA CENA</span>
-            {demos.map((demo, index) => <button key={demo.title} className={scenario === index ? "scenario active" : "scenario"} onClick={() => setScenario(index)}><span>0{index + 1}</span>{demo.title}<ArrowUpRight size={15}/></button>)}
+            <div className="scenario-tabs">{demos.map((demo, index) => <button key={demo.title} className={scenario === index ? "scenario active" : "scenario"} onClick={() => setScenario(index)}><span>0{index + 1}</span>{demo.title}<ArrowUpRight size={15}/></button>)}
           </aside>
           <div className="demo-device">
             <div className="device-top"><span className="device-brand">PEMURA / VOICE</span><span className="device-state"><i/> CONECTADO</span></div>
             <div className="waveform" aria-hidden="true">{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ "--bar": `${10 + ((i * 17) % 35)}px`, animationDelay: `${i * 22}ms` } as React.CSSProperties}/>)}</div>
             <div className="conversation" aria-live="polite" aria-atomic="true">
-              {currentDemo.messages.map(([speaker, message], index) => <div key={index} className={speaker === "Você" ? "message user-message" : "message pemura-message"}><span>{speaker === "Você" ? "VOCÊ" : "PEMURA"}</span><p>{message}</p></div>)}
+              {currentDemo.messages.map(([speaker, message], index) => <div key={index} style={{ animationDelay: `${index * 260}ms` }} className={speaker === "Você" ? "message user-message" : "message pemura-message"}><span>{speaker === "Você" ? "VOCÊ" : "PEMURA"}</span><p>{message}</p></div>)}
               {currentDemo.confirmation && <div className="confirm-note"><span className="confirm-indicator"/> AÇÃO SENSÍVEL · CONFIRMAÇÃO DO USUÁRIO <button onClick={() => setPaused(true)}>Confirmar</button></div>}
             </div>
             <div className="demo-bottom"><span><i/> {currentDemo.confirmation ? "AGUARDANDO CONFIRMAÇÃO" : "RESPOSTA CONCLUÍDA"}</span><button className="pause-button" onClick={() => setPaused(!paused)} aria-label={paused ? "Retomar demonstração" : "Pausar demonstração"}>{paused ? <Play size={14}/> : <Pause size={14}/>} {paused ? "RETOMAR" : "PAUSAR"}</button></div>
@@ -259,7 +259,7 @@ function PemuraHome() {
     <section className="section creators-section" id="criadores" aria-labelledby="creators-title">
       <div className="container">
         <Reveal><Eyebrow>08 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
-        <div className="creator-grid">{creators.map((person,index)=><Reveal key={person.initials} className="creator-tile"><div className="creator-avatar">{person.photo?<img src={person.photo} alt={person.name} loading="lazy" width="128" height="128"/>:<span>{person.initials}</span>}</div><span className="creator-index">PEMURA / 0{index+1}</span><h3>{person.name}</h3><p>{person.role || "CRIADOR · PEMURA"}</p></Reveal>)}</div>
+        <div className="creator-grid">{creators.map((person,index)=><Reveal key={person.initials} className="creator-tile"><div className="creator-avatar">{person.photo?<img src={person.photo} alt={person.name} loading="lazy" width="128" height="128"/>:<span>{person.initials}</span>}</div><span className="creator-index">PEMURA / 0{index+1}</span><h3>{person.name}</h3><p>{person.role || "CRIADOR · PEMURA"}</p><div className="creator-links">{Object.entries(person.links).map(([label, url]) => <a key={label} href={url} target="_blank" rel="noreferrer">{label}</a>)}</div></Reveal>)}</div>
         <p className="creator-signoff">Pemura nasceu de uma pergunta simples: <i>por que o futuro ainda cabe só na palma da mão?</i></p>
       </div>
     </section>
@@ -267,7 +267,7 @@ function PemuraHome() {
     <section className="final-section" id="acompanhar" aria-labelledby="final-title">
       <div className="final-beam"/>
       <div className="final-inner"><div className="status-pill"><span className="status-dot"/>{site.status}</div><Eyebrow>O PRÓXIMO CAPÍTULO COMEÇA AQUI</Eyebrow><h2 id="final-title">O futuro está <i>diante dos seus olhos.</i></h2><p>Conheça a Pemura.</p>
-        {!sent ? <form className="waitlist-form" onSubmit={handleSubmit(onSubmit)} noValidate><label htmlFor="email">SEU E-MAIL</label><div className="email-row"><input id="email" type="email" placeholder="voce@email.com" autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email?"email-error":"email-help"} {...register("email")}/><button type="submit" disabled={isSubmitting}>Quero acompanhar <ArrowRight size={17}/></button></div>{errors.email&&<p className="form-error" id="email-error" role="alert">{errors.email.message}</p>}<p className="form-privacy" id="email-help">{site.privacy}</p></form>:<div className="success-message" role="status"><Check/> Obrigado. Você será avisado quando houver novidades.</div>}
+        {!sent ? <form className="waitlist-form" onSubmit={handleSubmit(onSubmit)} noValidate><label htmlFor="email">SEU E-MAIL</label><div className="email-row"><input id="email" type="email" placeholder="voce@email.com" autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email?"email-error":"email-help"} {...register("email")}/><button type="submit" disabled={isSubmitting}>Quero acompanhar a Pemura <ArrowRight size={17}/></button></div>{errors.email&&<p className="form-error" id="email-error" role="alert">{errors.email.message}</p>}<p className="form-privacy" id="email-help">{site.privacy}</p></form>:<div className="success-message" role="status"><Check/> Obrigado. Você será avisado quando houver novidades.</div>}
       </div>
     </section>
 
