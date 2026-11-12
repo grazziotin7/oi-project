@@ -58,7 +58,7 @@ export const moments = [
 export const futureStages = [
   { status: "HOJE · PRIMEIRA VERSÃO PLANEJADA", title: "Voz. Áudio. Conexão.", text: "Microfone, alto-falante, Bluetooth, botão físico e conexão com Android e iPhone.", label: "HOJE", state: "today" },
   { status: "AMANHÃ · PLANEJADO", title: "Mais percepção.", text: "Câmera, visão computacional, tradução avançada e novas interações.", label: "EM DESENVOLVIMENTO", state: "planned" },
-  { status: "FUTURO · VISÃO", title: "Uma nova camada computacional.", text: "Uma nova camada computacional diante dos seus olhos.", label: "VISÃO", state: "vision" },
+  { status: "FUTURO · VISÃO", title: "Uma nova camada computacional.", text: "Display e realidade aumentada: uma nova camada computacional diante dos seus olhos.", label: "VISÃO", state: "vision" },
 ] as const;
 
 export const disclaimers = {
