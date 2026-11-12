@@ -125,10 +125,21 @@ function PemuraHome() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (paused) return;
-    const timer = window.setInterval(() => setScenario((current) => (current + 1) % demos.length), 10000);
+    const node = demoSectionRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => setDemoInView(entry.isIntersecting), { threshold: 0.2 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (paused || !demoInView) return;
+    const timer = window.setInterval(() => {
+      setScenario((current) => (current + 1) % demos.length);
+      setConfirmed(false);
+    }, 10000);
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, [paused, demoInView]);
 
   const currentDemo = demos[scenario] ?? demos[0]!;
   const onSubmit = async (values: FormValues) => {
