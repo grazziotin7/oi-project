@@ -98,7 +98,8 @@ type FormValues = z.infer<typeof schema>;
 function PemuraHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scenario, setScenario] = useState(0);
-  const [paused, setPaused] = useState(false);\n  const [confirmed, setConfirmed] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [activeHardware, setActiveHardware] = useState(0);
   const [sent, setSent] = useState(false);
   const demoRef = useRef<HTMLElement>(null);
