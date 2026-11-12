@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, Pause, Play, X } from "lucide-react";
-import { site } from "../content/site";
+import { site, flow, steps, hardware, moments, futureStages, disclaimers } from "../content/site";
 import { creators } from "../content/creators";
 import { demos } from "../content/demos";
 import { submitEmail } from "../lib/waitlist";
@@ -91,38 +91,6 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
   }, []);
   return <div ref={ref} className={`reveal ${className}`}>{children}</div>;
 }
-
-const flow = [
-  ["VOCÊ", "A intenção começa na sua voz."],
-  ["PEMURA", "A interface que acompanha você."],
-  ["IA", "A inteligência interpreta o pedido."],
-  ["MUNDO DIGITAL", "O celular conecta aos serviços."],
-];
-const steps = [
-  ["Você fala", "Diga naturalmente o que precisa."],
-  ["O Pemura capta sua voz", "O microfone integrado recebe o comando."],
-  ["O Bluetooth conecta ao celular", "Os óculos enviam o áudio ao smartphone."],
-  ["O app Pemura processa", "O aplicativo organiza a solicitação."],
-  ["A IA entende a intenção", "A inteligência interpreta o contexto e o pedido."],
-  ["O sistema executa a ação", "O celular conversa com os serviços disponíveis."],
-  ["O Pemura responde para você", "A resposta chega pelo áudio dos óculos."],
-];
-const hardware = [
-  ["MICROFONE", "Capta sua voz para que a interação comece sem procurar uma tela."],
-  ["ALTO-FALANTES", "Som perto do ouvido. O mundo continua ao seu redor."],
-  ["BLUETOOTH", "Uma conexão sem fio entre você e o celular."],
-  ["BOTÃO FÍSICO", "Um comando direto quando você quiser controlar a experiência."],
-  ["CONEXÃO COM O CELULAR", "O cérebro fica no seu bolso. Os óculos são a interface."],
-];
-const moments = [
-  { id: "messages", title: "MENSAGENS", text: "Responda sem interromper o que está fazendo.", kind: "message" },
-  { id: "audio", title: "MÚSICA", text: "Sua trilha acompanha o ritmo do dia.", kind: "audio" },
-  { id: "route", title: "NAVEGAÇÃO", text: "Peça uma rota e receba a orientação pelo celular.", kind: "route" },
-  { id: "calls", title: "LIGAÇÕES", text: "Converse sem precisar segurar o aparelho.", kind: "call" },
-  { id: "assistant", title: "PERGUNTAS À IA", text: "Transforme uma dúvida em uma conversa.", kind: "assistant" },
-  { id: "translate", title: "TRADUÇÃO", text: "Uma nova forma de pedir ajuda com idiomas.", kind: "translate" },
-  { id: "delivery", title: "SERVIÇOS", text: "Prepare ações e confirme antes de concluir.", kind: "service" },
-];
 
 const schema = z.object({ email: z.string().trim().email("Digite um e-mail válido.") });
 type FormValues = z.infer<typeof schema>;
@@ -229,7 +197,7 @@ function PemuraHome() {
             <div className="demo-bottom"><span><i/> {currentDemo.confirmation ? "AGUARDANDO CONFIRMAÇÃO" : "RESPOSTA CONCLUÍDA"}</span><button className="pause-button" onClick={() => setPaused(!paused)} aria-label={paused ? "Retomar demonstração" : "Pausar demonstração"}>{paused ? <Play size={14}/> : <Pause size={14}/>} {paused ? "RETOMAR" : "PAUSAR"}</button></div>
           </div>
         </div>
-        <p className="demo-disclaimer">Simulação ilustrativa da experiência. As ações dependem das integrações e permissões disponíveis.</p>
+        <p className="demo-disclaimer">{disclaimers.demo}</p>
       </div>
     </section>
 
@@ -257,7 +225,7 @@ function PemuraHome() {
         <div className="hardware-layout"><div className="hardware-visual"><GlassesVisual compact/><div className="hotspot hotspot-1"/><div className="hotspot hotspot-2"/><div className="hotspot hotspot-3"/><div className="hotspot hotspot-4"/><div className="hotspot hotspot-5"/></div>
           <div className="hardware-list">{hardware.map(([title,desc],index)=><button key={title} className={activeHardware===index?"hardware-point selected":"hardware-point"} onClick={()=>setActiveHardware(index)}><span>0{index+1}</span><strong>{title}</strong><ArrowUpRight size={15}/>{activeHardware===index&&<p>{desc}</p>}</button>)}</div>
         </div>
-        <p className="hardware-note">Primeira versão: voz, áudio e conexão. <a href="#futuro">O restante da plataforma vem depois <ArrowUpRight size={13}/></a></p>
+        <p className="hardware-note">{disclaimers.hardware} <a href="#futuro">O restante da plataforma vem depois <ArrowUpRight size={13}/></a></p>
       </div>
     </section>
 
@@ -269,7 +237,7 @@ function PemuraHome() {
           <div className="timeline">{steps.map(([title,desc],index)=><Reveal key={title} className="timeline-step"><span className="timeline-number">0{index+1}</span><div><h3>{title}</h3><p>{desc}</p></div></Reveal>)}</div>
         </div>
         <p className="architecture-manifesto">Os óculos são a interface.<br/>O celular é o computador.<br/><i>A IA é o cérebro.</i></p>
-        <p className="fine-print">Disponibilidade de recursos varia conforme o sistema do celular e as permissões concedidas. No Android, algumas automações podem depender de recursos como Accessibility Service; no iPhone, há limitações próprias do sistema. Ações sensíveis sempre pedem sua confirmação.</p>
+        <p className="fine-print">{disclaimers.compatibility}</p>
       </div>
     </section>
 
@@ -281,7 +249,7 @@ function PemuraHome() {
           <article className="future-stage planned"><span className="stage-marker"/><small>AMANHÃ · PLANEJADO</small><h3>Mais percepção.</h3><p>Câmera, visão computacional, tradução avançada e novas interações.</p><b>EM DESENVOLVIMENTO</b></article>
           <article className="future-stage vision"><span className="stage-marker"/><small>FUTURO · VISÃO</small><h3>Uma nova camada computacional.</h3><p>Uma nova camada computacional diante dos seus olhos.</p><b>VISÃO</b></article>
         </div>
-        <p className="fine-print">Recursos futuros estão em fase de conceito e podem mudar. Não há datas de lançamento anunciadas.</p>
+        <p className="fine-print">{disclaimers.future}</p>
       </div>
     </section>
 
