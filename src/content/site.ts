@@ -13,6 +13,7 @@ export const site = {
     { label: "Experiência", href: "#experiencia" },
     { label: "Como funciona", href: "#como-funciona" },
     { label: "Hardware", href: "#hardware" },
+    { label: "Especificações", href: "#especificacoes" },
     { label: "Futuro", href: "#futuro" },
     { label: "Criadores", href: "#criadores" },
   ],
@@ -69,3 +70,23 @@ export const disclaimers = {
   future: "Recursos futuros estão em fase de conceito e podem mudar. Não há datas de lançamento anunciadas.",
   hardware: "Primeira versão: voz, áudio e conexão.",
 };
+
+export const specifications = [
+  { category: "PLACA PRINCIPAL", name: "Seeed Studio XIAO ESP32S3 Sense", detail: "Unidade central do protótipo, com ESP32-S3, Wi-Fi e Bluetooth Low Energy. A versão Sense reúne conectividade e recursos para câmera e áudio.", status: "BASE DO PROJETO" },
+  { category: "CÂMERA", name: "OV2640 — módulo da XIAO ESP32S3 Sense", detail: "Sensor de imagem compacto associado à placa Sense. A captura de imagem é uma possibilidade de desenvolvimento; visão computacional ainda depende de software e testes.", status: "RECURSO EM AVALIAÇÃO" },
+  { category: "MICROFONE", name: "MEMS integrado à XIAO ESP32S3 Sense", detail: "A placa Sense já oferece microfone digital integrado. O SPH0645LM4H é uma alternativa externa I²S caso os testes indiquem necessidade de outro posicionamento ou captação.", status: "INTEGRADO / ALTERNATIVA" },
+  { category: "ÁUDIO", name: "MAX98357A + alto-falante miniatura 8 Ω / 1 W", detail: "Amplificador de áudio digital I²S e pequeno alto-falante para respostas sonoras. O formato físico, volume e consumo precisam ser validados na armação.", status: "COMPONENTES PROPOSTOS" },
+  { category: "CONECTIVIDADE", name: "Bluetooth Low Energy integrado — ESP32-S3", detail: "Conexão sem fio com o smartphone. Um módulo Bluetooth Ebyte separado fica como alternativa, não como componente obrigatório da primeira arquitetura.", status: "INTEGRADO À PLACA" },
+  { category: "BATERIA", name: "Bateria Li-Po 3,7 V", detail: "A capacidade final ainda precisa ser definida com base no consumo real, autonomia desejada, dimensões e proteção elétrica. Não há autonomia confirmada.", status: "A DIMENSIONAR" },
+  { category: "RECARGA", name: "Módulo carregador Li-Po USB-C", detail: "Referência de circuito de carga para bateria de célula única. A placa exata, proteção e integração mecânica precisam ser verificadas antes da montagem.", status: "A VALIDAR" },
+  { category: "CONTROLES", name: "Botão tátil 6 mm + sensor touch TTP223", detail: "O botão físico pode ativar uma função direta. O TTP223 é uma alternativa para toque capacitivo; a decisão entre botão, touch ou ambos depende do espaço e dos testes.", status: "OPÇÕES DE INTERAÇÃO" },
+  { category: "CHAVE", name: "Chave miniatura SPDT", detail: "Possível chave física de alimentação. É necessário conferir dimensões, corrente suportada e posição na haste.", status: "PROPOSTA" }
+] as const;
+
+export const softwareSpecifications = [
+  { category: "FIRMWARE", name: "ESP-IDF ou Arduino framework", detail: "Software embarcado responsável por controlar a placa, os periféricos e a comunicação. A plataforma final ainda será escolhida." },
+  { category: "CONEXÃO", name: "Bluetooth Low Energy (BLE)", detail: "Canal de comunicação entre os óculos e o aplicativo no celular." },
+  { category: "APLICATIVO", name: "Aplicativo Pemura para Android e iOS", detail: "Interface no smartphone para configurações, permissões e integração com serviços. Ainda é parte do desenvolvimento." },
+  { category: "INTELIGÊNCIA ARTIFICIAL", name: "Integração com serviço de IA", detail: "Interpreta solicitações e organiza respostas. O provedor e a arquitetura de nuvem ainda não estão definidos." },
+  { category: "VOZ", name: "Reconhecimento de fala e síntese de voz", detail: "Transforma áudio em texto e respostas em áudio. A solução final dependerá de testes de latência, qualidade, custo e privacidade." }
+] as const;
