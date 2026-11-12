@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowUp, AudioLines, BrainCircuit, Check, ChevronDown, CircleHelp,
-  Clock3, Command, History, Menu, Mic, MicOff, Plus, Send, Settings2,
-  Sparkles, Volume2, VolumeX, WandSparkles, X
+  ArrowUp, BrainCircuit, CircleHelp, History, Menu, Mic, Plus, Send,
+  Settings2, Sparkles, Volume2, VolumeX, X
 } from "lucide-react";
 
 export const Route = createFileRoute("/ai")({
