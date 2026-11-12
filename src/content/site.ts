@@ -14,7 +14,7 @@ export const site = {
     { label: "Futuro", href: "#futuro" },
     { label: "Criadores", href: "#criadores" },
   ],
-  social: [],
+  social: [] as { label: string; href: string }[],
   progress: { label: "VOZ → BLUETOOTH", value: 0 /* AJUSTAR: substituir quando houver percentual real validado */ },
   privacy: "Usaremos seu e-mail apenas para avisar sobre a Pemura.",
   footer: "O futuro diante de seus olhos.",
