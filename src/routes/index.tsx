@@ -29,6 +29,8 @@ const faqs = [
   ["O Pemura já está sendo comercializado?", "Não. O Pemura é um projeto-conceito em desenvolvimento para uma proposta de produto. As especificações apresentadas são componentes candidatos e decisões em avaliação."],
   ["Como a inteligência artificial funciona?", "A proposta é conectar os óculos a um aplicativo no smartphone. O celular poderá processar solicitações e utilizar serviços de IA, reduzindo a necessidade de colocar todo o processamento nos óculos."],
   ["O Pemura precisa de internet?", "Algumas funções poderão depender de internet e dos serviços conectados. A disponibilidade de recursos offline ainda será definida durante o desenvolvimento."],
+  ["Como a privacidade será tratada?", "A proposta deve incluir controles claros para câmera e microfone, indicação de quando estiverem ativos e respeito às pessoas ao redor. As regras de armazenamento, envio e exclusão de dados precisarão ser definidas antes de qualquer lançamento."],
+  ["Qual será o preço, peso e autonomia?", "Esses dados ainda não foram definidos. Eles dependem da escolha final dos componentes, da armação e dos testes de consumo, conforto e fabricação."],
   ["O que é o Pemura Vision?", "É uma possibilidade futura de evolução com informações exibidas diretamente nas lentes. Não faz parte da versão-base proposta e exige pesquisa adicional de óptica, energia e segurança."],
 ];
 
@@ -98,6 +100,18 @@ function Index() {
       </div>
     </section>
 
+
+    <section className="use-section container">
+      <div className="section-kicker">01.1 — POSSIBILIDADES</div>
+      <div className="use-heading"><h2>Tecnologia que se adapta<br/><span>ao seu momento.</span></h2><p>As experiências abaixo representam caminhos de uso que orientam o desenvolvimento. A disponibilidade de cada recurso dependerá do aplicativo, dos serviços conectados e dos testes do protótipo.</p></div>
+      <div className="use-grid">
+        <article className="use-card"><span>01 / APRENDIZADO</span><Eye/><h3>Aprender explorando</h3><p>Uma proposta de apoio para consultar informações e tirar dúvidas sobre o que está ao redor.</p></article>
+        <article className="use-card"><span>02 / ROTINA</span><AudioLines/><h3>Assistência por voz</h3><p>Interações rápidas com um assistente conectado, sem depender de digitar no celular a cada solicitação.</p></article>
+        <article className="use-card"><span>03 / REGISTRO</span><Camera/><h3>Captura em primeira pessoa</h3><p>Possibilidade de registrar imagens por meio da câmera integrada, sempre com atenção à privacidade de outras pessoas.</p></article>
+        <article className="use-card"><span>04 / CONECTIVIDADE</span><Smartphone/><h3>Seu celular como central</h3><p>O smartphone reúne aplicativo, conexão com a internet e acesso aos serviços de inteligência artificial.</p></article>
+      </div>
+    </section>
+
     <section className="tech-section" id="tecnologia">
       <div className="container section">
         <div className="section-kicker">02 — ENGENHARIA</div>
@@ -121,6 +135,21 @@ function Index() {
         <article><div className="step-top"><span>03</span><Zap/></div><h3>Interaja</h3><p>O aplicativo pode encaminhar solicitações a serviços de IA e devolver respostas.</p></article>
       </div>
       <div className="phone-note"><Smartphone size={20}/><p><strong>O smartphone é parte do sistema.</strong> Ele funciona como ponte de conectividade e processamento para os recursos de inteligência artificial previstos no projeto.</p></div>
+    </section>
+
+
+    <section className="roadmap-section">
+      <div className="container section">
+        <div className="section-kicker">04.1 — DESENVOLVIMENTO</div>
+        <div className="roadmap-heading"><h2>Da ideia ao<br/><span>protótipo.</span></h2><p>O Pemura está em fase de concepção. O caminho de desenvolvimento prioriza testar a integração real antes de anunciar números ou prometer recursos.</p></div>
+        <div className="roadmap-grid">
+          <article><span>ETAPA 01</span><strong>Definição</strong><p>Escolha da arquitetura, dos componentes candidatos e das funções prioritárias.</p><em>PLANEJAMENTO</em></article>
+          <article><span>ETAPA 02</span><strong>Integração</strong><p>Montagem dos módulos, comunicação com o celular e desenvolvimento do aplicativo.</p><em>PRÓXIMA VALIDAÇÃO</em></article>
+          <article><span>ETAPA 03</span><strong>Testes</strong><p>Avaliação de conforto, qualidade de áudio e imagem, temperatura, consumo e autonomia.</p><em>A VALIDAR</em></article>
+          <article><span>ETAPA 04</span><strong>Refinamento</strong><p>Ajustes de armação, segurança elétrica, experiência de uso e viabilidade de produção.</p><em>EVOLUÇÃO CONTÍNUA</em></article>
+        </div>
+        <p className="roadmap-note"><ShieldCheck size={15}/> Nenhuma etapa representa certificação ou produto pronto para venda. Resultados só serão divulgados após testes documentados.</p>
+      </div>
     </section>
 
     <section className="vision-section">
