@@ -10,6 +10,7 @@ export const site = {
     description: "Um óculos inteligente que deixa você interagir com o mundo digital usando só a voz.",
   },
   nav: [
+    { label: "Loja", href: "#loja" },
     { label: "Experiência", href: "#experiencia" },
     { label: "Como funciona", href: "#como-funciona" },
     { label: "Hardware", href: "#hardware" },
@@ -18,6 +19,14 @@ export const site = {
     { label: "Criadores", href: "#criadores" },
   ],
   social: [] as { label: string; href: string }[],
+  product: {
+    name: "Pemura One",
+    edition: "PRIMEIRA EDIÇÃO · CONCEITO",
+    retailPrice: "R$ 899,90",
+    costRange: "R$ 450–600",
+    description: "Óculos inteligente com interação por voz, áudio integrado e conexão com o smartphone. A primeira versão prioriza uma experiência leve, sem tela no visor.",
+    priceNote: "Preço sugerido para planejamento escolar, não é oferta de venda nem orçamento fechado. O custo estimado depende da seleção final dos componentes, armação, montagem, impostos e testes.",
+  },
   progress: { label: "VOZ → BLUETOOTH", value: 0 /* AJUSTAR: substituir quando houver percentual real validado */ },
   privacy: "Usaremos seu e-mail apenas para avisar sobre a Pemura.",
   footer: "O futuro diante de seus olhos.",
