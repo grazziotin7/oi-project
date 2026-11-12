@@ -5,7 +5,7 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "PEMURA — Thinking Machines" },
       { name: "description", content: "Óculos inteligentes Pemura com interação por voz e inteligência artificial." },
-      { name: "theme-color", content: "#efece6" },
+      { name: "theme-color", content: "#05060a" },
     ],
   }),
   component: PemuraLanding,
