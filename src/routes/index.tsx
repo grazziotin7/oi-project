@@ -102,7 +102,6 @@ function PemuraHome() {
   const [confirmed, setConfirmed] = useState(false);
   const [activeHardware, setActiveHardware] = useState(0);
   const [sent, setSent] = useState(false);
-  const demoRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
@@ -224,7 +223,7 @@ function PemuraHome() {
       <div className="container">
         <Reveal className="hardware-heading"><div><Eyebrow>05 — ENGENHARIA</Eyebrow><h2 id="hardware-title">Engenharia que <i>desaparece.</i></h2></div><p>A primeira versão prioriza o essencial: uma interface vestível, simples de usar e conectada ao seu celular.</p></Reveal>
         <div className="hardware-layout"><div className="hardware-visual"><GlassesVisual compact/><div className="hotspot hotspot-1"/><div className="hotspot hotspot-2"/><div className="hotspot hotspot-3"/><div className="hotspot hotspot-4"/><div className="hotspot hotspot-5"/></div>
-          <div className="hardware-list">{hardware.map(([title,desc],index)=><button key={title} className={activeHardware===index?"hardware-point selected":"hardware-point"} onClick={()=>setActiveHardware(index)}><span>0{index+1}</span><strong>{title}</strong><ArrowUpRight size={15}/>{activeHardware===index&&<p>{desc}</p>}</button>)}</div>
+          <div className="hardware-list">{hardware.map(([title,desc],index)=><button key={title} className={activeHardware===index?"hardware-point selected":"hardware-point"} onClick={()=>setActiveHardware(index)}><span>0{index+1}</span><strong>{title}</strong><ArrowUpRight size={15}/>{activeHardware===index&&<span className="hardware-detail">{desc}</span>}</button>)}</div>
         </div>
         <p className="hardware-note">{disclaimers.hardware} <a href="#futuro">O restante da plataforma vem depois <ArrowUpRight size={13}/></a></p>
       </div>
