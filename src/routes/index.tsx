@@ -158,7 +158,7 @@ function PemuraHome() {
   const closeMenu = () => setMenuOpen(false);
   const nav = site.nav;
 
-  return <main id="top">
+  return <div id="top">
     <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <header className="header">
       <div className="header-inner">
@@ -174,9 +174,10 @@ function PemuraHome() {
       <a className="pill-button menu-cta" href="#acompanhar" onClick={closeMenu}>Quero acompanhar <ArrowRight/></a>
     </div>}
 
+    <main id="conteudo">
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-light hero-light-one"/><div className="hero-light hero-light-two"/>
-      <div className="hero-inner" id="conteudo">
+      <div className="hero-inner">
         <div className="hero-visual-wrap"><GlassesVisual/></div>
         <div className="hero-copy">
           <div className="status-pill"><span className="status-dot"/> {site.status}</div>
@@ -293,10 +294,11 @@ function PemuraHome() {
       </div>
     </section>
 
+    </main>
     <footer className="footer">
       <div className="footer-main"><a href="#top" className="brand"><Logo/></a><p>{site.footer}</p><nav aria-label="Links do rodapé">{nav.map((item)=><a key={item.href} href={item.href}>{item.label}</a>)}</nav>{site.social.length > 0 && <div className="footer-social">{site.social.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noreferrer">{social.label}</a>)}</div>}<a href="#top" className="back-top">VOLTAR AO TOPO ↑</a></div>
       <div className="footer-bottom"><span>© 2026 PEMURA. TODOS OS DIREITOS RESERVADOS.</span><span>FEITO NO BRASIL.</span></div>
     </footer>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "PEMURA", description: "Óculos inteligentes com IA controlados por voz." }) }} />
-  </main>;
+  </div>;
 }
