@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Cpu, Camera, Mic, Volume2, BatteryCharging, Bluetooth, Smartphone, Bot, ChevronDown } from "lucide-react";
-import { site } from "../content/site";
 
 export const Route = createFileRoute("/loja")({
   head: () => ({ meta: [
