@@ -185,7 +185,7 @@ function PemuraHome() {
         <div className="demo-shell">
           <aside className="demo-sidebar" aria-label="Cenários da demonstração">
             <span className="eyebrow">ESCOLHA UMA CENA</span>
-            <div className="scenario-tabs">{demos.map((demo, index) => <button key={demo.title} className={scenario === index ? "scenario active" : "scenario"} onClick={() => setScenario(index)}><span>0{index + 1}</span>{demo.title}<ArrowUpRight size={15}/></button>)}
+            <div className="scenario-tabs">{demos.map((demo, index) => <button key={demo.title} className={scenario === index ? "scenario active" : "scenario"} onClick={() => setScenario(index)}><span>0{index + 1}</span>{demo.title}<ArrowUpRight size={15}/></button>)}</div>
           </aside>
           <div className="demo-device">
             <div className="device-top"><span className="device-brand">PEMURA / VOICE</span><span className="device-state"><i/> CONECTADO</span></div>
