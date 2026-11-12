@@ -245,9 +245,7 @@ function PemuraHome() {
       <div className="container">
         <Reveal><Eyebrow>07 — O QUE VEM</Eyebrow><h2 id="future-title">A primeira versão é só o <i>começo.</i></h2></Reveal>
         <div className="future-track">
-          <article className="future-stage today"><span className="stage-marker"/><small>HOJE · DISPONÍVEL NA PROPOSTA INICIAL</small><h3>Voz. Áudio. Conexão.</h3><p>Microfone, alto-falante, Bluetooth, botão físico e conexão com Android e iPhone.</p><b>HOJE</b></article>
-          <article className="future-stage planned"><span className="stage-marker"/><small>AMANHÃ · PLANEJADO</small><h3>Mais percepção.</h3><p>Câmera, visão computacional, tradução avançada e novas interações.</p><b>EM DESENVOLVIMENTO</b></article>
-          <article className="future-stage vision"><span className="stage-marker"/><small>FUTURO · VISÃO</small><h3>Uma nova camada computacional.</h3><p>Uma nova camada computacional diante dos seus olhos.</p><b>VISÃO</b></article>
+          {futureStages.map((stage) => <article key={stage.state} className={`future-stage ${stage.state}`}><span className="stage-marker"/><small>{stage.status}</small><h3>{stage.title}</h3><p>{stage.text}</p><b>{stage.label}</b></article>)}
         </div>
         <p className="fine-print">{disclaimers.future}</p>
       </div>
@@ -255,12 +253,12 @@ function PemuraHome() {
 
     <section className="vision-section" aria-label="Visão da Pemura">
       <div className="vision-glow"/>
-      <div className="vision-copy"><Eyebrow>08 — UMA OUTRA RELAÇÃO COM A TECNOLOGIA</Eyebrow><p>A tecnologia não deveria exigir que você olhe para ela o tempo inteiro.</p><p>Ela deveria <i>desaparecer</i> na experiência.</p><p>A Pemura coloca inteligência à sua disposição sem interromper o mundo ao seu redor.</p></div>
+      <div className="vision-copy"><Eyebrow>VISÃO — UMA OUTRA RELAÇÃO COM A TECNOLOGIA</Eyebrow><p>A tecnologia não deveria exigir que você olhe para ela o tempo inteiro.</p><p>Ela deveria <i>desaparecer</i> na experiência.</p><p>A Pemura coloca inteligência à sua disposição sem interromper o mundo ao seu redor.</p></div>
     </section>
 
     <section className="section creators-section" id="criadores" aria-labelledby="creators-title">
       <div className="container">
-        <Reveal><Eyebrow>09 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
+        <Reveal><Eyebrow>08 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
         <div className="creator-grid">{creators.map((person,index)=><Reveal key={person.initials} className="creator-tile"><div className="creator-avatar">{person.photo?<img src={person.photo} alt={person.name} loading="lazy" width="128" height="128"/>:<span>{person.initials}</span>}</div><span className="creator-index">PEMURA / 0{index+1}</span><h3>{person.name}</h3><p>{person.role || "CRIADOR · PEMURA"}</p></Reveal>)}</div>
         <p className="creator-signoff">Pemura nasceu de uma pergunta simples: <i>por que o futuro ainda cabe só na palma da mão?</i></p>
       </div>
