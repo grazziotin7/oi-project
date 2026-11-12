@@ -99,6 +99,7 @@ function PemuraHome() {
   const [scenario, setScenario] = useState(0);
   const [paused, setPaused] = useState(false);
   const [demoInView, setDemoInView] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [activeHardware, setActiveHardware] = useState(0);
   const [sent, setSent] = useState(false);
@@ -125,6 +126,14 @@ function PemuraHome() {
   }, [menuOpen]);
 
   useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
     const node = demoSectionRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(([entry]) => setDemoInView(entry.isIntersecting), { threshold: 0.2 });
@@ -133,13 +142,13 @@ function PemuraHome() {
   }, []);
 
   useEffect(() => {
-    if (paused || !demoInView) return;
+    if (paused || !demoInView || reducedMotion) return;
     const timer = window.setInterval(() => {
       setScenario((current) => (current + 1) % demos.length);
       setConfirmed(false);
     }, 10000);
     return () => window.clearInterval(timer);
-  }, [paused, demoInView]);
+  }, [paused, demoInView, reducedMotion]);
 
   const currentDemo = demos[scenario] ?? demos[0]!;
   const onSubmit = async (values: FormValues) => {
