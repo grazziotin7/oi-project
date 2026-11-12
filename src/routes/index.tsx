@@ -106,6 +106,8 @@ function PemuraHome() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [activeHardware, setActiveHardware] = useState(0);
+  const [productOpen, setProductOpen] = useState(false);
+  const [glassesTilt, setGlassesTilt] = useState({ x: 0, y: 0 });
   const [sent, setSent] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const demoSectionRef = useRef<HTMLElement>(null);
@@ -185,7 +187,7 @@ function PemuraHome() {
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-light hero-light-one"/><div className="hero-light hero-light-two"/>
       <div className="hero-inner">
-        <div className="hero-visual-wrap"><GlassesVisual/></div>
+        <div className="hero-visual-wrap" onPointerMove={(event) => { const rect = event.currentTarget.getBoundingClientRect(); setGlassesTilt({ x: ((event.clientY - rect.top) / rect.height - .5) * -12, y: ((event.clientX - rect.left) / rect.width - .5) * 18 }); }} onPointerLeave={() => setGlassesTilt({ x: 0, y: 0 })}><div className="hero-3d-stage" style={{ transform: `perspective(1100px) rotateX(${glassesTilt.x}deg) rotateY(${glassesTilt.y}deg)` }}><GlassesVisual/></div><span className="three-d-hint">MOVA O CURSOR · VISUAL 3D INTERATIVO</span></div>
         <div className="hero-copy">
           <div className="status-pill"><span className="status-dot"/> {site.status}</div>
           <Eyebrow>{site.hero.eyebrow}</Eyebrow>
@@ -196,6 +198,40 @@ function PemuraHome() {
       </div>
       <a className="scroll-cue" href="#interface"><span>ROLE PARA DESCOBRIR</span><span className="scroll-line"/></a>
       <span className="hero-index">PEMURA / 001 — INTERFACE VESTÍVEL</span>
+    </section>
+
+
+    <section className="section shop-section" id="loja" aria-labelledby="shop-title">
+      <div className="container">
+        <Reveal className="shop-heading"><div><Eyebrow>PEMURA STORE / 001</Eyebrow><h2 id="shop-title">Conheça o primeiro <i>Pemura.</i></h2></div><p>Uma vitrine para a primeira edição. Explore o produto, conheça os componentes e entenda como a experiência funciona.</p></Reveal>
+        <article className={productOpen ? "shop-product expanded" : "shop-product"}>
+          <div className="shop-product-visual"><span className="shop-edition">{site.product.edition}</span><div className="shop-glasses-stage"><GlassesVisual compact/></div><span className="shop-product-index">PMR / 001</span></div>
+          <div className="shop-product-copy">
+            <span className="shop-kicker">ÓCULOS INTELIGENTES COM IA</span><h3>{site.product.name}</h3><p>{site.product.description}</p>
+            <div className="shop-price-row"><div><small>PREÇO DE VENDA SUGERIDO</small><strong>{site.product.retailPrice}</strong></div><span className="shop-status">EM DESENVOLVIMENTO</span></div>
+            <button className="pill-button shop-details-button" type="button" aria-expanded={productOpen} onClick={() => setProductOpen(!productOpen)}>{productOpen ? "Fechar especificações" : "Explorar o produto"} <ArrowRight/></button>
+          </div>
+          {productOpen && <div className="shop-details" id="detalhes-pemura">
+            <div className="shop-details-heading"><Eyebrow>POR DENTRO DO PRODUTO</Eyebrow><h4>O que existe em cada haste.</h4><p>Arquitetura proposta para o protótipo. Alguns itens são alternativas e ainda precisam ser escolhidos e testados.</p></div>
+            <div className="shop-detail-grid">
+              <div><span>01 / PROCESSAMENTO</span><strong>Seeed Studio XIAO ESP32S3 Sense</strong><p>Placa principal com ESP32-S3, Wi-Fi e Bluetooth Low Energy.</p></div>
+              <div><span>02 / CAPTURA DE IMAGEM</span><strong>OV2640</strong><p>Câmera associada à placa Sense. Recurso em avaliação para versões futuras.</p></div>
+              <div><span>03 / VOZ</span><strong>Microfone MEMS integrado</strong><p>Capta a voz do usuário; microfone externo I²S é alternativa se os testes exigirem.</p></div>
+              <div><span>04 / ÁUDIO</span><strong>MAX98357A + mini alto-falante 8 Ω / 1 W</strong><p>Amplificação e reprodução de respostas sonoras próximas ao ouvido.</p></div>
+              <div><span>05 / ENERGIA</span><strong>Bateria Li-Po 3,7 V + carregador USB-C</strong><p>Capacidade, circuito exato e autonomia ainda serão definidos após medições.</p></div>
+              <div><span>06 / CONTROLE</span><strong>Botão tátil 6 mm / sensor TTP223</strong><p>Opções de interação física; a configuração final depende do espaço na armação.</p></div>
+              <div><span>07 / CONEXÃO</span><strong>Bluetooth Low Energy + Wi-Fi</strong><p>Conecta os óculos ao celular e aos serviços previstos no aplicativo.</p></div>
+              <div><span>08 / SOFTWARE</span><strong>Firmware + app Pemura + serviço de IA</strong><p>Reconhecimento de fala, interpretação do pedido e síntese de voz ainda em desenvolvimento.</p></div>
+            </div>
+            <div className="shop-how"><span>COMO FUNCIONA</span><p><b>1.</b> Você fala com os óculos. <b>2.</b> O microfone capta o comando. <b>3.</b> A placa envia a informação ao celular. <b>4.</b> O app se conecta ao serviço de IA. <b>5.</b> A resposta volta pelo áudio dos óculos.</p></div>
+            <div className="shop-cost">
+              <div><small>CUSTO ESTIMADO DE FABRICAÇÃO</small><strong>{site.product.costRange}</strong><p>Estimativa preliminar por unidade, ainda sujeita a cotações e validação do projeto.</p></div>
+              <div><small>PREÇO DE VENDA SUGERIDO</small><strong>{site.product.retailPrice}</strong><p>Valor de referência para o projeto, não preço confirmado de lançamento.</p></div>
+            </div>
+            <p className="shop-price-note">{site.product.priceNote}</p>
+          </div>}
+        </article>
+      </div>
     </section>
 
     <section className="section interface-section" id="interface" aria-labelledby="interface-title">
