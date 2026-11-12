@@ -18,6 +18,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
       { property: "og:image", content: "/og-image.svg" },
       { name: "twitter:image", content: "/og-image.svg" },
+      { name: "twitter:title", content: "PEMURA — O futuro diante de seus olhos" },
+      { name: "twitter:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#05060A" },
