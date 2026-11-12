@@ -1,6 +1,8 @@
 export const site = {
   brand: "PEMURA",
   tagline: "O futuro diante de seus olhos.",
+  promise: "Eu falo. A Pemura entende. A Pemura age.",
+  interfaceDescription: "A Pemura não é um fone Bluetooth com formato de óculos. É a camada entre você e o computador: uma interface vestível que conecta sua voz, o celular e a inteligência artificial.",
   status: "Protótipo em desenvolvimento",
   hero: {
     eyebrow: "ÓCULOS INTELIGENTES COM IA",
