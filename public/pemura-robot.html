@@ -61,6 +61,13 @@ section{position:relative;z-index:3;min-height:100svh;padding:112px 17% 78px;dis
 .menu .menu-store:hover{background:rgba(139,92,255,.14)}
 @media(max-width:900px){nav{display:flex;justify-content:space-between;padding:0 16px;height:58px}.brand{padding-left:0}.mobile-store{display:inline-flex;align-items:center;gap:18px;padding:11px 15px;border:1px solid rgba(167,139,250,.7);background:linear-gradient(110deg,rgba(139,92,255,.22),rgba(85,125,255,.09));font:10px var(--mono);letter-spacing:.1em;color:#f5f0ff;box-shadow:0 0 22px rgba(139,92,255,.13)}.mobile-store span{color:#c7b4ff;font-size:15px}.store-section{padding:104px 18px 76px}.store-feature{grid-template-columns:1fr;gap:26px}.store-product-visual{min-height:270px}.store-product-info{max-width:none}.store-section>.section-heading[id="tecnologia"]{margin-top:65px!important}.store-section .spec-grid{grid-template-columns:1fr}}
 @media(max-width:540px){.store-section .section-heading{margin-bottom:28px}.store-section .section-heading h2{font-size:46px}.store-product-visual{min-height:220px}.store-price-line{gap:8px}.store-price-line strong{font-size:20px}.store-tag{font-size:8px}.store-section .spec-panel{padding:18px}}
+
+.creators-section{padding-top:100px;padding-bottom:110px}
+.creators-wrap{max-width:1120px;margin:0 auto;padding:54px 5% 0}
+.creators-kicker{font:10px var(--mono);letter-spacing:.18em;color:#a78bfa;margin:0 0 26px}
+.creators-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.creator-name{min-height:120px;display:flex;align-items:center;padding:26px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(139,92,255,.10),rgba(255,255,255,.015));font-size:clamp(18px,2vw,27px);letter-spacing:-.045em;color:var(--ink)}
+@media(max-width:700px){.creators-wrap{padding:38px 6% 0}.creators-grid{grid-template-columns:1fr;gap:10px}.creator-name{min-height:76px;padding:20px;font-size:21px}}
 </style>
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
 </head>
@@ -102,8 +109,8 @@ section{position:relative;z-index:3;min-height:100svh;padding:112px 17% 78px;dis
   <p class="disclaimer">O Pemura One ainda é um conceito. Dimensões, peso, autonomia, encaixe dos componentes e compatibilidade elétrica não foram validados em protótipo.</p>
 </section>
 <section class="content-section" id="futuro"><div class="section-heading rv"><div class="eyebrow">05 / EVOLUÇÃO DO PROJETO</div><h2>Começar pelo essencial.<br/><em>Expandir com propósito.</em></h2><p>A Pemura foi pensada em etapas. A primeira versão foca voz, áudio e conexão; novas funções dependem de prototipagem e validação.</p></div><div class="roadmap"><article class="rv"><small>PRIMEIRA VERSÃO PLANEJADA</small><h3>Voz. Áudio. Conexão.</h3><p>Microfone, alto-falante, Bluetooth, botão físico e integração com Android e iPhone.</p></article><article class="rv"><small>PRÓXIMAS POSSIBILIDADES</small><h3>Mais percepção.</h3><p>Câmera, visão computacional, tradução avançada e novas interações.</p></article><article class="rv"><small>VISÃO DE LONGO PRAZO</small><h3>Uma nova interface.</h3><p>Display e realidade aumentada como possibilidades futuras, sem previsão de lançamento anunciada.</p></article></div></section>
-<section class="review" id="reviews"><div class="review-head">07 / CONTATO E APRESENTAÇÃO</div><div class="quote-wrap rv"><div class="quote">Tecnologia que acompanha o seu cotidiano.</div><p class="section-intro">A Pemura é um projeto em desenvolvimento. A proposta é criar uma interface vestível que aproxime pessoas e inteligência artificial de forma simples e natural.</p><a class="quote-link" href="#loja">CONHEÇA O PEMURA ONE ↗</a></div></section>
-</main><footer class="footer"><strong>PEMURA</strong><span>O FUTURO DIANTE DE SEUS OLHOS.</span><a href="#loja" target="_top">LOJA PEMURA ↗</a><span>CRIADO E DESENVOLVIDO PELA EQUIPE PEMURA</span><span>© 2026 · CONCEITO EM DESENVOLVIMENTO</span></footer>
+<section class="review creators-section" id="criadores"><div class="review-head">QUEM ESTÁ POR TRÁS DA PEMURA</div><div class="creators-wrap rv"><p class="creators-kicker">CRIADO POR</p><div class="creators-grid"><div class="creator-name">Pedro Grazziotin</div><div class="creator-name">Rafael Fusatto</div><div class="creator-name">Murilo Sonda</div></div></div></section>
+</main><footer class="footer"><strong>PEMURA</strong><span>O FUTURO DIANTE DE SEUS OLHOS.</span><a href="#loja" target="_top">LOJA PEMURA ↗</a><a href="#criadores">CRIADORES ↗</a><span>© 2026 Pemura. Todos os direitos reservados.</span></footer>
 <script type="module">
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
