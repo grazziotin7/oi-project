@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
       { title: "PEMURA — O futuro diante de seus olhos" },
       { name: "description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age. Conheça o futuro diante dos seus olhos." },
       { property: "og:title", content: "PEMURA — O futuro diante de seus olhos" },
-      { property: "og:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
+      { property: "og:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },\n      { property: "og:image", content: "/og-image.svg" },\n      { name: "twitter:image", content: "/og-image.svg" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#05060A" },
@@ -31,9 +31,7 @@ export const Route = createFileRoute("/")({
 
 function Logo() {
   const [failed, setFailed] = useState(false);
-  return failed
-    ? <span className="logo-word">PEMURA<span className="logo-dot">.</span></span>
-    : <img className="logo-image" src="/src/assets/pemura-logo.svg" alt="PEMURA" onError={() => setFailed(true)} />;
+  // SUBSTITUIR PELO ASSET OFICIAL quando a logo vetorial for adicionada ao projeto.\n  return failed\n    ? <span className="logo-word">PEMURA<span className="logo-dot">.</span></span>\n    : <img className="logo-image" src="/src/assets/pemura-logo.svg" alt="PEMURA" onError={() => setFailed(true)} />;
 }
 
 function GlassesVisual({ compact = false }: { compact?: boolean }) {
