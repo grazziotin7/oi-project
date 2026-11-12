@@ -10,7 +10,7 @@ export const site = {
     description: "Um óculos inteligente que deixa você interagir com o mundo digital usando só a voz.",
   },
   nav: [
-    { label: "Loja", href: "#loja" },
+    { label: "Loja", href: "/loja" },
     { label: "Experiência", href: "#experiencia" },
     { label: "Como funciona", href: "#como-funciona" },
     { label: "Hardware", href: "#hardware" },
