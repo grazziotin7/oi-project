@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="a"><stop stop-color="#17305c" stop-opacity=".7"/><stop offset="1" stop-color="#05060A" stop-opacity="0"/></radialGradient>
+    <linearGradient id="b"><stop stop-color="#3D7BFF"/><stop offset="1" stop-color="#8B5CFF"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#05060A"/>
+  <ellipse cx="780" cy="300" rx="480" ry="350" fill="url(#a)"/>
+  <path d="M80 468H1120" stroke="#fff" stroke-opacity=".12"/>
+  <text x="82" y="110" fill="#F5F7FA" font-family="Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="8">PEMURA</text>
+  <text x="80" y="300" fill="#F5F7FA" font-family="Arial,sans-serif" font-size="92" font-weight="700" letter-spacing="-5">O FUTURO</text>
+  <text x="80" y="400" fill="#F5F7FA" font-family="Georgia,serif" font-size="76" font-style="italic">diante de seus olhos.</text>
+  <rect x="82" y="490" width="84" height="4" rx="2" fill="url(#b)"/>
+  <text x="82" y="540" fill="#A9B0C0" font-family="Arial,sans-serif" font-size="17" letter-spacing="4">ÓCULOS INTELIGENTES COM IA · CONTROLADOS POR VOZ</text>
+</svg>
