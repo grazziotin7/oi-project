@@ -255,3 +255,58 @@ a {
  .hero-light,.glasses-visual svg{animation:none!important}
  html.motion-ready .reveal{opacity:1!important;transform:none!important;filter:none!important}
 }
+
+
+/* PEMURA STORE + interação de profundidade */
+.hero-visual-wrap{perspective:1200px;transform-style:preserve-3d}
+.hero-3d-stage{transform-style:preserve-3d;transition:transform .22s ease-out;will-change:transform}
+.hero-3d-stage .glasses-visual{transform:translateZ(34px)}
+.three-d-hint{display:block;text-align:center;margin-top:-3px;font:8px var(--display);letter-spacing:.16em;color:rgba(185,178,255,.62)}
+.shop-section{background:radial-gradient(ellipse at 75% 35%,rgba(91,62,190,.13),transparent 43%),#07080e;border-block:1px solid rgba(139,92,255,.14)}
+.shop-heading{display:flex;justify-content:space-between;align-items:end;gap:50px;margin-bottom:48px}
+.shop-heading>p{max-width:390px;color:var(--muted);font-size:13px;line-height:1.8;margin:0 0 6px}
+.shop-product{display:grid;grid-template-columns:1.02fr .98fr;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:26px;background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(139,92,255,.035));box-shadow:0 35px 100px rgba(0,0,0,.24)}
+.shop-product-visual{position:relative;display:flex;flex-direction:column;justify-content:center;min-height:430px;padding:32px;background:radial-gradient(ellipse at 50% 48%,rgba(89,85,205,.22),transparent 60%),linear-gradient(145deg,#101323,#080910)}
+.shop-edition,.shop-product-index{font:9px var(--display);letter-spacing:.16em;color:#a99aff}
+.shop-product-index{position:absolute;bottom:28px;left:32px;color:rgba(255,255,255,.32)}
+.shop-glasses-stage{display:grid;place-items:center;min-height:260px;transform:scale(1.1)}
+.shop-product-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5vw,66px)}
+.shop-kicker{font:9px var(--display);letter-spacing:.16em;color:#a99aff}
+.shop-product-copy h3{font:600 clamp(42px,6vw,70px)/1 var(--display);letter-spacing:-.07em;margin:17px 0}
+.shop-product-copy>p{max-width:440px;color:var(--muted);font-size:13px;line-height:1.85}
+.shop-price-row{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:28px 0 25px;padding-top:20px;border-top:1px solid var(--line)}
+.shop-price-row small,.shop-cost small{display:block;font:8px var(--display);letter-spacing:.13em;color:var(--muted);margin-bottom:8px}
+.shop-price-row strong,.shop-cost strong{font:600 27px var(--display);letter-spacing:-.04em}
+.shop-status{font:8px var(--display);letter-spacing:.1em;color:#b7a9ff;border:1px solid rgba(139,92,255,.35);padding:8px 10px;border-radius:30px}
+.shop-details-button{width:max-content;border:0;cursor:pointer}
+.shop-details{grid-column:1/-1;padding:clamp(25px,5vw,58px);border-top:1px solid rgba(255,255,255,.1);animation:shopReveal .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes shopReveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.shop-details-heading{max-width:600px;margin-bottom:30px}
+.shop-details-heading h4{font:600 clamp(28px,4vw,42px)/1.05 var(--display);letter-spacing:-.05em;margin:12px 0}
+.shop-details-heading>p{font-size:12px;line-height:1.8;color:var(--muted)}
+.shop-detail-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:17px;overflow:hidden}
+.shop-detail-grid>div{padding:22px 18px;background:#0a0b13;min-height:155px}
+.shop-detail-grid span,.shop-how>span{font:8px var(--display);letter-spacing:.12em;color:#a99aff}
+.shop-detail-grid strong{display:block;font:600 14px/1.35 var(--display);margin:17px 0 8px}
+.shop-detail-grid p,.shop-cost p{font-size:10px;line-height:1.7;color:var(--muted);margin:0}
+.shop-how{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:26px 0;border-bottom:1px solid var(--line)}
+.shop-how>span{padding-top:5px}
+.shop-how p{font-size:12px;line-height:2;color:rgba(255,255,255,.72);margin:0}
+.shop-how b{color:#b9a7ff}
+.shop-cost{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:25px}
+.shop-cost>div{padding:22px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.025)}
+.shop-cost strong{display:block;margin-bottom:8px}
+.shop-price-note{font-size:10px;line-height:1.8;color:rgba(255,255,255,.46);margin:18px 0 0}
+@media(max-width:900px){.shop-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:767px){
+ .shop-heading{display:block}.shop-heading>p{margin-top:18px}
+ .shop-product{grid-template-columns:1fr;border-radius:20px}
+ .shop-product-visual{min-height:270px;padding:22px}.shop-glasses-stage{min-height:190px;transform:scale(.85)}
+ .shop-product-copy{padding:27px 22px}.shop-product-copy h3{font-size:48px}
+ .shop-price-row{align-items:start;flex-direction:column}.shop-details{padding:25px 17px}
+ .shop-detail-grid{grid-template-columns:1fr 1fr}.shop-detail-grid>div{padding:16px 12px;min-height:155px}
+ .shop-how{grid-template-columns:1fr;gap:10px}.shop-how p{font-size:11px}
+ .shop-cost{grid-template-columns:1fr}
+ .three-d-hint{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){.hero-3d-stage{transition:none}.shop-details{animation:none}}
