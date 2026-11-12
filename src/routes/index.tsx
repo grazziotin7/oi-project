@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, AudioLines, Battery, Bluetooth, Camera, Check, ChevronDown, Cpu, Eye, Menu, Mic, MoveUpRight, Radio, ShieldCheck, Smartphone, Sparkles, X, Zap } from "lucide-react";
+import { ArrowDown, ArrowRight, AudioLines, Battery, Bluetooth, Camera, Check, ChevronDown, Cpu, Eye, Menu, Mic, MoveUpRight, Radio, ShieldCheck, Smartphone, Sparkles, X, Zap, HardDrive, CircuitBoard, Speaker, Usb, Wifi, MemoryStick } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,7 +70,7 @@ function Index() {
         <a className="brand" href="#inicio" aria-label="Pemura início"><span className="brand-mark">P</span> PEMURA<span className="brand-dot">.</span></a>
         <button className="mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">{menuOpen ? <X/> : <Menu/>}</button>
         <div className={`nav-links ${menuOpen ? "nav-open" : ""}`}>
-          <a href="#produto" onClick={() => setMenuOpen(false)}>O produto</a><a href="#tecnologia" onClick={() => setMenuOpen(false)}>Tecnologia</a><a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a><a href="#faq" onClick={() => setMenuOpen(false)}>Dúvidas</a>
+          <a href="#produto" onClick={() => setMenuOpen(false)}>O produto</a><a href="#tecnologia" onClick={() => setMenuOpen(false)}>Tecnologia</a><a href="#componentes" onClick={() => setMenuOpen(false)}>Especificações</a><a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a><a href="#faq" onClick={() => setMenuOpen(false)}>Dúvidas</a>
         </div>
         <a className="nav-cta" href="#contato">Conheça o projeto <MoveUpRight size={15}/></a>
       </nav>
@@ -152,12 +152,57 @@ function Index() {
       </div>
     </section>
 
-    <section className="vision-section">
+
+    <section className="build-section" id="componentes">
+      <div className="container section">
+        <div className="section-kicker">06 — FICHA TÉCNICA</div>
+        <div className="build-heading"><div><span className="neon-overline">PEMURA / HARDWARE MAP</span><h2>Construído peça<br/>por <span>peça.</span></h2></div><p>Esta é a lista técnica de referência reunida durante o planejamento. Ela separa a placa-base, módulos e alternativas pesquisadas. Compatibilidade física, elétrica, firmware e autonomia precisam ser testadas antes da montagem final.</p></div>
+        <div className="core-board">
+          <div className="core-board-visual"><div className="chip-frame"><CircuitBoard size={42}/><span>ESP32-S3</span><strong>XIAO</strong></div><div className="core-pulse pulse-a"/><div className="core-pulse pulse-b"/></div>
+          <div className="core-board-copy"><span className="spec-tag">PLATAFORMA PRINCIPAL EM AVALIAÇÃO</span><h3>Seeed Studio XIAO ESP32S3 Sense</h3><p>Placa compacta para prototipagem, com ESP32-S3, conectividade Wi-Fi e Bluetooth LE e suporte a câmera e microfone por meio do conjunto Sense. É a base escolhida para explorar o primeiro protótipo; não equivale a um produto final miniaturizado para armação.</p><a className="component-link" href="https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html" target="_blank" rel="noreferrer">Ver placa e documentação <MoveUpRight size={14}/></a></div>
+        </div>
+        <div className="component-table-wrap">
+          <div className="component-table-title"><span>LISTA DE COMPONENTES</span><span>BASE DE PROJETO • 20 CATEGORIAS</span></div>
+          <div className="component-table">
+            <div className="component-row component-header"><span>ÁREA</span><span>COMPONENTE / ESPECIFICAÇÃO DE REFERÊNCIA</span><span>QTD.</span><span>OBSERVAÇÃO</span></div>
+            <div className="component-row"><span className="component-kind">01 / CÉREBRO</span><strong>Seeed XIAO ESP32S3 Sense</strong><span>1</span><small>Placa de desenvolvimento; candidata à prototipagem.</small></div>
+            <div className="component-row"><span className="component-kind">02 / CÂMERA</span><strong>OV2640 / OV3660 ou Sony IMX219 / OV5640</strong><span>1</span><small>Alternativas de câmera pesquisadas. O módulo precisa ser escolhido junto da placa e da interface compatível.</small></div>
+            <div className="component-row"><span className="component-kind">03 / MICROFONES</span><strong>MEMS digital (I²S / PDM)</strong><span>2</span><small>Captação estéreo/voz; TDK e Knowles foram pesquisadas como referências.</small></div>
+            <div className="component-row"><span className="component-kind">04 / ÁUDIO</span><strong>Drivers compactos 8–10 mm + MAX98357A</strong><span>2 + 1</span><small>Alto-falantes e amplificador classe D em avaliação; verificar tamanho e consumo.</small></div>
+            <div className="component-row"><span className="component-kind">05 / BATERIA</span><strong>Li-Po 3,7 V — referência de 150 mAh</strong><span>1–2</span><small>Capacidade final depende do espaço, corrente de pico e autonomia desejada.</small></div>
+            <div className="component-row"><span className="component-kind">06 / CARGA</span><strong>Carregador Li-Po + proteção / gerenciamento</strong><span>1</span><small>Necessário dimensionar para a célula escolhida; circuito de carga não é opcional.</small></div>
+            <div className="component-row"><span className="component-kind">07 / MEMÓRIA</span><strong>Memória da placa + expansão microSD / flash</strong><span>1</span><small>Armazenamento local ainda a definir. 32 GB foi estudado como opção de flash externa; não está confirmado no protótipo.</small></div>
+            <div className="component-row"><span className="component-kind">08 / BLUETOOTH</span><strong>Bluetooth LE integrado / EBYTE BT60SP2 ou BT60SP3</strong><span>1</span><small>Os módulos EBYTE são alternativas de avaliação, não itens para instalar junto sem validar a arquitetura.</small></div>
+            <div className="component-row"><span className="component-kind">09 / ÁUDIO BT</span><strong>EBYTE BT3040 / solução QCC3040</strong><span>1</span><small>Alternativa para áudio sem fio; pode ser redundante com a placa-base e exige integração específica.</small></div>
+            <div className="component-row"><span className="component-kind">10 / WI-FI</span><strong>Wi-Fi 2,4 GHz integrado ao ESP32-S3</strong><span>1</span><small>Conexão de dados; consumo e alcance dependem da antena e do uso.</small></div>
+            <div className="component-row"><span className="component-kind">11 / ANTENA</span><strong>Antena compacta Wi-Fi / Bluetooth</strong><span>1</span><small>Projeto RF e posição na haste precisam ser testados.</small></div>
+            <div className="component-row"><span className="component-kind">12 / PLACA</span><strong>PCB customizada</strong><span>1</span><small>Integração elétrica compacta, fabricação após validação do protótipo.</small></div>
+            <div className="component-row"><span className="component-kind">13 / CONEXÕES</span><strong>Cabos FPC / flex</strong><span>Conforme montagem</span><small>Interligação de câmera, hastes e módulos.</small></div>
+            <div className="component-row"><span className="component-kind">14 / CONTROLES</span><strong>Botões físicos + sensor touch</strong><span>1 conjunto</span><small>Comandos de ligar, parear e controlar funções.</small></div>
+            <div className="component-row"><span className="component-kind">15 / INDICAÇÃO</span><strong>LED RGB / LED de gravação</strong><span>1</span><small>Indicador de estado; luz de gravação deve ser clara e visível.</small></div>
+            <div className="component-row"><span className="component-kind">16 / ESTRUTURA</span><strong>Armação customizada com hastes técnicas</strong><span>1</span><small>Espessura de referência 8–11 mm; ergonomia e espaço interno a validar.</small></div>
+            <div className="component-row"><span className="component-kind">17 / LENTES</span><strong>Par de lentes com proteção UV400</strong><span>2</span><small>Escolha óptica e encaixe dependem da armação.</small></div>
+            <div className="component-row"><span className="component-kind">18 / TÉRMICA</span><strong>Isolamento e dissipação térmica</strong><span>1 conjunto</span><small>Evitar pontos quentes em contato com pele e têmporas.</small></div>
+            <div className="component-row"><span className="component-kind">19 / ESTOJO</span><strong>Estojo de proteção / possível estojo de carga</strong><span>1</span><small>Estojo de carga requer projeto elétrico próprio; não presumir que já esteja integrado.</small></div>
+            <div className="component-row"><span className="component-kind">20 / SOFTWARE</span><strong>Firmware ESP32 + aplicativo móvel + serviços de IA</strong><span>1 conjunto</span><small>Controle dos módulos, pareamento, comandos e comunicação com serviços externos.</small></div>
+          </div>
+        </div>
+        <div className="memory-audio-grid">
+          <article><div className="mini-spec-icon"><MemoryStick/></div><span>MEMÓRIA / ARMAZENAMENTO</span><h3>Memória para sistema e arquivos.</h3><p>A placa utiliza memória interna para firmware e execução. Para guardar fotos/arquivos, a proposta considera expansão microSD ou flash externa. A opção de 32 GB apareceu na pesquisa de uma arquitetura premium, mas ainda não é uma especificação fechada da versão XIAO.</p><a href="https://www.micron.com/" target="_blank" rel="noreferrer">Referência de memória Micron <MoveUpRight size={13}/></a></article>
+          <article><div className="mini-spec-icon"><Battery/></div><span>ENERGIA / 150 mAh</span><h3>Bateria pequena, autonomia a medir.</h3><p>Foi pesquisada uma Li-Po de 150 mAh e também uma referência de 3,7 V. A autonomia real depende da câmera, microfones, rádio, áudio e ciclos de uso. Não divulgar horas de bateria antes de medir o protótipo.</p><a href="https://thepihut.com/products/150mah-3-7v-lipo-battery" target="_blank" rel="noreferrer">Bateria de referência 150 mAh <MoveUpRight size={13}/></a></article>
+          <article><div className="mini-spec-icon"><Camera/></div><span>IMAGEM / CÂMERA</span><h3>Sensor não é o módulo inteiro.</h3><p>OV2640/OV3660, OV5640, Sony IMX219 e IMX681 surgiram como opções em pesquisas diferentes. A IMX681 de 12 MP foi listada em uma alternativa premium com módulo e lente integrados. Não misturar sensores e interfaces sem conferir compatibilidade.</p><a href="https://www.unionimage.com/productdes/346.html" target="_blank" rel="noreferrer">Referência do módulo UI12-IMX681 <MoveUpRight size={13}/></a></article>
+          <article><div className="mini-spec-icon"><Speaker/></div><span>ÁUDIO / SAÍDA</span><h3>Som compacto nas hastes.</h3><p>O plano de protótipo considera dois mini alto-falantes e amplificador MAX98357A. Também foram pesquisadas soluções open-ear da Goertek. A escolha depende de volume, qualidade, privacidade sonora, espaço e consumo.</p><a href="https://www.adafruit.com/product/3006" target="_blank" rel="noreferrer">MAX98357A — referência Adafruit <MoveUpRight size={13}/></a></article>
+        </div>
+        <div className="source-links"><span>DOCUMENTAÇÃO E REFERÊNCIAS</span><a href="https://docs.omi.me/doc/hardware/omiGlass" target="_blank" rel="noreferrer">Guia omiGlass <MoveUpRight size={13}/></a><a href="https://www.adafruit.com/products/1317" target="_blank" rel="noreferrer">Li-Po Adafruit <MoveUpRight size={13}/></a><a href="https://www.ti.com/power-management/battery-management/overview.html" target="_blank" rel="noreferrer">Gerenciamento de bateria TI <MoveUpRight size={13}/></a><a href="https://www.knowles.com/" target="_blank" rel="noreferrer">Knowles MEMS <MoveUpRight size={13}/></a><a href="https://www.goertek.com/" target="_blank" rel="noreferrer">Goertek áudio <MoveUpRight size={13}/></a></div>
+        <p className="technical-warning"><ShieldCheck size={16}/> <span><strong>Transparência técnica:</strong> esta tabela registra requisitos e opções pesquisadas, não uma lista de compra final. Módulos Bluetooth adicionais, placa XIAO, áudio, câmera e memória podem ser alternativas entre si ou exigir circuitos diferentes. Confirmar pinagem, tensão, dimensões, firmware, disponibilidade e segurança antes de comprar.</span></p>
+      </div>
+    </section>
+\n    <section className="vision-section">
       <div className="container vision-inner"><div className="vision-copy"><div className="section-kicker">04 — PRÓXIMOS PASSOS</div><span className="vision-label">CONCEITO FUTURO</span><h2>Imagine informação<br/>no seu <span>olhar.</span></h2><p>Pemura Vision é uma possibilidade de evolução: uma versão com recursos visuais exibidos diretamente nas lentes. Essa experiência ainda exige pesquisa de telas, óptica, consumo de energia e ergonomia.</p><a className="button-light" href="#contato">Acompanhe a visão <ArrowRight size={17}/></a></div><div className="vision-art"><div className="vision-ring ring-a"/><div className="vision-ring ring-b"/><div className="vision-chip"><Eye size={28}/><span>VISION / FUTURE CONCEPT</span><strong>See what’s next.</strong></div><span className="vision-cross">+</span></div></div>
     </section>
 
     <section className="section container faq-section" id="faq"><div className="section-kicker">05 — PERGUNTAS</div><div className="faq-grid"><h2>É bom<br/>saber<span>.</span></h2><div className="faq-list">{faqs.map(([q,a],i)=><div className={`faq-item ${openFaq===i?"faq-active":""}`} key={q}><button onClick={()=>setOpenFaq(openFaq===i?null:i)}><span>{q}</span><ChevronDown size={18}/></button>{openFaq===i&&<p>{a}</p>}</div>)}</div></div></section>
 
-    <footer id="contato"><div className="container footer-main"><div><a className="brand footer-brand" href="#inicio"><span className="brand-mark">P</span> PEMURA<span className="brand-dot">.</span></a><h2>Uma nova perspectiva<br/>começa aqui<span>.</span></h2></div><div className="footer-side"><p>Projeto de inovação e tecnologia desenvolvido para explorar novas possibilidades de interação entre pessoas e inteligência artificial.</p><a className="button-primary" href="#inicio">Voltar ao início <ArrowRight size={17}/></a></div></div><div className="container footer-bottom"><span>© 2026 PEMURA — PROJETO CONCEITUAL</span><span>TECNOLOGIA • DESIGN • POSSIBILIDADES</span><a href="#inicio">VOLTAR AO TOPO ↑</a></div></footer>
+    <footer id="contato"><div className="container footer-main"><div><a className="brand footer-brand" href="#inicio"><span className="brand-mark">P</span> PEMURA<span className="brand-dot">.</span></a><h2>Uma nova perspectiva<br/>começa aqui<span>.</span></h2></div><div className="footer-side"><p>Projeto de inovação e tecnologia desenvolvido para explorar novas possibilidades de interação entre pessoas e inteligência artificial.</p><div className="team-block"><span>IDEALIZAÇÃO E DESENVOLVIMENTO</span><strong>Pedro <i>•</i> Rafael <i>•</i> Murilo</strong></div><a className="button-primary" href="#inicio">Voltar ao início <ArrowRight size={17}/></a></div></div><div className="container footer-bottom"><span>© 2026 PEMURA — PROJETO CONCEITUAL</span><span>TECNOLOGIA • DESIGN • POSSIBILIDADES</span><a href="#inicio">VOLTAR AO TOPO ↑</a></div></footer>
   </main>;
 }
