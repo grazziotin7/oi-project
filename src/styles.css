@@ -116,3 +116,5 @@ h2 i{font-size:1.08em}
 .creator-links{display:flex;gap:12px;margin-top:10px}.creator-links a{font:9px var(--display);letter-spacing:.1em;color:var(--blue);text-decoration:underline;text-underline-offset:3px}
 @media(max-width:767px){.scenario-tabs{display:flex;gap:7px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding-bottom:4px}.scenario-tabs::-webkit-scrollbar{display:none}.demo-sidebar .scenario{flex:0 0 auto}.demo-sidebar{overflow:hidden}}
 @media(prefers-reduced-motion:reduce){.message{animation:none;opacity:1;transform:none;filter:none}}
+
+.footer-social{display:flex;gap:12px}.footer-social a{font:9px var(--display);letter-spacing:.1em;color:var(--muted)}
