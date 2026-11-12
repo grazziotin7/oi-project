@@ -34,13 +34,40 @@ section{position:relative;z-index:3;min-height:100svh;padding:112px 17% 78px;dis
 @media(max-width:900px){.guides,.menu,.rail{display:none}nav{grid-template-columns:1fr auto auto;padding-right:14px}.brand{padding-left:15px}.pad{display:none}.launch{margin-right:5px}.hero{padding:96px 18px 42px;justify-content:flex-end;min-height:100svh}.hero-copy{position:relative;left:auto;top:auto;transform:none;width:100%;max-width:520px;margin-top:auto;padding:18px 16px 14px;background:linear-gradient(180deg,rgba(5,6,10,.18),rgba(5,6,10,.94) 24%);backdrop-filter:blur(3px)}.hero h1{font-size:clamp(42px,11vw,68px)}.hero-side{display:none}.hero-side ul{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.scroll{right:18px;bottom:15px}.product-grid,.spec-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.flow,.roadmap{grid-template-columns:1fr 1fr}section{padding:100px 18px 65px}.content-section{padding-top:90px;padding-bottom:90px}.tabs{margin-bottom:34px}.footer{padding:35px 18px;flex-wrap:wrap}.product-grid{gap:25px}}
 @media(max-width:540px){.cards,.flow,.roadmap,.spec-grid{grid-template-columns:1fr}.hero-copy{margin-top:auto}.hero-side{display:none}.hero h1{font-size:47px}.actions{gap:12px}.primary{padding:12px}.footer{display:grid;grid-template-columns:1fr}.topline{font-size:8px;padding:0 35px;text-align:center}.spec-panel{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* PEMURA STORE — identidade visual compartilhada com a página principal */
+.store-section{min-height:100svh;padding-top:132px;padding-bottom:110px;scroll-margin-top:70px;background:radial-gradient(ellipse at 78% 18%,rgba(112,75,210,.16),transparent 42%),linear-gradient(180deg,#080911 0%,#05060a 100%);border-top:1px solid rgba(139,92,255,.22)}
+.store-section:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 49.9%,rgba(255,255,255,.035) 50%,transparent 50.1%);opacity:.55}
+.store-section>.section-heading,.store-feature,.store-section>.spec-grid,.store-section>.disclaimer,.store-section>.store-price-note{position:relative;z-index:1}
+.store-section .section-heading{max-width:760px;margin-bottom:48px}
+.store-section .section-heading h2{font-size:clamp(44px,6vw,78px);letter-spacing:-.075em}
+.store-feature{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,76px);align-items:center}
+.store-product-visual{min-height:370px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(167,139,250,.22);background:radial-gradient(ellipse at 50% 50%,rgba(139,92,255,.18),rgba(14,12,25,.75) 52%,rgba(5,6,10,.95));}
+.store-product-visual:after{content:"";position:absolute;inset:18px;border:1px solid rgba(255,255,255,.06);pointer-events:none}
+.store-product-visual svg{position:relative;z-index:1;width:92%;max-width:760px;filter:drop-shadow(0 18px 35px rgba(95,62,190,.24))}
+.store-product-visual>span{position:absolute;left:22px;bottom:20px;font:9px var(--mono);letter-spacing:.12em;color:rgba(245,247,250,.55)}
+.store-orbit{position:absolute;border:1px solid rgba(167,139,250,.15);border-radius:50%;width:76%;aspect-ratio:1}
+.store-orbit-a{transform:scaleY(.28) rotate(-12deg)}.store-orbit-b{transform:scaleY(.28) rotate(20deg);width:90%;border-color:rgba(85,125,255,.13)}
+.store-product-info{max-width:470px}.store-tag{font:9px var(--mono);letter-spacing:.11em;color:#bba8ff;border-left:2px solid var(--violet);padding:7px 0 7px 12px}
+.store-product-info h3{font-size:clamp(42px,5vw,64px);letter-spacing:-.07em;margin:24px 0 12px}.store-product-info h3 em{font-style:normal;color:#a78bfa}
+.store-product-info>p{font-size:13px;line-height:1.8;color:var(--muted)}
+.store-price-line{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 12px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.store-price-line small{display:block;font:8px var(--mono);letter-spacing:.06em;color:var(--muted);min-height:26px}.store-price-line strong{display:block;font-size:clamp(19px,2vw,26px);margin-top:7px}
+.store-price-note{font-size:10px;line-height:1.7;color:rgba(245,247,250,.52)}
+.store-section>.section-heading[id="tecnologia"]{margin-top:96px!important;margin-bottom:32px!important;padding-top:42px;border-top:1px solid var(--line)}
+.store-section .spec-grid{align-items:stretch}.store-section .spec-panel{background:rgba(12,13,23,.76);border-color:rgba(167,139,250,.2);backdrop-filter:blur(12px)}
+.mobile-store{display:none}
+.menu .menu-store{color:#d3c5ff;opacity:1;border:1px solid rgba(139,92,255,.55);padding:9px 13px;margin-top:-9px}
+.menu .menu-store:hover{background:rgba(139,92,255,.14)}
+@media(max-width:900px){nav{display:flex;justify-content:space-between;padding:0 16px;height:58px}.brand{padding-left:0}.mobile-store{display:inline-flex;align-items:center;gap:18px;padding:11px 15px;border:1px solid rgba(167,139,250,.7);background:linear-gradient(110deg,rgba(139,92,255,.22),rgba(85,125,255,.09));font:10px var(--mono);letter-spacing:.1em;color:#f5f0ff;box-shadow:0 0 22px rgba(139,92,255,.13)}.mobile-store span{color:#c7b4ff;font-size:15px}.store-section{padding:104px 18px 76px}.store-feature{grid-template-columns:1fr;gap:26px}.store-product-visual{min-height:270px}.store-product-info{max-width:none}.store-section>.section-heading[id="tecnologia"]{margin-top:65px!important}.store-section .spec-grid{grid-template-columns:1fr}}
+@media(max-width:540px){.store-section .section-heading{margin-bottom:28px}.store-section .section-heading h2{font-size:46px}.store-product-visual{min-height:220px}.store-price-line{gap:8px}.store-price-line strong{font-size:20px}.store-tag{font-size:8px}.store-section .spec-panel{padding:18px}}
 </style>
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
 <canvas id="world"></canvas><div class="guides"><i></i><i></i><i></i></div>
 <div class="topline" id="topline"><span><b>NOVO:</b> PEMURA ONE — INTELIGÊNCIA QUE ACOMPANHA VOCÊ ↗</span><button aria-label="Fechar aviso" id="closeTop">×</button></div>
-<nav><a class="brand" href="#intro"><span class="brandmark"></span> PEMURA<sup>®</sup></a><div class="menu"><a href="#intro">Visão geral</a><a href="#produto">Produto</a><a href="#tecnologia">Tecnologia</a><a href="#futuro">O projeto</a><a href="#reviews">Contato</a><a class="menu-store" href="#loja">Loja ↗</a></div></nav>
+<nav><a class="brand" href="#intro"><span class="brandmark"></span> PEMURA<sup>®</sup></a><div class="menu"><a href="#intro">Visão geral</a><a href="#produto">Produto</a><a href="#tecnologia">Tecnologia</a><a href="#futuro">O projeto</a><a href="#reviews">Contato</a><a class="menu-store" href="/loja">Loja ↗</a></div><a class="mobile-store" href="/loja">LOJA <span>↗</span></a></nav>
 <aside class="rail"><div class="rail-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="rail-label" id="railLabel">INTRO</div><span>≡ MENU</span></aside>
 <main>
 <section class="hero" id="intro"><div class="hero-copy rv"><div class="eyebrow"><i class="dot"></i> ÓCULOS INTELIGENTES COM IA</div><h1>O futuro<br/>está mais <em>perto.</em></h1><p>A Pemura conecta sua voz à inteligência artificial. Um assistente no formato de óculos, pensado para acompanhar você sem prender sua atenção a uma tela.</p><div class="actions"><a class="primary" href="#produto">CONHEÇA A PEMURA <span>↗</span></a><a class="secondary" href="#loja">IR PARA A LOJA ↗</a></div></div><div class="hero-side rv"><h3>STATUS DO PROJETO</h3><p>Protótipo em desenvolvimento. O encaixe dos componentes, a autonomia e a integração com o aplicativo ainda serão validados.</p><div class="side-line"></div><span class="side-status">PEMURA ONE <i>●</i> EM DESENVOLVIMENTO</span></div><a class="scroll" href="#produto">ROLE PARA EXPLORAR <span></span></a></section>
