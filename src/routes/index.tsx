@@ -25,7 +25,6 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "canonical", href: "https://pemura.com.br/" },
     ],
   }),
   component: PemuraHome,
@@ -112,7 +111,8 @@ function PemuraHome() {
       if (event.key === "Tab" && menuRef.current) {
         const items = menuRef.current.querySelectorAll<HTMLElement>("a,button");
         if (!items.length) return;
-        const first = items[0], last = items[items.length - 1];
+        const first = items.item(0), last = items.item(items.length - 1);
+        if (!first || !last) return;
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
@@ -128,7 +128,7 @@ function PemuraHome() {
     return () => window.clearInterval(timer);
   }, [paused]);
 
-  const currentDemo = demos[scenario];
+  const currentDemo = demos[scenario] ?? demos[0]!;
   const onSubmit = async (values: FormValues) => {
     await submitEmail(values.email);
     setSent(true);
