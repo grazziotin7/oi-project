@@ -1,156 +1,311 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  ArrowDownRight, ArrowRight, ArrowUpRight, Battery, Bluetooth, Camera,
-  Check, ChevronDown, Cpu, Eye, Menu, Mic, Radio, Smartphone, Speaker,
-  X, Zap, Waves, CircuitBoard, ShieldCheck, Wifi, HardDrive, Box,
-} from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, Pause, Play, X } from "lucide-react";
+import { site } from "../content/site";
+import { creators } from "../content/creators";
+import { demos } from "../content/demos";
+import { submitEmail } from "../lib/waitlist";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PEMURA — Tecnologia que acompanha você" },
-      { name: "description", content: "Conheça o PEMURA: óculos inteligentes conectados ao smartphone, com câmera, áudio e interação por voz." },
-      { property: "og:title", content: "PEMURA — Tecnologia que acompanha você" },
-      { property: "og:description", content: "Um novo jeito de estar conectado ao mundo." },
+      { title: "PEMURA — O futuro diante de seus olhos" },
+      { name: "description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age. Conheça o futuro diante dos seus olhos." },
+      { property: "og:title", content: "PEMURA — O futuro diante de seus olhos" },
+      { property: "og:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#05060A" },
+    ],
+    links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "canonical", href: "https://pemura.com.br/" },
     ],
   }),
-  component: Index,
+  component: PemuraHome,
 });
 
-const parts = [
-  { n: "01", group: "PLATAFORMA", name: "Seeed XIAO ESP32S3 Sense", detail: "A placa principal do protótipo. Reúne o ESP32-S3 e oferece Wi-Fi, Bluetooth LE e suporte ao conjunto de câmera e microfone.", qty: "01 UN.", icon: Cpu, note: "Placa de desenvolvimento usada como base do primeiro protótipo." },
-  { n: "02", group: "IMAGEM", name: "Câmera OV2640", detail: "Módulo de câmera associado à plataforma XIAO ESP32S3 Sense para captura de imagem em primeira pessoa.", qty: "01 UN.", icon: Camera, note: "A versão e o encaixe final dependem do módulo fornecido com a placa." },
-  { n: "03", group: "CAPTAÇÃO", name: "ICS-43434 MEMS", detail: "Microfone digital I²S para captação de voz. O SPH0645 foi pesquisado como alternativa, não como peça adicional obrigatória.", qty: "01 UN.", icon: Mic, note: "Alternativa pesquisada: SPH0645." },
-  { n: "04", group: "ÁUDIO", name: "MAX98357A", detail: "Amplificador de áudio classe D que recebe áudio digital e alimenta os pequenos alto-falantes do conjunto.", qty: "01 UN.", icon: Waves, note: "A integração exige conferir alimentação, ligação e dissipação." },
-  { n: "05", group: "ÁUDIO", name: "Alto-falantes ovais 8 Ω / 1 W", detail: "Dois alto-falantes compactos previstos para áudio próximo ao ouvido, instalados nas hastes.", qty: "02 UN.", icon: Speaker, note: "Formato oval; dimensões finais precisam caber na armação." },
-  { n: "06", group: "CONECTIVIDADE", name: "EBYTE EWM104-BT60SP2", detail: "Módulo Bluetooth considerado para a comunicação de áudio. A solução BT3040/QCC3040 aparece como alternativa de arquitetura.", qty: "01 UN.", icon: Bluetooth, note: "BT3040 é alternativa; não somar os dois sem necessidade." },
-  { n: "07", group: "ENERGIA", name: "Li-Po 3,7 V — 150 mAh", detail: "Bateria recarregável compacta considerada para o protótipo. A autonomia real ainda depende da medição do consumo do conjunto.", qty: "01 UN.", icon: Battery, note: "Capacidade de referência do projeto; autonomia não testada." },
-  { n: "08", group: "ENERGIA", name: "Micro Lipo USB-C", detail: "Módulo de carregamento para a bateria Li-Po, com conexão USB-C.", qty: "01 UN.", icon: Zap, note: "A proteção e a compatibilidade com a célula devem ser confirmadas." },
-  { n: "09", group: "CONTROLES", name: "Botão slim 6 mm", detail: "Botão físico compacto para uma ação direta, como ligar ou acionar uma função.", qty: "01 UN.", icon: Radio, note: "A função final será definida no firmware." },
-  { n: "10", group: "CONTROLES", name: "Sensor touch TTP223", detail: "Sensor capacitivo para permitir comandos por toque na haste dos óculos.", qty: "01 UN.", icon: Check, note: "Área sensível e posição dependem do material da armação." },
-  { n: "11", group: "CONTROLES", name: "Chave SPDT", detail: "Chave de seleção comutável para controle físico do circuito.", qty: "01 UN.", icon: CircuitBoard, note: "Definir posição e função na montagem." },
-  { n: "12", group: "ESTRUTURA", name: "Armação PETG / nylon + TPU", detail: "Estrutura planejada para acomodar os módulos nas hastes, com partes flexíveis em TPU onde fizer sentido.", qty: "01 CONJ.", icon: Box, note: "Material e geometria ainda precisam de protótipo físico." },
-  { n: "13", group: "ÓPTICA", name: "Lentes UV400", detail: "Par de lentes com proteção UV400, dimensionadas para a armação escolhida.", qty: "02 UN.", icon: Eye, note: "Não são telas; o PEMURA base não projeta imagens nas lentes." },
-  { n: "14", group: "ESTRUTURA", name: "Dobradiças, fios e conexões", detail: "Peças mecânicas e ligações internas necessárias para unir frente, hastes e componentes eletrônicos.", qty: "01 CONJ.", icon: CircuitBoard, note: "Comprimentos e conectores dependem do layout interno." },
-];
+function Logo() {
+  const [failed, setFailed] = useState(false);
+  return failed
+    ? <span className="logo-word">PEMURA<span className="logo-dot">.</span></span>
+    : <img className="logo-image" src="/src/assets/pemura-logo.svg" alt="PEMURA" onError={() => setFailed(true)} />;
+}
 
-const faqs = [
-  ["O PEMURA já está pronto para venda?", "Ainda não. O PEMURA é um projeto em desenvolvimento. A lista desta página representa a configuração de protótipo definida e as alternativas identificadas, não um produto certificado ou pronto para comercialização."],
-  ["Onde a inteligência artificial é processada?", "A proposta é usar o smartphone como central de processamento e conexão com serviços de IA. Os óculos captam imagem e voz e se comunicam com o celular."],
-  ["A câmera e o microfone ficam sempre ligados?", "O projeto deve ter controles claros para ativar e desativar as funções, além de um indicador visível quando houver captura. O comportamento final será definido no desenvolvimento."],
-  ["Quanto tempo dura a bateria?", "A bateria de referência é Li-Po 3,7 V e 150 mAh. Ainda não existe autonomia medida: ela depende do consumo da câmera, áudio, Bluetooth e frequência de uso."],
-  ["O PEMURA tem tela nas lentes?", "Não na versão apresentada. As lentes são UV400 convencionais. Uma versão com informações projetadas nas lentes seria um conceito futuro separado."],
-];
-
-function GlassesVisual() {
-  return <div className="product-visual" aria-label="Representação conceitual dos óculos PEMURA">
-    <div className="visual-stamp">P / 001<br/>PROTOTYPE STUDY</div>
-    <svg viewBox="0 0 820 430" role="img" aria-label="Óculos inteligentes pretos PEMURA, ilustração conceitual">
+function GlassesVisual({ compact = false }: { compact?: boolean }) {
+  return <div className={compact ? "glasses-visual glasses-compact" : "glasses-visual"} aria-label="Ilustração conceitual de óculos inteligentes">
+    <div className="glasses-halo" />
+    <svg viewBox="0 0 900 360" role="img" aria-label="Silhueta minimalista de óculos pretos com reflexos azul-violeta">
       <defs>
-        <linearGradient id="frameMetal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#777b86"/><stop offset=".28" stopColor="#171a22"/><stop offset=".62" stopColor="#353a46"/><stop offset="1" stopColor="#090b10"/></linearGradient>
-        <linearGradient id="lensShade" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#6f67a8" stopOpacity=".2"/><stop offset=".55" stopColor="#141927" stopOpacity=".75"/><stop offset="1" stopColor="#05070b" stopOpacity=".9"/></linearGradient>
-        <filter id="shadow"><feGaussianBlur stdDeviation="18"/></filter>
+        <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#9da6b7"/><stop offset=".2" stopColor="#222a38"/><stop offset=".55" stopColor="#687184"/><stop offset="1" stopColor="#111722"/></linearGradient>
+        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#27334a" stopOpacity=".48"/><stop offset=".55" stopColor="#111722" stopOpacity=".82"/><stop offset="1" stopColor="#070910" stopOpacity=".94"/></linearGradient>
+        <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0"><stop stopColor="#3D7BFF" stopOpacity=".05"/><stop offset=".5" stopColor="#8B5CFF" stopOpacity=".9"/><stop offset="1" stopColor="#3D7BFF" stopOpacity=".1"/></linearGradient>
+        <filter id="blurGlow"><feGaussianBlur stdDeviation="15"/></filter>
       </defs>
-      <ellipse cx="420" cy="325" rx="270" ry="38" fill="#000" opacity=".72" filter="url(#shadow)"/>
-      <g transform="translate(70 30) rotate(-5 340 180)" stroke="url(#frameMetal)" strokeWidth="17" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M48 165 Q15 146 0 104 Q-6 88 12 78 L45 72" fill="none"/>
-        <path d="M640 159 Q690 130 724 96 Q738 81 727 69" fill="none"/>
-        <path d="M288 153 Q340 128 390 153" fill="none" strokeWidth="19"/>
-        <path d="M36 92 Q43 67 77 66 L264 71 Q298 74 303 108 L292 238 Q287 282 247 285 L90 280 Q45 277 39 234 Z" fill="url(#lensShade)"/>
-        <path d="M420 108 Q425 74 459 71 L646 66 Q680 67 687 92 L684 234 Q678 277 632 280 L475 285 Q435 282 430 238 Z" fill="url(#lensShade)"/>
-        <path d="M66 100 Q140 78 228 97" fill="none" stroke="#a7a9b2" strokeOpacity=".22" strokeWidth="5"/>
-        <path d="M454 97 Q545 78 630 100" fill="none" stroke="#a7a9b2" strokeOpacity=".2" strokeWidth="5"/>
-        <circle cx="82" cy="105" r="21" fill="#080b12" stroke="#777f90" strokeWidth="7"/>
-        <circle cx="82" cy="105" r="9" fill="#9c83ff" stroke="none"/>
-        <path d="M303 154 Q340 143 390 154" fill="none" stroke="#777b86" strokeWidth="8"/>
-        <path d="M640 77 L724 69" fill="none" stroke="#242936" strokeWidth="12"/>
+      <ellipse cx="450" cy="292" rx="270" ry="24" fill="#3D7BFF" opacity=".16" filter="url(#blurGlow)"/>
+      <g stroke="url(#metal)" strokeWidth="13" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M82 129 Q48 114 23 82 Q12 69 22 57" fill="none"/>
+        <path d="M818 129 Q852 114 877 82 Q888 69 878 57" fill="none"/>
+        <path d="M80 110 Q83 79 120 76 L358 76 Q399 78 405 117 L394 244 Q389 279 351 282 L139 282 Q97 279 91 244 Z" fill="url(#glass)"/>
+        <path d="M495 117 Q501 78 542 76 L780 76 Q817 79 820 110 L809 244 Q803 279 761 282 L549 282 Q511 279 506 244 Z" fill="url(#glass)"/>
+        <path d="M405 128 Q450 103 495 128" fill="none" strokeWidth="15"/>
+        <path d="M111 107 Q213 83 327 104" fill="none" stroke="#dbe4f7" strokeOpacity=".18" strokeWidth="4"/>
+        <path d="M573 104 Q687 83 789 107" fill="none" stroke="#dbe4f7" strokeOpacity=".18" strokeWidth="4"/>
+        <path d="M84 124 L56 111" fill="none" strokeWidth="17"/>
+        <path d="M816 124 L844 111" fill="none" strokeWidth="17"/>
       </g>
-      <g fill="#a99aff" fontFamily="monospace" fontSize="11" letterSpacing="2">
-        <text x="90" y="365">CAMERA MODULE</text><path d="M190 350 L150 250" stroke="#a99aff" strokeWidth="1" fill="none"/>
-        <text x="590" y="365">AUDIO INTEGRADO</text><path d="M650 350 L660 230" stroke="#a99aff" strokeWidth="1" fill="none"/>
+      <g fill="none" stroke="url(#rim)" strokeWidth="2">
+        <path d="M93 114 Q96 84 126 84 L354 84 Q389 86 395 119"/>
+        <path d="M505 119 Q511 86 546 84 L774 84 Q804 84 807 114"/>
       </g>
+      <circle cx="95" cy="119" r="7" fill="#3D7BFF"/><circle cx="95" cy="119" r="17" fill="#3D7BFF" opacity=".18"/>
+      <circle cx="806" cy="119" r="4" fill="#8B5CFF"/>
+      <path d="M165 111 Q230 90 312 105" stroke="#fff" strokeOpacity=".12" strokeWidth="3" fill="none"/>
+      <path d="M584 105 Q666 90 735 111" stroke="#fff" strokeOpacity=".12" strokeWidth="3" fill="none"/>
     </svg>
-    <div className="visual-caption"><span>DESIGN CONCEPT / 2026</span><span>BLACK FRAME · OPEN AUDIO</span></div>
+    <span className="connection-light" aria-hidden="true" />
+    <span className="glasses-caption">PEMURA / DESIGN STUDY</span>
   </div>;
 }
 
-function Index() {
-  const [activePart, setActivePart] = useState(0);
-  const [faqOpen, setFaqOpen] = useState<number | null>(0);
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <p className="eyebrow">{children}</p>;
+}
+function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { node.classList.add("is-visible"); observer.disconnect(); }
+    }, { threshold: 0.12 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  return <div ref={ref} className={`reveal ${className}`}>{children}</div>;
+}
+
+const flow = [
+  ["VOCÊ", "A intenção começa na sua voz."],
+  ["PEMURA", "A interface que acompanha você."],
+  ["IA", "A inteligência interpreta o pedido."],
+  ["MUNDO DIGITAL", "O celular conecta aos serviços."],
+];
+const steps = [
+  ["Você fala", "Diga naturalmente o que precisa."],
+  ["O Pemura capta sua voz", "O microfone integrado recebe o comando."],
+  ["O Bluetooth conecta ao celular", "Os óculos enviam o áudio ao smartphone."],
+  ["O app Pemura processa", "O aplicativo organiza a solicitação."],
+  ["A IA entende a intenção", "A inteligência interpreta o contexto e o pedido."],
+  ["O sistema executa a ação", "O celular conversa com os serviços disponíveis."],
+  ["O Pemura responde para você", "A resposta chega pelo áudio dos óculos."],
+];
+const hardware = [
+  ["MICROFONE", "Capta sua voz para que a interação comece sem procurar uma tela."],
+  ["ALTO-FALANTES", "Som perto do ouvido. O mundo continua ao seu redor."],
+  ["BLUETOOTH", "Uma conexão sem fio entre você e o celular."],
+  ["BOTÃO FÍSICO", "Um comando direto quando você quiser controlar a experiência."],
+  ["CONEXÃO COM O CELULAR", "O cérebro fica no seu bolso. Os óculos são a interface."],
+];
+const moments = [
+  { id: "messages", title: "MENSAGENS", text: "Responda sem interromper o que está fazendo.", kind: "message" },
+  { id: "audio", title: "MÚSICA", text: "Sua trilha acompanha o ritmo do dia.", kind: "audio" },
+  { id: "route", title: "NAVEGAÇÃO", text: "Peça uma rota e receba a orientação pelo celular.", kind: "route" },
+  { id: "calls", title: "LIGAÇÕES", text: "Converse sem precisar segurar o aparelho.", kind: "call" },
+  { id: "assistant", title: "PERGUNTAS À IA", text: "Transforme uma dúvida em uma conversa.", kind: "assistant" },
+  { id: "translate", title: "TRADUÇÃO", text: "Uma nova forma de pedir ajuda com idiomas.", kind: "translate" },
+  { id: "delivery", title: "SERVIÇOS", text: "Prepare ações e confirme antes de concluir.", kind: "service" },
+];
+
+const schema = z.object({ email: z.string().trim().email("Digite um e-mail válido.") });
+type FormValues = z.infer<typeof schema>;
+
+function PemuraHome() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const PartIcon = parts[activePart].icon;
-  const go = () => setMenuOpen(false);
+  const [scenario, setScenario] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [activeHardware, setActiveHardware] = useState(0);
+  const [sent, setSent] = useState(false);
+  const demoRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
-  return <main>
-    <header className="site-header">
-      <nav className="nav-shell">
-        <a className="wordmark" href="#top" aria-label="PEMURA início">PEMURA<span>®</span></a>
-        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">{menuOpen ? <X/> : <Menu/>}</button>
-        <div className={`nav-menu ${menuOpen ? "is-open" : ""}`}>
-          <a href="#produto" onClick={go}>O projeto</a><a href="#experiencia" onClick={go}>Experiência</a><a href="#hardware" onClick={go}>Hardware</a><a href="#faq" onClick={go}>FAQ</a>
-        </div>
-        <a className="nav-contact" href="#equipe">Conheça o PEMURA <ArrowUpRight size={15}/></a>
-      </nav>
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Tab" && menuRef.current) {
+        const items = menuRef.current.querySelectorAll<HTMLElement>("a,button");
+        if (!items.length) return;
+        const first = items[0], last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    menuRef.current?.querySelector<HTMLElement>("a")?.focus();
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => setScenario((current) => (current + 1) % demos.length), 10000);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
+  const currentDemo = demos[scenario];
+  const onSubmit = async (values: FormValues) => {
+    await submitEmail(values.email);
+    setSent(true);
+  };
+  const closeMenu = () => setMenuOpen(false);
+  const nav = site.nav;
+
+  return <main id="top">
+    <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header className="header">
+      <div className="header-inner">
+        <a href="#top" className="brand" aria-label="Pemura, início"><Logo /></a>
+        <nav className="desktop-nav" aria-label="Navegação principal">{nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
+        <a className="header-cta" href="#acompanhar">Conhecer a Pemura <ArrowUpRight size={15}/></a>
+        <button className="menu-button" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button>
+      </div>
     </header>
+    {menuOpen && <div className="mobile-menu" ref={menuRef} role="dialog" aria-modal="true" aria-label="Menu principal">
+      <div className="mobile-menu-top"><Logo/><button className="menu-button" onClick={closeMenu} aria-label="Fechar menu"><X/></button></div>
+      <nav>{nav.map((item, index) => <a key={item.href} style={{ transitionDelay: `${index * 70}ms` }} href={item.href} onClick={closeMenu}>{item.label}<ArrowUpRight/></a>)}</nav>
+      <a className="pill-button menu-cta" href="#acompanhar" onClick={closeMenu}>Quero acompanhar <ArrowRight/></a>
+    </div>}
 
-    <section className="hero" id="top">
-      <div className="hero-inner">
+    <section className="hero" aria-labelledby="hero-title">
+      <div className="hero-light hero-light-one"/><div className="hero-light hero-light-two"/>
+      <div className="hero-inner" id="conteudo">
+        <div className="hero-visual-wrap"><GlassesVisual/></div>
         <div className="hero-copy">
-          <div className="overline"><span className="overline-mark"/> SMART GLASSES / BRAZIL</div>
-          <h1>O mundo<br/>não espera.<br/><em>Você também</em><br/><em>não precisa.</em></h1>
-          <p>Óculos inteligentes pensados para aproximar tecnologia da vida real. Capture, conecte e interaja — sem transformar cada momento em uma tela.</p>
-          <div className="hero-links"><a className="solid-link" href="#produto">Descubra o projeto <ArrowDownRight size={17}/></a><span>01 — 04 <i/></span></div>
+          <div className="status-pill"><span className="status-dot"/> {site.status}</div>
+          <Eyebrow>{site.hero.eyebrow}</Eyebrow>
+          <h1 id="hero-title"><span>PEMURA</span><span className="outline">O FUTURO</span><em>diante de seus olhos<span className="blue-period">.</span></em></h1>
+          <p>{site.hero.description}</p>
+          <div className="hero-actions"><a className="pill-button" href="#experiencia">Conhecer a Pemura <ArrowRight/></a><a className="text-link" href="#como-funciona">Ver como funciona <ArrowDown/></a></div>
         </div>
-        <GlassesVisual/>
-        <div className="hero-side-note">DESIGNED TO MOVE WITH YOU<br/>PEMURA / CONCEPT PROJECT</div>
       </div>
-      <div className="hero-bottom"><span>TECNOLOGIA VESTÍVEL</span><span>DESENVOLVIDO POR PEDRO, RAFAEL E MURILO</span><span>2026 ©</span></div>
+      <a className="scroll-cue" href="#interface"><span>ROLE PARA DESCOBRIR</span><span className="scroll-line"/></a>
+      <span className="hero-index">PEMURA / 001 — INTERFACE VESTÍVEL</span>
     </section>
 
-    <section className="manifesto section-pad" id="produto">
-      <div className="section-index"><span>01</span> / A IDEIA</div>
-      <div className="manifesto-grid">
-        <h2>Não é sobre<br/>ter mais uma<br/><span>tela.</span></h2>
-        <div className="manifesto-text"><p className="lead">É sobre ter a tecnologia mais perto — e o celular um pouco mais longe.</p><p>O PEMURA é um conceito de óculos inteligentes com câmera, captação de voz e áudio integrado. A proposta é conectar os óculos ao smartphone, que funciona como ponte para o aplicativo, a internet e os recursos de inteligência artificial.</p><a href="#experiencia" className="underlined-link">Entenda como funciona <ArrowUpRight size={16}/></a></div>
+    <section className="section interface-section" id="interface" aria-labelledby="interface-title">
+      <div className="container">
+        <Reveal><Eyebrow>01 — INTERFACE</Eyebrow><h2 id="interface-title">Não é apenas um óculos.<br/>É uma nova <i>interface.</i></h2>
+          <p className="section-intro">A Pemura é a camada entre você e o computador. Uma forma mais natural de acessar a inteligência e os serviços digitais sem viver diante de uma tela.</p></Reveal>
+        <div className="flow-line" aria-label="Fluxo: você, Pemura, inteligência artificial e mundo digital">
+          {flow.map(([label, text], index) => <div className="flow-node" key={label}><span className="node-index">0{index + 1}</span><span className="node-orb"><i/></span><strong>{label}</strong><small>{text}</small></div>)}
+        </div>
+        <p className="flow-caption">VOZ <span>→</span> ÓCULOS <span>→</span> BLUETOOTH <span>→</span> APP PEMURA <span>→</span> IA <span>→</span> CELULAR / SERVIÇOS</p>
       </div>
-      <div className="manifesto-bottom"><span>01 / VISÃO</span><span>02 / VOZ</span><span>03 / CONEXÃO</span><span>04 / LIBERDADE</span></div>
     </section>
 
-    <section className="experience" id="experiencia">
-      <div className="experience-top"><div className="section-index"><span>02</span> / NA PRÁTICA</div><h2>Feito para<br/><i>acompanhar.</i></h2><p>Uma experiência simples na forma, construída a partir de pequenas interações que fazem sentido no cotidiano.</p></div>
-      <div className="experience-list">
-        <article><span>01</span><div><h3>Olhe.</h3><p>A câmera permite capturar imagens em primeira pessoa e abre caminho para experiências de visão computacional.</p></div><Camera/></article>
-        <article><span>02</span><div><h3>Fale.</h3><p>O microfone recebe comandos de voz. O áudio integrado permite ouvir respostas sem depender de um fone separado.</p></div><Mic/></article>
-        <article><span>03</span><div><h3>Conecte.</h3><p>Bluetooth e Wi-Fi fazem a ponte entre os óculos, o smartphone e os serviços conectados.</p></div><Bluetooth/></article>
-        <article><span>04</span><div><h3>Continue.</h3><p>O celular assume o processamento mais pesado e o acesso à IA. Os óculos ficam com a interação e a captura.</p></div><Smartphone/></article>
+    <section className="section demo-section" id="experiencia" aria-labelledby="demo-title" ref={demoRef}>
+      <div className="container">
+        <Reveal className="demo-heading"><div><Eyebrow>02 — EM AÇÃO</Eyebrow><h2 id="demo-title">Fale. <i>Veja acontecer.</i></h2></div><p>Uma conversa natural pode iniciar uma ação. Quando ela exige uma decisão sua, a Pemura pede confirmação.</p></Reveal>
+        <div className="demo-shell">
+          <aside className="demo-sidebar" aria-label="Cenários da demonstração">
+            <span className="eyebrow">ESCOLHA UMA CENA</span>
+            {demos.map((demo, index) => <button key={demo.title} className={scenario === index ? "scenario active" : "scenario"} onClick={() => setScenario(index)}><span>0{index + 1}</span>{demo.title}<ArrowUpRight size={15}/></button>)}
+          </aside>
+          <div className="demo-device">
+            <div className="device-top"><span className="device-brand">PEMURA / VOICE</span><span className="device-state"><i/> CONECTADO</span></div>
+            <div className="waveform" aria-hidden="true">{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ "--bar": `${10 + ((i * 17) % 35)}px`, animationDelay: `${i * 22}ms` } as React.CSSProperties}/>)}</div>
+            <div className="conversation" aria-live="polite" aria-atomic="true">
+              {currentDemo.messages.map(([speaker, message], index) => <div key={index} className={speaker === "Você" ? "message user-message" : "message pemura-message"}><span>{speaker === "Você" ? "VOCÊ" : "PEMURA"}</span><p>{message}</p></div>)}
+              {currentDemo.confirmation && <div className="confirm-note"><span className="confirm-indicator"/> AÇÃO SENSÍVEL · CONFIRMAÇÃO DO USUÁRIO <button onClick={() => setPaused(true)}>Confirmar</button></div>}
+            </div>
+            <div className="demo-bottom"><span><i/> {currentDemo.confirmation ? "AGUARDANDO CONFIRMAÇÃO" : "RESPOSTA CONCLUÍDA"}</span><button className="pause-button" onClick={() => setPaused(!paused)} aria-label={paused ? "Retomar demonstração" : "Pausar demonstração"}>{paused ? <Play size={14}/> : <Pause size={14}/>} {paused ? "RETOMAR" : "PAUSAR"}</button></div>
+          </div>
+        </div>
+        <p className="demo-disclaimer">Simulação ilustrativa da experiência. As ações dependem das integrações e permissões disponíveis.</p>
       </div>
-      <div className="experience-foot"><span>PEMURA SYSTEM</span><span>ÓCULOS → SMARTPHONE → SERVIÇOS</span></div>
     </section>
 
-    <section className="hardware section-pad" id="hardware">
-      <div className="hardware-head"><div><div className="section-index"><span>03</span> / POR DENTRO</div><h2>Peças reais.<br/><i>Uma ideia em construção.</i></h2></div><p>Esta é a configuração de componentes definida para orientar o protótipo. Alternativas aparecem identificadas separadamente — não como peças extras obrigatórias.</p></div>
-      <div className="hardware-feature">
-        <div className="board-art"><div className="board-orbit"/><div className="board-chip"><CircuitBoard size={34}/><b>XIAO</b><small>ESP32S3 SENSE</small></div><span className="board-label">MAIN CONTROL / 001</span></div>
-        <div className="board-copy"><span className="micro-label">01 / PLATAFORMA PRINCIPAL</span><h3>Seeed XIAO<br/>ESP32S3 Sense</h3><p>O ponto central do protótipo. A placa reúne o ESP32-S3 e oferece conectividade sem fio, além do suporte para câmera e microfone. A IA fica prevista no smartphone, não embarcada nessa placa.</p><a href="https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html" target="_blank" rel="noreferrer">Documentação da placa <ArrowUpRight size={15}/></a></div>
+    <section className="section intelligence-section" aria-labelledby="intelligence-title">
+      <div className="container">
+        <Reveal><Eyebrow>03 — INTELIGÊNCIA</Eyebrow><h2 id="intelligence-title">Você fala. A Pemura <i>entende.</i></h2><p className="section-intro">Não é um comando decorado. É uma interface natural entre você, a IA e os serviços digitais.</p></Reveal>
+        <div className="intelligence-flow">{[["01","FALAR","Sua voz inicia a conversa."],["02","ENTENDER","A intenção ganha contexto."],["03","DECIDIR","O sistema prepara o próximo passo."],["04","AGIR","A ação segue para o serviço conectado."]].map(([n,t,d],i)=><Reveal key={n} className="intelligence-step"><span>{n}</span><div className={`step-symbol symbol-${i}`}>{i===0?<div className="mini-wave"><i/><i/><i/><i/><i/></div>:i===1?<div className="converge"><i/><i/><i/><b/></div>:i===2?<div className="decision"><i/><i/><b/></div>:<div className="pulse-out"><i/></div>}</div><h3>{t}</h3><p>{d}</p></Reveal>)}</div>
       </div>
-      <div className="parts-header"><span>COMPONENTES DO PROTÓTIPO</span><span>14 ITENS / CONFIGURAÇÃO DE REFERÊNCIA</span></div>
-      <div className="parts-browser">
-        <div className="parts-list">{parts.map((p, i) => { const Icon = p.icon; return <button key={p.n} className={activePart === i ? "part-active" : ""} onClick={() => setActivePart(i)}><span>{p.n}</span><Icon size={17}/><b>{p.name}</b><ArrowRight className="part-arrow" size={15}/></button>; })}</div>
-        <div className="part-detail"><div className="part-detail-top"><span>{parts[activePart].group}</span><span>{parts[activePart].qty}</span></div><div className="part-detail-icon"><PartIcon size={32}/></div><div className="part-detail-number">{parts[activePart].n} / 14</div><h3>{parts[activePart].name}</h3><p>{parts[activePart].detail}</p><div className="part-note"><ShieldCheck size={15}/>{parts[activePart].note}</div></div>
-      </div>
-      <div className="alternatives"><div><span>ALTERNATIVAS MAPEADAS</span><strong>BT3040 / QCC3040</strong><p>Alternativa de módulo para áudio Bluetooth em relação ao EBYTE BT60SP2.</p></div><div><span>ALTERNATIVAS MAPEADAS</span><strong>SPH0645</strong><p>Alternativa de microfone digital em relação ao ICS-43434.</p></div><div><span>ARMAZENAMENTO</span><strong>microSD / memória da placa</strong><p>O armazenamento depende da configuração do conjunto Sense e da necessidade de guardar arquivos. 32 GB não é uma especificação confirmada desta montagem.</p></div></div>
-      <p className="hardware-disclaimer"><ShieldCheck size={16}/> Transparência: componentes selecionados para planejamento do protótipo. Compatibilidade elétrica, dimensões internas, temperatura, autonomia e qualidade de áudio/imagem ainda precisam ser validadas na montagem física.</p>
     </section>
 
-    <section className="connection">
-      <div className="section-pad connection-inner"><div className="section-index"><span>04</span> / COMO SE CONECTA</div><h2>O óculos capta.<br/><i>O celular conecta.</i></h2><div className="connection-flow"><div><span>01</span><Camera/><b>PEMURA</b><small>Imagem + voz</small></div><ArrowRight/><div><span>02</span><Bluetooth/><b>SMARTPHONE</b><small>App + conexão</small></div><ArrowRight/><div><span>03</span><Zap/><b>IA / SERVIÇOS</b><small>Processamento</small></div></div><p className="connection-note">A proposta é distribuir as tarefas: os óculos cuidam da captura e da interação; o smartphone concentra a conectividade, o aplicativo e o acesso aos serviços inteligentes.</p></div>
+    <section className="section pocket-section" aria-labelledby="pocket-title">
+      <div className="container">
+        <Reveal><Eyebrow>04 — LIBERDADE</Eyebrow><h2 id="pocket-title">Menos tela. <i>Mais vida.</i></h2><p className="section-intro">Menos tempo olhando para uma tela, mais tempo vivendo o momento.</p></Reveal>
+        <div className="bento-grid">
+          {moments.map((item,index)=><article key={item.id} className={`bento-tile tile-${index+1} tile-${item.kind}`}><div className="tile-top"><span>0{index+1} / PEMURA</span><ArrowUpRight size={16}/></div><div className="tile-art" aria-hidden="true">{item.kind==="message"?<div className="chat-art"><i>Estou chegando.</i><b>Mensagem pronta</b></div>:item.kind==="audio"?<div className="equalizer">{Array.from({length:17},(_,i)=><i key={i}/>)}</div>:item.kind==="route"?<div className="route-art"><svg viewBox="0 0 180 90"><path d="M10 70 Q45 65 54 30 T105 40 T170 12" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 5"/><circle cx="10" cy="70" r="4" fill="currentColor"/><circle cx="170" cy="12" r="4" fill="currentColor"/></svg></div>:item.kind==="call"?<div className="call-art"><span>•••</span><i/></div>:item.kind==="assistant"?<div className="ai-art">?</div>:item.kind==="translate"?<div className="translate-art">Olá <span>↔</span> Hello</div>:<div className="service-art"><span>PRONTO</span><Check/></div>}</div><h3>{item.title}</h3><p>{item.text}</p></article>)}
+          <article className="bento-tile tile-concept"><span className="eyebrow">UMA NOVA INTERAÇÃO</span><strong>0</strong><p>toques no celular para iniciar uma conversa por voz.</p><small>*Ilustração de conceito, não uma métrica medida.</small></article>
+          <article className="bento-tile tile-ring"><div className="progress-ring"><svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="60"/><circle className="ring-progress" cx="70" cy="70" r="60"/></svg><div><span>ETAPA</span><strong>VOZ</strong><small>→ BLUETOOTH</small></div></div><p>SEM PEGAR O CELULAR</p><a href="#como-funciona">VER A HISTÓRIA <ArrowUpRight size={13}/></a></article>
+        </div>
+      </div>
     </section>
 
-    <section className="future section-pad"><div className="future-copy"><div className="section-index"><span>05</span> / O QUE VEM DEPOIS</div><h2>Começa com<br/>o essencial.<br/><i>Vai além.</i></h2><p>O primeiro foco é fazer câmera, voz, áudio e conexão funcionarem juntos em uma armação confortável. Recursos mais avançados, como informações exibidas nas lentes, ficam como pesquisa para uma possível evolução — não fazem parte da versão atual.</p></div><div className="future-mark"><span>PEMURA</span><b>001</b><small>BUILD THE NEXT<br/>POINT OF VIEW</small></div></section>
+    <section className="section hardware-section" id="hardware" aria-labelledby="hardware-title">
+      <div className="container">
+        <Reveal className="hardware-heading"><div><Eyebrow>05 — ENGENHARIA</Eyebrow><h2 id="hardware-title">Engenharia que <i>desaparece.</i></h2></div><p>A primeira versão prioriza o essencial: uma interface vestível, simples de usar e conectada ao seu celular.</p></Reveal>
+        <div className="hardware-layout"><div className="hardware-visual"><GlassesVisual compact/><div className="hotspot hotspot-1"/><div className="hotspot hotspot-2"/><div className="hotspot hotspot-3"/><div className="hotspot hotspot-4"/><div className="hotspot hotspot-5"/></div>
+          <div className="hardware-list">{hardware.map(([title,desc],index)=><button key={title} className={activeHardware===index?"hardware-point selected":"hardware-point"} onClick={()=>setActiveHardware(index)}><span>0{index+1}</span><strong>{title}</strong><ArrowUpRight size={15}/>{activeHardware===index&&<p>{desc}</p>}</button>)}</div>
+        </div>
+        <p className="hardware-note">Primeira versão: voz, áudio e conexão. <a href="#futuro">O restante da plataforma vem depois <ArrowUpRight size={13}/></a></p>
+      </div>
+    </section>
 
-    <section className="faq section-pad" id="faq"><div className="section-index"><span>06</span> / PERGUNTAS DIRETAS</div><div className="faq-layout"><h2>Sem mistério.</h2><div className="faq-list">{faqs.map(([q,a],i)=><div className={faqOpen===i ? "faq-open" : ""} key={q}><button onClick={()=>setFaqOpen(faqOpen===i ? null : i)}>{q}<ChevronDown size={18}/></button>{faqOpen===i && <p>{a}</p>}</div>)}</div></div></section>
+    <section className="section architecture-section" id="como-funciona" aria-labelledby="architecture-title">
+      <div className="container">
+        <Reveal><Eyebrow>06 — ARQUITETURA</Eyebrow><h2 id="architecture-title">Do que você diz ao que <i>acontece.</i></h2></Reveal>
+        <div className="architecture-layout">
+          <div className="architecture-visual"><div className="arch-node active"><span>01</span><strong>ÓCULOS</strong><small>INTERFACE</small></div><i>⇄</i><div className="arch-node"><span>02</span><strong>CELULAR</strong><small>COMPUTADOR</small></div><i>⇄</i><div className="arch-node"><span>03</span><strong>IA</strong><small>CÉREBRO</small></div><i>⇄</i><div className="arch-node"><span>04</span><strong>SERVIÇOS</strong><small>CONEXÕES</small></div></div>
+          <div className="timeline">{steps.map(([title,desc],index)=><Reveal key={title} className="timeline-step"><span className="timeline-number">0{index+1}</span><div><h3>{title}</h3><p>{desc}</p></div></Reveal>)}</div>
+        </div>
+        <p className="architecture-manifesto">Os óculos são a interface.<br/>O celular é o computador.<br/><i>A IA é o cérebro.</i></p>
+        <p className="fine-print">Disponibilidade de recursos varia conforme o sistema do celular e as permissões concedidas. No Android, algumas automações podem depender de recursos como Accessibility Service; no iPhone, há limitações próprias do sistema. Ações sensíveis sempre pedem sua confirmação.</p>
+      </div>
+    </section>
 
-    <footer id="equipe"><div className="footer-main"><a className="wordmark" href="#top">PEMURA<span>®</span></a><div className="footer-statement">Tecnologia que<br/><i>acompanha você.</i></div><div className="footer-team"><span>IDEALIZAÇÃO E DESENVOLVIMENTO</span><b>Pedro <i>·</i> Rafael <i>·</i> Murilo</b></div></div><div className="footer-bottom"><span>© 2026 PEMURA / PROJETO CONCEITUAL</span><span>BRASIL</span><a href="#top">VOLTAR AO TOPO ↑</a></div></footer>
+    <section className="section future-section" id="futuro" aria-labelledby="future-title">
+      <div className="container">
+        <Reveal><Eyebrow>07 — O QUE VEM</Eyebrow><h2 id="future-title">A primeira versão é só o <i>começo.</i></h2></Reveal>
+        <div className="future-track">
+          <article className="future-stage today"><span className="stage-marker"/><small>HOJE · DISPONÍVEL NA PROPOSTA INICIAL</small><h3>Voz. Áudio. Conexão.</h3><p>Microfone, alto-falante, Bluetooth, botão físico e conexão com Android e iPhone.</p><b>HOJE</b></article>
+          <article className="future-stage planned"><span className="stage-marker"/><small>AMANHÃ · PLANEJADO</small><h3>Mais percepção.</h3><p>Câmera, visão computacional, tradução avançada e novas interações.</p><b>EM DESENVOLVIMENTO</b></article>
+          <article className="future-stage vision"><span className="stage-marker"/><small>FUTURO · VISÃO</small><h3>Uma nova camada computacional.</h3><p>Uma nova camada computacional diante dos seus olhos.</p><b>VISÃO</b></article>
+        </div>
+        <p className="fine-print">Recursos futuros estão em fase de conceito e podem mudar. Não há datas de lançamento anunciadas.</p>
+      </div>
+    </section>
+
+    <section className="vision-section" aria-label="Visão da Pemura">
+      <div className="vision-glow"/>
+      <div className="vision-copy"><Eyebrow>08 — UMA OUTRA RELAÇÃO COM A TECNOLOGIA</Eyebrow><p>A tecnologia não deveria exigir que você olhe para ela o tempo inteiro.</p><p>Ela deveria <i>desaparecer</i> na experiência.</p><p>A Pemura coloca inteligência à sua disposição sem interromper o mundo ao seu redor.</p></div>
+    </section>
+
+    <section className="section creators-section" id="criadores" aria-labelledby="creators-title">
+      <div className="container">
+        <Reveal><Eyebrow>09 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
+        <div className="creator-grid">{creators.map((person,index)=><Reveal key={person.initials} className="creator-tile"><div className="creator-avatar">{person.photo?<img src={person.photo} alt={person.name} loading="lazy" width="128" height="128"/>:<span>{person.initials}</span>}</div><span className="creator-index">PEMURA / 0{index+1}</span><h3>{person.name}</h3><p>{person.role || "CRIADOR · PEMURA"}</p></Reveal>)}</div>
+        <p className="creator-signoff">Pemura nasceu de uma pergunta simples: <i>por que o futuro ainda cabe só na palma da mão?</i></p>
+      </div>
+    </section>
+
+    <section className="final-section" id="acompanhar" aria-labelledby="final-title">
+      <div className="final-beam"/>
+      <div className="final-inner"><div className="status-pill"><span className="status-dot"/>{site.status}</div><Eyebrow>O PRÓXIMO CAPÍTULO COMEÇA AQUI</Eyebrow><h2 id="final-title">O futuro está <i>diante dos seus olhos.</i></h2><p>Conheça a Pemura.</p>
+        {!sent ? <form className="waitlist-form" onSubmit={handleSubmit(onSubmit)} noValidate><label htmlFor="email">SEU E-MAIL</label><div className="email-row"><input id="email" type="email" placeholder="voce@email.com" autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email?"email-error":"email-help"} {...register("email")}/><button type="submit" disabled={isSubmitting}>Quero acompanhar <ArrowRight size={17}/></button></div>{errors.email&&<p className="form-error" id="email-error" role="alert">{errors.email.message}</p>}<p className="form-privacy" id="email-help">{site.privacy}</p></form>:<div className="success-message" role="status"><Check/> Obrigado. Você será avisado quando houver novidades.</div>}
+      </div>
+    </section>
+
+    <footer className="footer">
+      <div className="footer-main"><a href="#top" className="brand"><Logo/></a><p>{site.footer}</p><nav aria-label="Links do rodapé">{nav.map((item)=><a key={item.href} href={item.href}>{item.label}</a>)}</nav><a href="#top" className="back-top">VOLTAR AO TOPO ↑</a></div>
+      <div className="footer-bottom"><span>© 2026 PEMURA. TODOS OS DIREITOS RESERVADOS.</span><span>FEITO NO BRASIL.</span></div>
+    </footer>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "PEMURA", description: "Óculos inteligentes com IA controlados por voz.", url: "https://pemura.com.br/" }) }} />
   </main>;
 }
