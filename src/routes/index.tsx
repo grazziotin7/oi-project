@@ -98,10 +98,12 @@ function PemuraHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scenario, setScenario] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [demoInView, setDemoInView] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [activeHardware, setActiveHardware] = useState(0);
   const [sent, setSent] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const demoSectionRef = useRef<HTMLElement>(null);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   useEffect(() => {
