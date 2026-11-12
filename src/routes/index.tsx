@@ -189,7 +189,7 @@ function PemuraHome() {
           <div className="status-pill"><span className="status-dot"/> {site.status}</div>
           <Eyebrow>{site.hero.eyebrow}</Eyebrow>
           <h1 id="hero-title"><span>PEMURA</span><span className="outline">O FUTURO</span><em>diante de seus olhos<span className="blue-period">.</span></em></h1>
-          <p>{site.hero.description}</p>
+          <p>{site.hero.description}</p><p className="hero-promise">{site.promise}</p>
           <div className="hero-actions"><a className="pill-button" href="#experiencia">Conhecer a Pemura <ArrowRight/></a><a className="text-link" href="#como-funciona">Ver como funciona <ArrowDown/></a></div>
         </div>
       </div>
@@ -200,7 +200,7 @@ function PemuraHome() {
     <section className="section interface-section" id="interface" aria-labelledby="interface-title">
       <div className="container">
         <Reveal><Eyebrow>01 — INTERFACE</Eyebrow><h2 id="interface-title">Não é apenas um óculos.<br/>É uma nova <i>interface.</i></h2>
-          <p className="section-intro">A Pemura é a camada entre você e o computador. Uma forma mais natural de acessar a inteligência e os serviços digitais sem viver diante de uma tela.</p></Reveal>
+          <p className="section-intro">{site.interfaceDescription}</p></Reveal>
         <div className="flow-line" aria-label="Fluxo: você, Pemura, inteligência artificial e mundo digital">
           {flow.map(([label, text], index) => <div className="flow-node" key={label}><span className="node-index">0{index + 1}</span><span className="node-orb"><i/></span><strong>{label}</strong><small>{text}</small></div>)}
         </div>
