@@ -192,7 +192,7 @@ function PemuraHome() {
       </div>
     </section>
 
-    <section className="section demo-section" id="experiencia" aria-labelledby="demo-title" ref={demoRef}>
+    <section className="section demo-section" id="experiencia" aria-labelledby="demo-title" ref={demoSectionRef}>
       <div className="container">
         <Reveal className="demo-heading"><div><Eyebrow>02 — EM AÇÃO</Eyebrow><h2 id="demo-title">Fale. <i>Veja acontecer.</i></h2></div><p>Uma conversa natural pode iniciar uma ação. Quando ela exige uma decisão sua, a Pemura pede confirmação.</p></Reveal>
         <div className="demo-shell">
