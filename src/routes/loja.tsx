@@ -46,11 +46,11 @@ function ProductGlasses() {
 }
 
 function PemuraStore() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   return <main className="store-page">
     <header className="store-header">
       <Link to="/" className="store-logo" aria-label="Voltar ao início">PEMURA<span>.</span></Link>
-      <nav><Link to="/">Início</Link><a className="store-nav-active" href="#produto">Loja</a></nav>
+      <nav><Link to="/">Visão geral</Link><Link to="/#produto">Produto</Link><Link to="/#tecnologia">Tecnologia</Link><a className="store-nav-active" href="#produto">Loja</a></nav>
       <Link to="/" className="store-back"><ArrowLeft size={15}/> Voltar ao site</Link>
     </header>
     <section className="store-hero" id="produto">
@@ -65,6 +65,7 @@ function PemuraStore() {
       <ProductGlasses/>
       <div className="store-hero-index">01 — PEMURA ONE</div>
     </section>
+    <section className="store-highlights" aria-label="Destaques do Pemura One"><article><span>01</span><div><b>INTERAÇÃO POR VOZ</b><p>Converse com a tecnologia de forma natural.</p></div></article><article><span>02</span><div><b>ÁUDIO INTEGRADO</b><p>Respostas sonoras sem precisar olhar para uma tela.</p></div></article><article><span>03</span><div><b>CONECTADO AO CELULAR</b><p>O smartphone conecta os óculos aos serviços de IA.</p></div></article></section>
     <section className="store-product-section" id="detalhes">
       <div className="store-section-head"><div><p className="store-eyebrow">01 / O PRODUTO</p><h2>Conheça o <i>Pemura One.</i></h2></div><p>Uma experiência pensada para deixar a tecnologia mais próxima, sem precisar tirar o celular do bolso.</p></div>
       <article className="store-product-panel">
