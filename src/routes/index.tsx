@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, Pause, Play, X } from "lucide-react";
-import { site, flow, steps, hardware, moments, futureStages, disclaimers } from "../content/site";
+import { site, flow, steps, hardware, moments, futureStages, disclaimers, specifications, softwareSpecifications } from "../content/site";
 import { creators } from "../content/creators";
 import { demos } from "../content/demos";
 import { submitEmail } from "../lib/waitlist";
@@ -84,6 +84,7 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    document.documentElement.classList.add("motion-ready");
     const observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry?.isIntersecting) { node.classList.add("is-visible"); observer.disconnect(); }
@@ -258,9 +259,36 @@ function PemuraHome() {
       </div>
     </section>
 
+
+    <section className="section specs-section" id="especificacoes" aria-labelledby="specs-title">
+      <div className="container">
+        <Reveal className="specs-heading">
+          <div><Eyebrow>06 — POR DENTRO DA PEMURA</Eyebrow><h2 id="specs-title">Cada peça tem <i>um propósito.</i></h2></div>
+          <p>Uma visão transparente da arquitetura planejada: componentes de referência, alternativas e pontos que ainda precisam de validação no protótipo.</p>
+        </Reveal>
+        <div className="specs-intro-line"><span>HARDWARE / COMPONENTES</span><span>ARQUITETURA PROPOSTA · NÃO É UM PRODUTO FINALIZADO</span></div>
+        <div className="specs-grid">
+          {specifications.map((item,index)=><Reveal key={item.category} className="spec-card">
+            <div className="spec-card-top"><span>0{index+1}</span><span className="spec-status">{item.status}</span></div>
+            <p className="spec-category">{item.category}</p>
+            <h3>{item.name}</h3>
+            <p className="spec-detail">{item.detail}</p>
+            <span className="spec-card-orbit" aria-hidden="true"/>
+          </Reveal>)}
+        </div>
+        <div className="software-heading"><Eyebrow>CAMADA DIGITAL</Eyebrow><h3>O hardware é só metade da experiência.</h3><p>O aplicativo e os serviços de voz e IA completam a experiência. Os itens abaixo são partes planejadas, não integrações já concluídas.</p></div>
+        <div className="software-grid">
+          {softwareSpecifications.map((item,index)=><Reveal key={item.category} className="software-card">
+            <span>0{index+1} / {item.category}</span><h4>{item.name}</h4><p>{item.detail}</p>
+          </Reveal>)}
+        </div>
+        <p className="specs-footnote">Importante: os componentes ainda precisam passar por testes de compatibilidade elétrica, consumo, temperatura, dimensões, áudio, autonomia e montagem na armação. Modelos alternativos não significam que todos serão usados juntos.</p>
+      </div>
+    </section>
+
     <section className="section architecture-section" id="como-funciona" aria-labelledby="architecture-title">
       <div className="container">
-        <Reveal><Eyebrow>06 — ARQUITETURA</Eyebrow><h2 id="architecture-title">Do que você diz ao que <i>acontece.</i></h2></Reveal>
+        <Reveal><Eyebrow>07 — ARQUITETURA</Eyebrow><h2 id="architecture-title">Do que você diz ao que <i>acontece.</i></h2></Reveal>
         <div className="architecture-layout">
           <div className="architecture-visual"><div className="arch-node active"><span>01</span><strong>ÓCULOS</strong><small>INTERFACE</small></div><i>⇄</i><div className="arch-node"><span>02</span><strong>CELULAR</strong><small>COMPUTADOR</small></div><i>⇄</i><div className="arch-node"><span>03</span><strong>IA</strong><small>CÉREBRO</small></div><i>⇄</i><div className="arch-node"><span>04</span><strong>SERVIÇOS</strong><small>CONEXÕES</small></div></div>
           <div className="timeline">{steps.map(([title,desc],index)=><Reveal key={title} className="timeline-step"><span className="timeline-number">0{index+1}</span><div><h3>{title}</h3><p>{desc}</p></div></Reveal>)}</div>
@@ -272,7 +300,7 @@ function PemuraHome() {
 
     <section className="section future-section" id="futuro" aria-labelledby="future-title">
       <div className="container">
-        <Reveal><Eyebrow>07 — O QUE VEM</Eyebrow><h2 id="future-title">A primeira versão é só o <i>começo.</i></h2></Reveal>
+        <Reveal><Eyebrow>08 — O QUE VEM</Eyebrow><h2 id="future-title">A primeira versão é só o <i>começo.</i></h2></Reveal>
         <div className="future-track">
           {futureStages.map((stage) => <article key={stage.state} className={`future-stage ${stage.state}`}><span className="stage-marker"/><small>{stage.status}</small><h3>{stage.title}</h3><p>{stage.text}</p><b>{stage.label}</b></article>)}
         </div>
@@ -287,7 +315,7 @@ function PemuraHome() {
 
     <section className="section creators-section" id="criadores" aria-labelledby="creators-title">
       <div className="container">
-        <Reveal><Eyebrow>08 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
+        <Reveal><Eyebrow>09 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
         <div className="creator-grid">{creators.map((person,index)=><Reveal key={person.initials} className="creator-tile"><div className="creator-avatar">{person.photo?<img src={person.photo} alt={person.name} loading="lazy" width="128" height="128"/>:<span>{person.initials}</span>}</div><span className="creator-index">PEMURA / 0{index+1}</span><h3>{person.name}</h3><p>{person.role || "CRIADOR · PEMURA"}</p><div className="creator-links">{Object.entries(person.links).map(([label, url]) => <a key={label} href={url} target="_blank" rel="noreferrer">{label}</a>)}</div></Reveal>)}</div>
         <p className="creator-signoff">Pemura nasceu de uma pergunta simples: <i>por que o futuro ainda cabe só na palma da mão?</i></p>
       </div>
