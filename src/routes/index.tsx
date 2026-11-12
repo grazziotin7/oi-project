@@ -1,340 +1,153 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, Pause, Play, X } from "lucide-react";
-import { site, flow, steps, hardware, moments, futureStages, disclaimers, specifications, softwareSpecifications } from "../content/site";
-import { creators } from "../content/creators";
-import { demos } from "../content/demos";
-import { submitEmail } from "../lib/waitlist";
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X, AudioLines, Bluetooth, Camera, Cpu, Smartphone, Sparkles, Mic2, Volume2 } from "lucide-react";
+import { site, specifications, softwareSpecifications } from "../content/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PEMURA — O futuro diante de seus olhos" },
-      { name: "description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age. Conheça o futuro diante dos seus olhos." },
-      { property: "og:title", content: "PEMURA — O futuro diante de seus olhos" },
-      { property: "og:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
-      { property: "og:image", content: "/og-image.svg" },
-      { name: "twitter:image", content: "/og-image.svg" },
-      { name: "twitter:title", content: "PEMURA — O futuro diante de seus olhos" },
-      { name: "twitter:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#05060A" },
+      { title: "PEMURA — Tecnologia que acompanha você" },
+      { name: "description", content: "Conheça a Pemura: óculos inteligentes com interação por voz e inteligência artificial." },
+      { property: "og:title", content: "PEMURA — Tecnologia que acompanha você" },
+      { property: "og:description", content: "Óculos inteligentes com interação por voz e inteligência artificial." },
+      { name: "theme-color", content: "#07070b" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" },
     ],
   }),
   component: PemuraHome,
 });
 
-function Logo() {
-  const [failed, setFailed] = useState(false);
-  // SUBSTITUIR PELO ASSET OFICIAL quando a logo vetorial for adicionada ao projeto.
-  return failed
-    ? <span className="logo-word">PEMURA</span>
-    : <img className="logo-image" src="/src/assets/pemura-logo.svg" alt="PEMURA" onError={() => setFailed(true)} />;
-}
-
-function GlassesVisual({ compact = false }: { compact?: boolean }) {
-  return <div className={compact ? "glasses-visual glasses-compact" : "glasses-visual"} aria-label="Ilustração conceitual de óculos inteligentes">
-    <div className="glasses-halo" />
-    <svg viewBox="0 0 900 360" role="img" aria-label="Silhueta minimalista de óculos pretos com reflexos azul-violeta">
-      <defs>
-        <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#9da6b7"/><stop offset=".2" stopColor="#222a38"/><stop offset=".55" stopColor="#687184"/><stop offset="1" stopColor="#111722"/></linearGradient>
-        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#27334a" stopOpacity=".48"/><stop offset=".55" stopColor="#111722" stopOpacity=".82"/><stop offset="1" stopColor="#070910" stopOpacity=".94"/></linearGradient>
-        <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0"><stop stopColor="#3D7BFF" stopOpacity=".05"/><stop offset=".5" stopColor="#8B5CFF" stopOpacity=".9"/><stop offset="1" stopColor="#3D7BFF" stopOpacity=".1"/></linearGradient>
-        <filter id="blurGlow"><feGaussianBlur stdDeviation="15"/></filter>
-      </defs>
-      <ellipse cx="450" cy="292" rx="270" ry="24" fill="#3D7BFF" opacity=".16" filter="url(#blurGlow)"/>
-      <g stroke="url(#metal)" strokeWidth="13" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M82 129 Q48 114 23 82 Q12 69 22 57" fill="none"/>
-        <path d="M818 129 Q852 114 877 82 Q888 69 878 57" fill="none"/>
-        <path d="M80 110 Q83 79 120 76 L358 76 Q399 78 405 117 L394 244 Q389 279 351 282 L139 282 Q97 279 91 244 Z" fill="url(#glass)"/>
-        <path d="M495 117 Q501 78 542 76 L780 76 Q817 79 820 110 L809 244 Q803 279 761 282 L549 282 Q511 279 506 244 Z" fill="url(#glass)"/>
-        <path d="M405 128 Q450 103 495 128" fill="none" strokeWidth="15"/>
-        <path d="M111 107 Q213 83 327 104" fill="none" stroke="#dbe4f7" strokeOpacity=".18" strokeWidth="4"/>
-        <path d="M573 104 Q687 83 789 107" fill="none" stroke="#dbe4f7" strokeOpacity=".18" strokeWidth="4"/>
-        <path d="M84 124 L56 111" fill="none" strokeWidth="17"/>
-        <path d="M816 124 L844 111" fill="none" strokeWidth="17"/>
-      </g>
-      <g fill="none" stroke="url(#rim)" strokeWidth="2">
-        <path d="M93 114 Q96 84 126 84 L354 84 Q389 86 395 119"/>
-        <path d="M505 119 Q511 86 546 84 L774 84 Q804 84 807 114"/>
-      </g>
-      <circle cx="95" cy="119" r="7" fill="#3D7BFF"/><circle cx="95" cy="119" r="17" fill="#3D7BFF" opacity=".18"/>
-      <circle cx="806" cy="119" r="4" fill="#8B5CFF"/>
-      <path d="M165 111 Q230 90 312 105" stroke="#fff" strokeOpacity=".12" strokeWidth="3" fill="none"/>
-      <path d="M584 105 Q666 90 735 111" stroke="#fff" strokeOpacity=".12" strokeWidth="3" fill="none"/>
-    </svg>
-    <span className="connection-light" aria-hidden="true" />
-    <span className="glasses-caption">PEMURA / DESIGN STUDY</span>
-  </div>;
-}
-
-function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="eyebrow">{children}</p>;
-}
-function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    document.documentElement.classList.add("motion-ready");
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (entry?.isIntersecting) { node.classList.add("is-visible"); observer.disconnect(); }
-    }, { threshold: 0.12 });
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !("IntersectionObserver" in window)) {
+      node.classList.add("pemura-in");
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        node.classList.add("pemura-in");
+        observer.disconnect();
+      }
+    }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" });
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
-  return <div ref={ref} className={`reveal ${className}`}>{children}</div>;
+  return <div ref={ref} className={`pemura-reveal ${className}`}>{children}</div>;
 }
 
-const schema = z.object({ email: z.string().trim().email("Digite um e-mail válido.") });
-type FormValues = z.infer<typeof schema>;
+function Glasses() {
+  return <div className="minimal-glasses" aria-label="Ilustração conceitual dos óculos Pemura">
+    <div className="minimal-glasses-glow" />
+    <svg viewBox="0 0 900 330" role="img" aria-label="Óculos inteligentes pretos com detalhes violetas">
+      <defs>
+        <linearGradient id="p-frame" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#9ba0b2"/><stop offset=".35" stopColor="#343746"/><stop offset=".72" stopColor="#11131b"/><stop offset="1" stopColor="#777b91"/></linearGradient>
+        <linearGradient id="p-lens" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#33384d" stopOpacity=".92"/><stop offset="1" stopColor="#090a11"/></linearGradient>
+        <linearGradient id="p-glint" x1="0" y1="0" x2="1" y2="0"><stop stopColor="#8b5cff" stopOpacity="0"/><stop offset=".5" stopColor="#b6a1ff" stopOpacity=".9"/><stop offset="1" stopColor="#8b5cff" stopOpacity="0"/></linearGradient>
+        <filter id="p-shadow"><feGaussianBlur stdDeviation="16"/></filter>
+      </defs>
+      <ellipse cx="450" cy="276" rx="275" ry="17" fill="#7a55ff" opacity=".23" filter="url(#p-shadow)"/>
+      <g stroke="url(#p-frame)" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M93 119 Q54 95 28 62" fill="none"/><path d="M807 119 Q846 95 872 62" fill="none"/>
+        <path d="M86 111 Q91 76 128 73 L353 73 Q397 75 403 116 L392 235 Q388 268 351 271 L143 271 Q103 269 96 235 Z" fill="url(#p-lens)"/>
+        <path d="M497 116 Q503 75 547 73 L772 73 Q809 76 814 111 L804 235 Q797 269 757 271 L549 271 Q512 268 508 235 Z" fill="url(#p-lens)"/>
+        <path d="M403 126 Q450 104 497 126" fill="none" strokeWidth="16"/>
+        <path d="M110 104 Q226 78 340 101" fill="none" stroke="#fff" strokeOpacity=".16" strokeWidth="4"/>
+        <path d="M560 101 Q674 78 790 104" fill="none" stroke="#fff" strokeOpacity=".16" strokeWidth="4"/>
+      </g>
+      <g fill="none" stroke="url(#p-glint)" strokeWidth="2"><path d="M99 112 Q105 82 132 82 L354 82 Q386 84 393 118"/><path d="M507 118 Q514 84 546 82 L768 82 Q795 82 801 112"/></g>
+      <circle cx="103" cy="122" r="6" fill="#a98cff"/><circle cx="797" cy="122" r="6" fill="#a98cff"/>
+    </svg>
+    <span className="minimal-glasses-label">PEMURA ONE</span>
+  </div>;
+}
 
 function PemuraHome() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scenario, setScenario] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [demoInView, setDemoInView] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
-  const [activeHardware, setActiveHardware] = useState(0);
-  const [glassesTilt, setGlassesTilt] = useState({ x: 0, y: 0 });
-  const [sent, setSent] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const demoSectionRef = useRef<HTMLElement>(null);
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({ resolver: zodResolver(schema) });
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-      if (event.key === "Tab" && menuRef.current) {
-        const items = menuRef.current.querySelectorAll<HTMLElement>("a,button");
-        if (!items.length) return;
-        const first = items.item(0), last = items.item(items.length - 1);
-        if (!first || !last) return;
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    menuRef.current?.querySelector<HTMLElement>("a")?.focus();
-    return () => document.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    const node = demoSectionRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (entry) setDemoInView(entry.isIntersecting);
-    }, { threshold: 0.2 });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (paused || !demoInView || reducedMotion) return;
-    const timer = window.setInterval(() => {
-      setScenario((current) => (current + 1) % demos.length);
-      setConfirmed(false);
-    }, 10000);
-    return () => window.clearInterval(timer);
-  }, [paused, demoInView, reducedMotion]);
-
-  const currentDemo = demos[scenario] ?? demos[0]!;
-  const onSubmit = async (values: FormValues) => {
-    await submitEmail(values.email);
-    setSent(true);
-  };
+  const [showAllSpecs, setShowAllSpecs] = useState(false);
+  const nav = [
+    ["Visão geral", "#inicio"],
+    ["Experiência", "#experiencia"],
+    ["Tecnologia", "#tecnologia"],
+    ["O projeto", "#projeto"],
+  ];
   const closeMenu = () => setMenuOpen(false);
-  const nav = site.nav;
 
-  return <div id="top">
-    <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
-    <header className="header">
-      <div className="header-inner">
-        <a href="#top" className="brand" aria-label="Pemura, início"><Logo /></a>
-        <nav className="desktop-nav" aria-label="Navegação principal">{nav.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
-        <a className="header-cta" href="#acompanhar">Conhecer a Pemura <ArrowUpRight size={15}/></a>
-        <button className="menu-button" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button>
-      </div>
+  return <div className="pemura-minimal" id="inicio">
+    <header className="minimal-header">
+      <a href="#inicio" className="minimal-brand" aria-label="Pemura, início">PEMURA<span>®</span></a>
+      <nav className="minimal-nav" aria-label="Navegação principal">{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
+      <a className="minimal-store-link" href="/loja">Loja <ArrowUpRight size={15}/></a>
+      <button className="minimal-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}>{menuOpen ? <X/> : <Menu/>}</button>
     </header>
-    {menuOpen && <div className="mobile-menu" ref={menuRef} role="dialog" aria-modal="true" aria-label="Menu principal">
-      <div className="mobile-menu-top"><Logo/><button className="menu-button" onClick={closeMenu} aria-label="Fechar menu"><X/></button></div>
-      <nav>{nav.map((item, index) => <a key={item.href} style={{ transitionDelay: `${index * 70}ms` }} href={item.href} onClick={closeMenu}>{item.label}<ArrowUpRight/></a>)}</nav>
-      <a className="pill-button menu-cta" href="#acompanhar" onClick={closeMenu}>Quero acompanhar a Pemura <ArrowRight/></a>
-    </div>}
+    {menuOpen && <div className="minimal-mobile-menu"><div className="minimal-mobile-top"><span className="minimal-brand">PEMURA<span>®</span></span><button onClick={closeMenu} aria-label="Fechar menu"><X/></button></div>{nav.map(([label, href]) => <a key={href} href={href} onClick={closeMenu}>{label}<ArrowUpRight/></a>)}<a href="/loja" onClick={closeMenu}>Loja<ArrowUpRight/></a></div>}
 
-    <main id="conteudo">
-    <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-light hero-light-one"/><div className="hero-light hero-light-two"/>
-      <div className="hero-inner">
-        <div className="hero-visual-wrap" onPointerMove={(event) => { const rect = event.currentTarget.getBoundingClientRect(); setGlassesTilt({ x: ((event.clientY - rect.top) / rect.height - .5) * -12, y: ((event.clientX - rect.left) / rect.width - .5) * 18 }); }} onPointerLeave={() => setGlassesTilt({ x: 0, y: 0 })}><div className="hero-3d-stage" style={{ transform: `perspective(1100px) rotateX(${glassesTilt.x}deg) rotateY(${glassesTilt.y}deg)` }}><GlassesVisual/></div><span className="three-d-hint">MOVA O CURSOR · VISUAL 3D INTERATIVO</span></div>
-        <div className="hero-copy">
-          <div className="status-pill"><span className="status-dot"/> {site.status}</div>
-          <Eyebrow>{site.hero.eyebrow}</Eyebrow>
-          <h1 id="hero-title"><span>PEMURA</span><span className="outline">O FUTURO</span><em>diante de seus olhos<span className="blue-period">.</span></em></h1>
-          <p>{site.hero.description}</p><p className="hero-promise">{site.promise}</p>
-          <div className="hero-actions"><a className="pill-button" href="#experiencia">Conhecer a Pemura <ArrowRight/></a><a className="text-link" href="#como-funciona">Ver como funciona <ArrowDown/></a></div>
+    <main>
+      <section className="minimal-hero">
+        <div className="minimal-hero-copy">
+          <span className="minimal-kicker"><i/> ÓCULOS INTELIGENTES COM IA</span>
+          <h1>O mundo<br/>não precisa<br/>esperar sua <em>tela.</em></h1>
+          <p>Uma nova forma de interagir com a tecnologia. Natural, por voz e sempre com você.</p>
+          <div className="minimal-actions"><a className="minimal-primary" href="#experiencia">Descobrir a Pemura <ArrowRight size={17}/></a><a className="minimal-secondary" href="/loja">Conhecer o produto <ArrowUpRight size={16}/></a></div>
         </div>
-      </div>
-      <a className="scroll-cue" href="#interface"><span>ROLE PARA DESCOBRIR</span><span className="scroll-line"/></a>
-      <span className="hero-index">PEMURA / 001 — INTERFACE VESTÍVEL</span>
-    </section>
+        <div className="minimal-hero-art"><div className="minimal-orbit orbit-a"/><div className="minimal-orbit orbit-b"/><Glasses/><span className="minimal-art-note">DESIGN CONCEITUAL · PEMURA ONE</span></div>
+        <span className="minimal-scroll">ROLE PARA EXPLORAR <span/></span>
+      </section>
 
-
-    <section className="section interface-section" id="interface" aria-labelledby="interface-title">
-      <div className="container">
-        <Reveal><Eyebrow>01 — INTERFACE</Eyebrow><h2 id="interface-title">Não é apenas um óculos.<br/>É uma nova <i>interface.</i></h2>
-          <p className="section-intro">{site.interfaceDescription}</p></Reveal>
-        <div className="flow-line" aria-label="Fluxo: você, Pemura, inteligência artificial e mundo digital">
-          {flow.map(([label, text], index) => <div className="flow-node" key={label}><span className="node-index">0{index + 1}</span><span className="node-orb"><i/></span><strong>{label}</strong><small>{text}</small></div>)}
+      <section className="minimal-intro" id="experiencia">
+        <Reveal className="minimal-intro-inner">
+          <span className="minimal-kicker">UMA NOVA EXPERIÊNCIA</span>
+          <h2>Você fala.<br/><em>A Pemura entende.</em></h2>
+          <p>Peça, pergunte e interaja sem precisar tirar o celular do bolso. A Pemura conecta sua voz à inteligência do smartphone.</p>
+        </Reveal>
+        <div className="minimal-feature-list">
+          <Reveal className="minimal-feature"><span className="minimal-feature-icon"><Mic2/></span><div><h3>Interação por voz</h3><p>Fale naturalmente, sem depender de comandos complicados.</p></div><ArrowUpRight/></Reveal>
+          <Reveal className="minimal-feature"><span className="minimal-feature-icon"><AudioLines/></span><div><h3>Áudio integrado</h3><p>Receba respostas e informações diretamente pelos óculos.</p></div><ArrowUpRight/></Reveal>
+          <Reveal className="minimal-feature"><span className="minimal-feature-icon"><Smartphone/></span><div><h3>Conectada ao celular</h3><p>O smartphone faz a ponte com os serviços e a inteligência artificial.</p></div><ArrowUpRight/></Reveal>
         </div>
-        <p className="flow-caption">VOZ <span>→</span> ÓCULOS <span>→</span> BLUETOOTH <span>→</span> APP PEMURA <span>→</span> IA <span>→</span> CELULAR / SERVIÇOS</p>
-      </div>
-    </section>
+      </section>
 
-    <section className="section demo-section" id="experiencia" aria-labelledby="demo-title" ref={demoSectionRef}>
-      <div className="container">
-        <Reveal className="demo-heading"><div><Eyebrow>02 — EM AÇÃO</Eyebrow><h2 id="demo-title">Fale. <i>Veja acontecer.</i></h2></div><p>Uma conversa natural pode iniciar uma ação. Quando ela exige uma decisão sua, a Pemura pede confirmação.</p></Reveal>
-        <div className="demo-shell">
-          <aside className="demo-sidebar" aria-label="Cenários da demonstração">
-            <span className="eyebrow">ESCOLHA UMA CENA</span>
-            <div className="scenario-tabs">{demos.map((demo, index) => <button key={demo.title} className={scenario === index ? "scenario active" : "scenario"} onClick={() => { setScenario(index); setConfirmed(false); setPaused(false); }}><span>0{index + 1}</span>{demo.title}<ArrowUpRight size={15}/></button>)}</div>
-          </aside>
-          <div className="demo-device">
-            <div className="device-top"><span className="device-brand">PEMURA / VOICE</span><span className="device-state"><i/> CONECTADO</span></div>
-            <div className="waveform" aria-hidden="true">{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ "--bar": `${10 + ((i * 17) % 35)}px`, animationDelay: `${i * 22}ms` } as CSSProperties}/>)}</div>
-            <div className="conversation" aria-live="polite" aria-atomic="true">
-              {currentDemo.messages.map(([speaker, message], index) => <div key={index} style={{ animationDelay: `${index * 260}ms` }} className={speaker === "Você" ? "message user-message" : "message pemura-message"}><span>{speaker === "Você" ? "VOCÊ" : "PEMURA"}</span><p>{message}</p></div>)}
-              {currentDemo.confirmation && <div className="confirm-note"><span className="confirm-indicator"/> {confirmed ? "CONFIRMAÇÃO REGISTRADA · SIMULAÇÃO" : "AÇÃO SENSÍVEL · CONFIRMAÇÃO DO USUÁRIO"} {!confirmed && <button onClick={() => { setConfirmed(true); setPaused(true); }}>Confirmar</button>}</div>}
-            </div>
-            <div className="demo-bottom"><span><i/> {currentDemo.confirmation && !confirmed ? "AGUARDANDO CONFIRMAÇÃO" : "CONCLUÍDO"}</span><button className="pause-button" onClick={() => setPaused(!paused)} aria-label={paused ? "Retomar demonstração" : "Pausar demonstração"}>{paused ? <Play size={14}/> : <Pause size={14}/>} {paused ? "RETOMAR" : "PAUSAR"}</button></div>
+      <section className="minimal-how" id="como-funciona">
+        <Reveal className="minimal-section-heading"><span className="minimal-kicker">SIMPLES DE USAR</span><h2>Da sua voz<br/>à <em>ação.</em></h2></Reveal>
+        <div className="minimal-process">
+          <Reveal className="minimal-process-item"><span className="minimal-process-icon"><Mic2/></span><h3>Você fala</h3><p>O microfone capta sua solicitação.</p></Reveal>
+          <Reveal className="minimal-process-item"><span className="minimal-process-icon"><Bluetooth/></span><h3>O celular conecta</h3><p>O aplicativo recebe e encaminha o pedido.</p></Reveal>
+          <Reveal className="minimal-process-item"><span className="minimal-process-icon"><Sparkles/></span><h3>A IA responde</h3><p>A resposta chega pelo áudio dos óculos.</p></Reveal>
+        </div>
+      </section>
+
+      <section className="minimal-tech" id="tecnologia">
+        <div className="minimal-tech-head"><Reveal><span className="minimal-kicker">POR DENTRO DA PEMURA</span><h2>Tecnologia feita<br/>para <em>desaparecer.</em></h2></Reveal><p>O essencial para uma experiência leve: captação de voz, processamento, conectividade e áudio.</p></div>
+        <div className="minimal-tech-feature">
+          <div className="minimal-tech-visual"><div className="minimal-chip"><Cpu/><span>PEMURA</span></div><div className="minimal-chip-line line-one"/><div className="minimal-chip-line line-two"/><div className="minimal-chip-line line-three"/></div>
+          <div className="minimal-tech-points">
+            <div><Mic2/><span><b>Microfone MEMS</b><small>Captação digital de voz</small></span></div>
+            <div><Volume2/><span><b>Áudio compacto</b><small>Respostas sonoras integradas</small></span></div>
+            <div><Bluetooth/><span><b>Bluetooth Low Energy</b><small>Conexão com o smartphone</small></span></div>
+            <div><Camera/><span><b>Câmera OV2640</b><small>Componente em avaliação para versões futuras</small></span></div>
           </div>
         </div>
-        <p className="demo-disclaimer">{disclaimers.demo}</p>
-      </div>
-    </section>
+        <div className="minimal-spec-toggle"><button onClick={() => setShowAllSpecs(!showAllSpecs)} aria-expanded={showAllSpecs}>{showAllSpecs ? "Ocultar especificações completas" : "Ver especificações completas"}<ChevronDown className={showAllSpecs ? "turned" : ""}/></button></div>
+        {showAllSpecs && <div className="minimal-spec-details">
+          <div><h3>Hardware</h3>{specifications.map((item) => <article key={item.name}><span>{item.category}</span><b>{item.name}</b><p>{item.detail}</p><small>{item.status}</small></article>)}</div>
+          <div><h3>Software</h3>{softwareSpecifications.map((item) => <article key={item.name}><span>{item.category}</span><b>{item.name}</b><p>{item.detail}</p></article>)}</div>
+          <p className="minimal-note">A Pemura está em desenvolvimento. Os componentes e recursos indicados são referências de projeto e ainda dependem de integração e testes.</p>
+        </div>}
+      </section>
 
-    <section className="section intelligence-section" aria-labelledby="intelligence-title">
-      <div className="container">
-        <Reveal><Eyebrow>03 — INTELIGÊNCIA</Eyebrow><h2 id="intelligence-title">Você fala. A Pemura <i>entende.</i></h2><p className="section-intro">Não é um comando decorado. É uma interface natural entre você, a IA e os serviços digitais.</p></Reveal>
-        <div className="intelligence-flow">{[["01","FALAR","Sua voz inicia a conversa."],["02","ENTENDER","A intenção ganha contexto."],["03","DECIDIR","O sistema prepara o próximo passo."],["04","AGIR","A ação segue para o serviço conectado."]].map(([n,t,d],i)=><Reveal key={n} className="intelligence-step"><span>{n}</span><div className={`step-symbol symbol-${i}`}>{i===0?<div className="mini-wave"><i/><i/><i/><i/><i/></div>:i===1?<div className="converge"><i/><i/><i/><b/></div>:i===2?<div className="decision"><i/><i/><b/></div>:<div className="pulse-out"><i/></div>}</div><h3>{t}</h3><p>{d}</p></Reveal>)}</div>
-      </div>
-    </section>
-
-    <section className="section pocket-section" aria-labelledby="pocket-title">
-      <div className="container">
-        <Reveal><Eyebrow>04 — LIBERDADE</Eyebrow><h2 id="pocket-title">Menos tela. <i>Mais vida.</i></h2><p className="section-intro">Menos tempo olhando para uma tela, mais tempo vivendo o momento.</p></Reveal>
-        <div className="bento-grid">
-          {moments.map((item,index)=><article key={item.id} className={`bento-tile tile-${index+1} tile-${item.kind}`}><div className="tile-top"><span>0{index+1} / PEMURA</span><ArrowUpRight size={16}/></div><div className="tile-art" aria-hidden="true">{item.kind==="message"?<div className="chat-art"><i>Estou chegando.</i><b>Mensagem pronta</b></div>:item.kind==="audio"?<div className="equalizer">{Array.from({length:17},(_,i)=><i key={i}/>)}</div>:item.kind==="route"?<div className="route-art"><svg viewBox="0 0 180 90"><path d="M10 70 Q45 65 54 30 T105 40 T170 12" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 5"/><circle cx="10" cy="70" r="4" fill="currentColor"/><circle cx="170" cy="12" r="4" fill="currentColor"/></svg></div>:item.kind==="call"?<div className="call-art"><span>•••</span><i/></div>:item.kind==="assistant"?<div className="ai-art">?</div>:item.kind==="translate"?<div className="translate-art">Olá <span>↔</span> Hello</div>:<div className="service-art"><span>PRONTO</span><Check/></div>}</div><h3>{item.title}</h3><p>{item.text}</p></article>)}
-          <article className="bento-tile tile-concept"><span className="eyebrow">UMA NOVA INTERAÇÃO</span><strong>0</strong><p>toques no celular para iniciar uma conversa por voz.</p><small>*Ilustração de conceito, não uma métrica medida.</small></article>
-          <article className="bento-tile tile-ring"><div className="progress-ring"><svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="60"/><circle className="ring-progress" cx="70" cy="70" r="60" style={{ strokeDashoffset: 377 - (377 * site.progress.value) / 100 }}/></svg><div><span>ETAPA</span><strong>{site.progress.label.split(" → ")[0]}</strong><small>→ {site.progress.label.split(" → ")[1]}</small></div></div><p>SEM PEGAR O CELULAR</p><a href="#como-funciona">VER A HISTÓRIA <ArrowUpRight size={13}/></a></article>
-        </div>
-      </div>
-    </section>
-
-    <section className="section hardware-section" id="hardware" aria-labelledby="hardware-title">
-      <div className="container">
-        <Reveal className="hardware-heading"><div><Eyebrow>05 — ENGENHARIA</Eyebrow><h2 id="hardware-title">Engenharia que <i>desaparece.</i></h2></div><p>A primeira versão prioriza o essencial: uma interface vestível, simples de usar e conectada ao seu celular.</p></Reveal>
-        <div className="hardware-layout"><div className="hardware-visual"><GlassesVisual compact/><button type="button" className={activeHardware===0 ? "hotspot hotspot-1 active" : "hotspot hotspot-1"} onClick={() => setActiveHardware(0)} aria-label="Mostrar microfone"/><button type="button" className={activeHardware===1 ? "hotspot hotspot-2 active" : "hotspot hotspot-2"} onClick={() => setActiveHardware(1)} aria-label="Mostrar alto-falantes"/><button type="button" className={activeHardware===2 ? "hotspot hotspot-3 active" : "hotspot hotspot-3"} onClick={() => setActiveHardware(2)} aria-label="Mostrar bluetooth"/><button type="button" className={activeHardware===3 ? "hotspot hotspot-4 active" : "hotspot hotspot-4"} onClick={() => setActiveHardware(3)} aria-label="Mostrar botão físico"/><button type="button" className={activeHardware===4 ? "hotspot hotspot-5 active" : "hotspot hotspot-5"} onClick={() => setActiveHardware(4)} aria-label="Mostrar conexão com o celular"/></div>
-          <div className="hardware-list">{hardware.map(([title,desc],index)=><button key={title} className={activeHardware===index?"hardware-point selected":"hardware-point"} onClick={()=>setActiveHardware(index)}><span>0{index+1}</span><strong>{title}</strong><ArrowUpRight size={15}/>{activeHardware===index&&<span className="hardware-detail">{desc}</span>}</button>)}</div>
-        </div>
-        <p className="hardware-note">{disclaimers.hardware} <a href="#futuro">O restante da plataforma vem depois <ArrowUpRight size={13}/></a></p>
-      </div>
-    </section>
-
-
-    <section className="section specs-section" id="especificacoes" aria-labelledby="specs-title">
-      <div className="container">
-        <Reveal className="specs-heading">
-          <div><Eyebrow>06 — POR DENTRO DA PEMURA</Eyebrow><h2 id="specs-title">Cada peça tem <i>um propósito.</i></h2></div>
-          <p>Uma visão transparente da arquitetura planejada: componentes de referência, alternativas e pontos que ainda precisam de validação no protótipo.</p>
-        </Reveal>
-        <div className="specs-intro-line"><span>HARDWARE / COMPONENTES</span><span>ARQUITETURA PROPOSTA · NÃO É UM PRODUTO FINALIZADO</span></div>
-        <div className="specs-grid">
-          {specifications.map((item,index)=><Reveal key={item.category} className="spec-card">
-            <div className="spec-card-top"><span>0{index+1}</span><span className="spec-status">{item.status}</span></div>
-            <p className="spec-category">{item.category}</p>
-            <h3>{item.name}</h3>
-            <p className="spec-detail">{item.detail}</p>
-            <span className="spec-card-orbit" aria-hidden="true"/>
-          </Reveal>)}
-        </div>
-        <div className="software-heading"><Eyebrow>CAMADA DIGITAL</Eyebrow><h3>O hardware é só metade da experiência.</h3><p>O aplicativo e os serviços de voz e IA completam a experiência. Os itens abaixo são partes planejadas, não integrações já concluídas.</p></div>
-        <div className="software-grid">
-          {softwareSpecifications.map((item,index)=><Reveal key={item.category} className="software-card">
-            <span>0{index+1} / {item.category}</span><h4>{item.name}</h4><p>{item.detail}</p>
-          </Reveal>)}
-        </div>
-        <p className="specs-footnote">Importante: os componentes ainda precisam passar por testes de compatibilidade elétrica, consumo, temperatura, dimensões, áudio, autonomia e montagem na armação. Modelos alternativos não significam que todos serão usados juntos.</p>
-      </div>
-    </section>
-
-    <section className="section architecture-section" id="como-funciona" aria-labelledby="architecture-title">
-      <div className="container">
-        <Reveal><Eyebrow>07 — ARQUITETURA</Eyebrow><h2 id="architecture-title">Do que você diz ao que <i>acontece.</i></h2></Reveal>
-        <div className="architecture-layout">
-          <div className="architecture-visual"><div className="arch-node active"><span>01</span><strong>ÓCULOS</strong><small>INTERFACE</small></div><i>⇄</i><div className="arch-node"><span>02</span><strong>CELULAR</strong><small>COMPUTADOR</small></div><i>⇄</i><div className="arch-node"><span>03</span><strong>IA</strong><small>CÉREBRO</small></div><i>⇄</i><div className="arch-node"><span>04</span><strong>SERVIÇOS</strong><small>CONEXÕES</small></div></div>
-          <div className="timeline">{steps.map(([title,desc],index)=><Reveal key={title} className="timeline-step"><span className="timeline-number">0{index+1}</span><div><h3>{title}</h3><p>{desc}</p></div></Reveal>)}</div>
-        </div>
-        <p className="architecture-manifesto">Os óculos são a interface.<br/>O celular é o computador.<br/><i>A IA é o cérebro.</i></p>
-        <p className="fine-print">{disclaimers.compatibility}</p>
-      </div>
-    </section>
-
-    <section className="section future-section" id="futuro" aria-labelledby="future-title">
-      <div className="container">
-        <Reveal><Eyebrow>08 — O QUE VEM</Eyebrow><h2 id="future-title">A primeira versão é só o <i>começo.</i></h2></Reveal>
-        <div className="future-track">
-          {futureStages.map((stage) => <article key={stage.state} className={`future-stage ${stage.state}`}><span className="stage-marker"/><small>{stage.status}</small><h3>{stage.title}</h3><p>{stage.text}</p><b>{stage.label}</b></article>)}
-        </div>
-        <p className="fine-print">{disclaimers.future}</p>
-      </div>
-    </section>
-
-    <section className="vision-section" aria-label="Visão da Pemura">
-      <div className="vision-glow"/>
-      <div className="vision-copy"><Eyebrow>VISÃO — UMA OUTRA RELAÇÃO COM A TECNOLOGIA</Eyebrow><p>A tecnologia não deveria exigir que você olhe para ela o tempo inteiro.</p><p>Ela deveria <i>desaparecer</i> na experiência.</p><p>A Pemura coloca inteligência à sua disposição sem interromper o mundo ao seu redor.</p></div>
-    </section>
-
-    <section className="section creators-section" id="criadores" aria-labelledby="creators-title">
-      <div className="container">
-        <Reveal><Eyebrow>09 — QUEM CONSTRÓI</Eyebrow><h2 id="creators-title">Feito por quem <i>acredita</i> nisso.</h2><p className="section-intro">Três criadores. Uma ideia: tirar a tecnologia do caminho.</p></Reveal>
-        <div className="creator-grid">{creators.map((person,index)=><Reveal key={person.initials} className="creator-tile"><div className="creator-avatar">{person.photo?<img src={person.photo} alt={person.name} loading="lazy" width="128" height="128"/>:<span>{person.initials}</span>}</div><span className="creator-index">PEMURA / 0{index+1}</span><h3>{person.name}</h3><p>{person.role || "CRIADOR · PEMURA"}</p><div className="creator-links">{Object.entries(person.links).map(([label, url]) => <a key={label} href={url} target="_blank" rel="noreferrer">{label}</a>)}</div></Reveal>)}</div>
-        <p className="creator-signoff">Pemura nasceu de uma pergunta simples: <i>por que o futuro ainda cabe só na palma da mão?</i></p>
-      </div>
-    </section>
-
-    <section className="final-section" id="acompanhar" aria-labelledby="final-title">
-      <div className="final-beam"/>
-      <div className="final-inner"><div className="status-pill"><span className="status-dot"/>{site.status}</div><Eyebrow>O PRÓXIMO CAPÍTULO COMEÇA AQUI</Eyebrow><h2 id="final-title">O futuro está <i>diante dos seus olhos.</i></h2><p>Conheça a Pemura.</p>
-        {!sent ? <form className="waitlist-form" onSubmit={handleSubmit(onSubmit)} noValidate><label htmlFor="email">SEU E-MAIL</label><div className="email-row"><input id="email" type="email" placeholder="voce@email.com" autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email?"email-error":"email-help"} {...register("email")}/><button type="submit" disabled={isSubmitting}>Quero acompanhar a Pemura <ArrowRight size={17}/></button></div>{errors.email&&<p className="form-error" id="email-error" role="alert">{errors.email.message}</p>}<p className="form-privacy" id="email-help">{site.privacy}</p></form>:<div className="success-message" role="status"><Check/> Obrigado. Você será avisado quando houver novidades.</div>}
-      </div>
-    </section>
-
+      <section className="minimal-project" id="projeto">
+        <div className="minimal-project-glow"/>
+        <Reveal><span className="minimal-kicker">O PROJETO</span><h2>Mais liberdade.<br/><em>Menos distração.</em></h2><p>{site.promise}</p><a className="minimal-primary" href="/loja">Explorar Pemura One <ArrowRight size={17}/></a></Reveal>
+      </section>
     </main>
-    <footer className="footer">
-      <div className="footer-main"><a href="#top" className="brand"><Logo/></a><p>{site.footer}</p><nav aria-label="Links do rodapé">{nav.map((item)=><a key={item.href} href={item.href}>{item.label}</a>)}</nav>{site.social.length > 0 && <div className="footer-social">{site.social.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noreferrer">{social.label}</a>)}</div>}<a href="#top" className="back-top">VOLTAR AO TOPO ↑</a></div>
-      <div className="footer-bottom"><span>© 2026 PEMURA. TODOS OS DIREITOS RESERVADOS.</span><span>FEITO NO BRASIL.</span></div>
-    </footer>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "PEMURA", description: "Óculos inteligentes com IA controlados por voz." }) }} />
+
+    <footer className="minimal-footer"><a href="#inicio" className="minimal-brand">PEMURA<span>®</span></a><span>O futuro diante de seus olhos.</span><a href="/loja">Conheça a loja <ArrowUpRight size={15}/></a><small>© 2026 PEMURA · Projeto em desenvolvimento</small></footer>
   </div>;
 }
