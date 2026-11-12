@@ -81,14 +81,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Pemura — Inteligência em uma nova perspectiva" },
-      { name: "description", content: "Conheça Pemura: conceito de óculos inteligentes com câmera, microfone, áudio e inteligência artificial conectada ao smartphone." },
+      { title: "PEMURA — O futuro diante de seus olhos" },
+      { name: "description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age. Conheça o futuro diante dos seus olhos." },
       { name: "author", content: "Pemura" },
-      { property: "og:title", content: "Pemura — Inteligência em uma nova perspectiva" },
-      { property: "og:description", content: "Tecnologia que acompanha o seu olhar." },
+      { property: "og:title", content: "PEMURA — O futuro diante de seus olhos" },
+      { property: "og:description", content: "Óculos inteligentes com IA que você controla pela voz. Fale, a Pemura entende e age." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#090710" },
+      { name: "theme-color", content: "#05060A" },
     ],
     links: [
       {
