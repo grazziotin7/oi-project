@@ -110,3 +110,9 @@ h2 i{font-size:1.08em}
 }
 @media(max-width:390px){.container,.hero-inner{width:calc(100% - 32px)}.header-inner{width:calc(100% - 32px)}.hero h1{font-size:47px}.hero h1 em{font-size:41px}.bento-grid{grid-auto-rows:minmax(190px,auto)}.bento-tile{padding:13px}.tile-ring .progress-ring{width:100px;height:100px}.tile-ring{min-height:205px}.arch-node strong{font-size:8px}.architecture-visual{padding-inline:5px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none;filter:none}.hero-visual-wrap{animation:none}.waveform i,.equalizer i,.status-dot{animation:none}.flow-line:before{animation:none}}
+
+.message{animation:messageIn .55s cubic-bezier(.22,1,.36,1) both}
+@keyframes messageIn{from{opacity:0;transform:translateY(9px);filter:blur(3px)}to{opacity:1;transform:none;filter:blur(0)}}
+.creator-links{display:flex;gap:12px;margin-top:10px}.creator-links a{font:9px var(--display);letter-spacing:.1em;color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:767px){.scenario-tabs{display:flex;gap:7px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding-bottom:4px}.scenario-tabs::-webkit-scrollbar{display:none}.demo-sidebar .scenario{flex:0 0 auto}.demo-sidebar{overflow:hidden}}
+@media(prefers-reduced-motion:reduce){.message{animation:none;opacity:1;transform:none;filter:none}}
