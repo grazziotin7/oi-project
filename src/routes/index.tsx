@@ -136,7 +136,10 @@ function PemuraHome() {
   useEffect(() => {
     const node = demoSectionRef.current;
     if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => setDemoInView(entry.isIntersecting), { threshold: 0.2 });
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry) setDemoInView(entry.isIntersecting);
+    }, { threshold: 0.2 });
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
