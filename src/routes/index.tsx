@@ -34,7 +34,7 @@ function Logo() {
   const [failed, setFailed] = useState(false);
   // SUBSTITUIR PELO ASSET OFICIAL quando a logo vetorial for adicionada ao projeto.
   return failed
-    ? <span className="logo-word">PEMURA<span className="logo-dot">.</span></span>
+    ? <span className="logo-word">PEMURA</span>
     : <img className="logo-image" src="/src/assets/pemura-logo.svg" alt="PEMURA" onError={() => setFailed(true)} />;
 }
 
@@ -171,7 +171,7 @@ function PemuraHome() {
     {menuOpen && <div className="mobile-menu" ref={menuRef} role="dialog" aria-modal="true" aria-label="Menu principal">
       <div className="mobile-menu-top"><Logo/><button className="menu-button" onClick={closeMenu} aria-label="Fechar menu"><X/></button></div>
       <nav>{nav.map((item, index) => <a key={item.href} style={{ transitionDelay: `${index * 70}ms` }} href={item.href} onClick={closeMenu}>{item.label}<ArrowUpRight/></a>)}</nav>
-      <a className="pill-button menu-cta" href="#acompanhar" onClick={closeMenu}>Quero acompanhar <ArrowRight/></a>
+      <a className="pill-button menu-cta" href="#acompanhar" onClick={closeMenu}>Quero acompanhar a Pemura <ArrowRight/></a>
     </div>}
 
     <main id="conteudo">
@@ -237,7 +237,7 @@ function PemuraHome() {
         <div className="bento-grid">
           {moments.map((item,index)=><article key={item.id} className={`bento-tile tile-${index+1} tile-${item.kind}`}><div className="tile-top"><span>0{index+1} / PEMURA</span><ArrowUpRight size={16}/></div><div className="tile-art" aria-hidden="true">{item.kind==="message"?<div className="chat-art"><i>Estou chegando.</i><b>Mensagem pronta</b></div>:item.kind==="audio"?<div className="equalizer">{Array.from({length:17},(_,i)=><i key={i}/>)}</div>:item.kind==="route"?<div className="route-art"><svg viewBox="0 0 180 90"><path d="M10 70 Q45 65 54 30 T105 40 T170 12" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 5"/><circle cx="10" cy="70" r="4" fill="currentColor"/><circle cx="170" cy="12" r="4" fill="currentColor"/></svg></div>:item.kind==="call"?<div className="call-art"><span>•••</span><i/></div>:item.kind==="assistant"?<div className="ai-art">?</div>:item.kind==="translate"?<div className="translate-art">Olá <span>↔</span> Hello</div>:<div className="service-art"><span>PRONTO</span><Check/></div>}</div><h3>{item.title}</h3><p>{item.text}</p></article>)}
           <article className="bento-tile tile-concept"><span className="eyebrow">UMA NOVA INTERAÇÃO</span><strong>0</strong><p>toques no celular para iniciar uma conversa por voz.</p><small>*Ilustração de conceito, não uma métrica medida.</small></article>
-          <article className="bento-tile tile-ring"><div className="progress-ring"><svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="60"/><circle className="ring-progress" cx="70" cy="70" r="60"/></svg><div><span>ETAPA</span><strong>VOZ</strong><small>→ BLUETOOTH</small></div></div><p>SEM PEGAR O CELULAR</p><a href="#como-funciona">VER A HISTÓRIA <ArrowUpRight size={13}/></a></article>
+          <article className="bento-tile tile-ring"><div className="progress-ring"><svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="60"/><circle className="ring-progress" cx="70" cy="70" r="60" style={{ strokeDashoffset: 377 - (377 * site.progress.value) / 100 }}/></svg><div><span>ETAPA</span><strong>{site.progress.label.split(" → ")[0]}</strong><small>→ {site.progress.label.split(" → ")[1]}</small></div></div><p>SEM PEGAR O CELULAR</p><a href="#como-funciona">VER A HISTÓRIA <ArrowUpRight size={13}/></a></article>
         </div>
       </div>
     </section>
@@ -245,7 +245,7 @@ function PemuraHome() {
     <section className="section hardware-section" id="hardware" aria-labelledby="hardware-title">
       <div className="container">
         <Reveal className="hardware-heading"><div><Eyebrow>05 — ENGENHARIA</Eyebrow><h2 id="hardware-title">Engenharia que <i>desaparece.</i></h2></div><p>A primeira versão prioriza o essencial: uma interface vestível, simples de usar e conectada ao seu celular.</p></Reveal>
-        <div className="hardware-layout"><div className="hardware-visual"><GlassesVisual compact/><div className="hotspot hotspot-1"/><div className="hotspot hotspot-2"/><div className="hotspot hotspot-3"/><div className="hotspot hotspot-4"/><div className="hotspot hotspot-5"/></div>
+        <div className="hardware-layout"><div className="hardware-visual"><GlassesVisual compact/><button type="button" className={activeHardware===0 ? "hotspot hotspot-1 active" : "hotspot hotspot-1"} onClick={() => setActiveHardware(0)} aria-label="Mostrar microfone"/><button type="button" className={activeHardware===1 ? "hotspot hotspot-2 active" : "hotspot hotspot-2"} onClick={() => setActiveHardware(1)} aria-label="Mostrar alto-falantes"/><button type="button" className={activeHardware===2 ? "hotspot hotspot-3 active" : "hotspot hotspot-3"} onClick={() => setActiveHardware(2)} aria-label="Mostrar bluetooth"/><button type="button" className={activeHardware===3 ? "hotspot hotspot-4 active" : "hotspot hotspot-4"} onClick={() => setActiveHardware(3)} aria-label="Mostrar botão físico"/><button type="button" className={activeHardware===4 ? "hotspot hotspot-5 active" : "hotspot hotspot-5"} onClick={() => setActiveHardware(4)} aria-label="Mostrar conexão com o celular"/></div>
           <div className="hardware-list">{hardware.map(([title,desc],index)=><button key={title} className={activeHardware===index?"hardware-point selected":"hardware-point"} onClick={()=>setActiveHardware(index)}><span>0{index+1}</span><strong>{title}</strong><ArrowUpRight size={15}/>{activeHardware===index&&<span className="hardware-detail">{desc}</span>}</button>)}</div>
         </div>
         <p className="hardware-note">{disclaimers.hardware} <a href="#futuro">O restante da plataforma vem depois <ArrowUpRight size={13}/></a></p>
