@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as LojaRouteImport } from './routes/loja'
+import { Route as LojaRouteImport } from './routes/loja'\nimport { Route as AiRouteImport } from './routes/ai'
 
 const LojaRoute = LojaRouteImport.update({
   id: '/loja',
@@ -18,7 +18,7 @@ const LojaRoute = LojaRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 
-const IndexRoute = IndexRouteImport.update({
+const AiRoute = AiRouteImport.update({\n  id: '/ai',\n  path: '/ai',\n  getParentRoute: () => rootRouteImport,\n} as any)\n\nconst IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
@@ -26,7 +26,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/loja': typeof LojaRoute
+  '/loja': typeof LojaRoute\n  '/ai': typeof AiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -39,15 +39,15 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/loja'
+  fullPaths: '/' | '/loja' | '/ai'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/loja'
-  id: '__root__' | '/' | '/loja'
+  to: '/' | '/loja' | '/ai'
+  id: '__root__' | '/' | '/loja' | '/ai'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LojaRoute: typeof LojaRoute
+  LojaRoute: typeof LojaRoute\n  AiRoute: typeof AiRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -71,7 +71,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LojaRoute: LojaRoute,
+  LojaRoute: LojaRoute,\n  AiRoute: AiRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
