@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -74,7 +74,7 @@ function GlassesVisual({ compact = false }: { compact?: boolean }) {
   </div>;
 }
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
+function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="eyebrow">{children}</p>;
 }
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -189,7 +189,7 @@ function PemuraHome() {
           </aside>
           <div className="demo-device">
             <div className="device-top"><span className="device-brand">PEMURA / VOICE</span><span className="device-state"><i/> CONECTADO</span></div>
-            <div className="waveform" aria-hidden="true">{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ "--bar": `${10 + ((i * 17) % 35)}px`, animationDelay: `${i * 22}ms` } as React.CSSProperties}/>)}</div>
+            <div className="waveform" aria-hidden="true">{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ "--bar": `${10 + ((i * 17) % 35)}px`, animationDelay: `${i * 22}ms` } as CSSProperties}/>)}</div>
             <div className="conversation" aria-live="polite" aria-atomic="true">
               {currentDemo.messages.map(([speaker, message], index) => <div key={index} style={{ animationDelay: `${index * 260}ms` }} className={speaker === "Você" ? "message user-message" : "message pemura-message"}><span>{speaker === "Você" ? "VOCÊ" : "PEMURA"}</span><p>{message}</p></div>)}
               {currentDemo.confirmation && <div className="confirm-note"><span className="confirm-indicator"/> {confirmed ? "CONFIRMAÇÃO REGISTRADA · SIMULAÇÃO" : "AÇÃO SENSÍVEL · CONFIRMAÇÃO DO USUÁRIO"} {!confirmed && <button onClick={() => { setConfirmed(true); setPaused(true); }}>Confirmar</button>}</div>}
