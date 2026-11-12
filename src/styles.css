@@ -118,3 +118,10 @@ h2 i{font-size:1.08em}
 @media(prefers-reduced-motion:reduce){.message{animation:none;opacity:1;transform:none;filter:none}}
 
 .footer-social{display:flex;gap:12px}.footer-social a{font:9px var(--display);letter-spacing:.1em;color:var(--muted)}
+
+.hotspot{padding:0;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.hotspot:after{content:"";position:absolute;inset:-6px;border:1px solid rgba(61,123,255,.32);border-radius:50%;animation:hotspotPulse 2.6s ease-out infinite}
+.hotspot.active{transform:scale(1.3);box-shadow:0 0 0 6px rgba(61,123,255,.18),0 0 24px var(--blue)}
+@keyframes hotspotPulse{0%{transform:scale(.75);opacity:.75}100%{transform:scale(1.7);opacity:0}}
+@media(prefers-reduced-motion:reduce){.hotspot:after{animation:none}}
+.mobile-menu{z-index:101}
