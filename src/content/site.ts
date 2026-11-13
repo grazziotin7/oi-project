@@ -22,7 +22,7 @@ export const site = {
   product: {
     name: "Pemura One",
     edition: "PRIMEIRA EDIÇÃO · CONCEITO",
-    retailPrice: "R$ 899,90",
+    retailPrice: "R$ 2.799,00",
     costRange: "R$ 450–600",
     description: "Óculos inteligente com interação por voz, áudio integrado e conexão com o smartphone. A primeira versão prioriza uma experiência leve, sem tela no visor.",
     priceNote: "Preço sugerido para planejamento escolar, não é oferta de venda nem orçamento fechado. O custo estimado depende da seleção final dos componentes, armação, montagem, impostos e testes.",
