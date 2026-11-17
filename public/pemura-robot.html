@@ -71,6 +71,44 @@ section{position:relative;z-index:3;min-height:100svh;padding:112px 17% 78px;dis
 .creators-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .creator-name{min-height:120px;display:flex;align-items:center;padding:26px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(139,92,255,.10),rgba(255,255,255,.015));font-size:clamp(18px,2vw,27px);letter-spacing:-.045em;color:var(--ink)}
 @media(max-width:700px){.creators-wrap{padding:38px 6% 0}.creators-grid{grid-template-columns:1fr;gap:10px}.creator-name{min-height:76px;padding:20px;font-size:21px}}
+
+/* Checkout PEMURA */
+.store-product-visual img{width:100%;max-width:760px;height:clamp(340px,42vw,560px);object-fit:contain;object-position:center;padding:12px;display:block;position:relative;z-index:2}
+.store-product-visual .image-fallback{display:none;position:relative;z-index:2;width:min(90%,620px);height:auto}
+.store-product-visual.image-error .image-fallback{display:block}
+.store-product-visual.image-error img{display:none}
+.buy-now{margin-top:22px;border:0;background:linear-gradient(110deg,#f5f1ff,#c7b4ff);color:#090811;padding:15px 20px;font:600 11px var(--mono);letter-spacing:.08em;display:inline-flex;gap:18px;align-items:center;cursor:pointer}
+.buy-now:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(139,92,255,.22)}
+.checkout-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(3,4,9,.94);backdrop-filter:blur(16px);overflow:auto;padding:28px 16px}
+.checkout-overlay.open{display:block}
+.checkout-shell{width:min(760px,100%);margin:30px auto;background:#0c0e18;border:1px solid rgba(167,139,250,.28);padding:clamp(20px,4vw,38px);position:relative}
+.checkout-close{position:absolute;right:18px;top:14px;background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
+.checkout-kicker{font:10px var(--mono);letter-spacing:.15em;color:#bba8ff}
+.checkout-shell h2{font-size:clamp(30px,5vw,46px);letter-spacing:-.06em;margin:12px 0 8px}
+.checkout-sub{color:var(--muted);font-size:13px;line-height:1.7}
+.checkout-progress{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:26px 0 30px}
+.checkout-progress span{height:3px;background:#292638}.checkout-progress span.active{background:linear-gradient(90deg,#557dff,#a78bfa)}
+.checkout-step{display:none}.checkout-step.active{display:block}
+.checkout-step h3{font-size:18px;margin:0 0 18px}
+.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checkout-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.checkout-field.full{grid-column:1/-1}
+.checkout-field label{font:9px var(--mono);letter-spacing:.08em;color:#c8baff}
+.checkout-field input{width:100%;background:#080a12;border:1px solid rgba(255,255,255,.16);color:#fff;padding:13px 12px;font:13px var(--sans);border-radius:0;outline:none}
+.checkout-field input:focus{border-color:#a78bfa}
+.checkout-summary{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:17px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:16px 0}
+.checkout-summary strong{font-size:20px}
+.checkout-qty{display:flex;align-items:center;gap:12px}
+.checkout-qty button{width:34px;height:34px;background:#191627;border:1px solid rgba(167,139,250,.4);font-size:18px}
+.checkout-actions{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
+.checkout-actions button{padding:13px 18px;font:10px var(--mono);letter-spacing:.08em;cursor:pointer}
+.checkout-back{background:transparent;border:1px solid var(--line);color:#fff}
+.checkout-next{background:#f5f1ff;color:#090811;border:1px solid #f5f1ff;font-weight:600}
+.checkout-note{font-size:11px;line-height:1.7;color:var(--muted);padding:14px;border:1px solid rgba(167,139,250,.2);background:rgba(139,92,255,.06);margin-top:16px}
+.checkout-success{text-align:center;padding:28px 0}
+.checkout-success .success-mark{width:54px;height:54px;border:1px solid #a78bfa;border-radius:50%;display:grid;place-items:center;color:#c7b4ff;font-size:26px;margin:0 auto 20px}
+@media(max-width:700px){.store-product-visual img{height:clamp(300px,78vw,430px);padding:8px}.checkout-grid{grid-template-columns:1fr}.checkout-field.full{grid-column:auto}.checkout-overlay{padding:10px}.checkout-shell{margin:12px auto}.checkout-actions button{flex:1;padding:13px 10px}}
+
 </style>
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
 </head>
@@ -101,7 +139,7 @@ section{position:relative;z-index:3;min-height:100svh;padding:112px 17% 78px;dis
   <div class="store-feature">
     <div class="store-product-visual rv">
       <div class="store-orbit store-orbit-a"></div><div class="store-orbit store-orbit-b"></div>
-      <img src="/pemura-glasses.jpg" alt="Óculos inteligentes PEMURA em armação preta, com câmera discreta e lentes escuras" loading="lazy" decoding="async" />
+      <img src="/pemura-glasses.jpg?v=3" alt="Óculos inteligentes PEMURA em armação preta, com câmera discreta e lentes escuras" loading="eager" decoding="async" onerror="this.closest('.store-product-visual').classList.add('image-error')" /><svg class="image-fallback" viewBox="0 0 760 360" role="img" aria-label="Ilustração dos óculos inteligentes Pemura"><defs><linearGradient id="framePemura" x1="0" x2="1"><stop stop-color="#8e8e9a"/><stop offset=".45" stop-color="#292733"/><stop offset="1" stop-color="#a78bfa"/></linearGradient><linearGradient id="lensPemura" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#39344f"/><stop offset="1" stop-color="#11121c"/></linearGradient></defs><g fill="none" stroke="url(#framePemura)" stroke-width="13" stroke-linejoin="round"><rect x="112" y="112" width="220" height="142" rx="48"/><rect x="428" y="112" width="220" height="142" rx="48"/><path d="M332 153 Q380 126 428 153"/><path d="M112 145 L48 117 M648 145 L712 117" stroke-linecap="round"/></g><g fill="url(#lensPemura)" stroke="#a78bfa" stroke-opacity=".45" stroke-width="2"><rect x="126" y="126" width="192" height="114" rx="36"/><rect x="442" y="126" width="192" height="114" rx="36"/></g><circle cx="604" cy="126" r="9" fill="#a78bfa"/><circle cx="604" cy="126" r="4" fill="#090811"/><path d="M153 151 Q220 127 291 153 M469 151 Q536 127 607 153" stroke="#fff" stroke-opacity=".18" stroke-width="5" fill="none"/></svg>
       <span>PEMURA ONE / PRODUCT STUDY 001</span>
     </div>
     <div class="store-product-info rv">
@@ -110,10 +148,52 @@ section{position:relative;z-index:3;min-height:100svh;padding:112px 17% 78px;dis
       <p>Um assistente inteligente vestível, pensado para receber comandos por voz e devolver respostas em áudio, sem tela nas lentes.</p>
       <div class="store-price-line"><div><small>PREÇO DE VENDA PLANEJADO</small><strong>R$ 2.799</strong></div><div><small>DISPONIBILIDADE</small><strong>Em desenvolvimento</strong></div></div>
       <p class="store-price-note">Preço de venda planejado para o PEMURA ONE. O valor poderá ser confirmado ou ajustado quando o produto estiver validado e o lançamento comercial for anunciado. Ainda não estamos recebendo pedidos.</p>
-      <a class="primary" href="#tecnologia">VER COMPONENTES E TECNOLOGIA <span>↗</span></a>
+      <button class="buy-now" type="button" id="openCheckout">COMPRAR PEMURA ONE <span>↗</span></button>
     </div>
   </div>
-  <div class="section-heading rv" id="tecnologia" style="margin-top:78px;margin-bottom:28px"><div class="eyebrow">ESPECIFICAÇÕES TÉCNICAS</div><h2>O que existe <em>por dentro.</em></h2><p>Componentes considerados para o protótipo e tecnologias previstas para o ecossistema Pemura.</p></div>
+  
+<div class="checkout-overlay" id="checkoutOverlay" aria-hidden="true">
+ <div class="checkout-shell" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <button class="checkout-close" id="closeCheckout" type="button" aria-label="Fechar">×</button>
+  <div class="checkout-kicker">PEMURA STORE / FINALIZAÇÃO</div>
+  <h2 id="checkoutTitle">Sua próxima experiência começa aqui.</h2>
+  <p class="checkout-sub">Confira o produto e avance pelas etapas para revisar os dados do pedido.</p>
+  <div class="checkout-progress"><span class="active"></span><span></span><span></span></div>
+  <section class="checkout-step active" data-step="0">
+   <h3>01 / Produto</h3>
+   <div class="checkout-summary"><div><b>Pemura One</b><div class="checkout-sub">Óculos inteligentes · conceito em desenvolvimento</div></div><strong>R$ 2.799,00</strong></div>
+   <div class="checkout-summary"><span>Quantidade</span><div class="checkout-qty"><button type="button" id="qtyMinus">−</button><b id="qtyValue">1</b><button type="button" id="qtyPlus">+</button></div></div>
+   <div class="checkout-summary"><span>Total estimado</span><strong id="checkoutTotal">R$ 2.799,00</strong></div>
+   <div class="checkout-note">Esta é uma prévia do processo de compra. O produto está em desenvolvimento; nenhum pedido ou pagamento real será realizado.</div>
+  </section>
+  <section class="checkout-step" data-step="1">
+   <h3>02 / Dados para contato e entrega</h3>
+   <form id="checkoutForm"><div class="checkout-grid">
+    <div class="checkout-field full"><label for="buyerName">NOME COMPLETO</label><input id="buyerName" name="name" autocomplete="name" placeholder="Seu nome" required /></div>
+    <div class="checkout-field"><label for="buyerEmail">E-MAIL</label><input id="buyerEmail" name="email" type="email" autocomplete="email" placeholder="voce@email.com" required /></div>
+    <div class="checkout-field"><label for="buyerPhone">TELEFONE</label><input id="buyerPhone" name="phone" type="tel" autocomplete="tel" placeholder="(00) 00000-0000" required /></div>
+    <div class="checkout-field"><label for="buyerCep">CEP</label><input id="buyerCep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required /></div>
+    <div class="checkout-field"><label for="buyerCity">CIDADE / UF</label><input id="buyerCity" name="city" autocomplete="address-level2" placeholder="Cidade - UF" required /></div>
+    <div class="checkout-field full"><label for="buyerAddress">ENDEREÇO</label><input id="buyerAddress" name="address" autocomplete="street-address" placeholder="Rua, número e complemento" required /></div>
+   </div></form>
+   <div class="checkout-note">Demonstração: os dados ficam somente na memória desta página e não são enviados nem armazenados.</div>
+  </section>
+  <section class="checkout-step" data-step="2">
+   <h3>03 / Revisão e pagamento</h3>
+   <div class="checkout-summary"><span>Produto</span><b>Pemura One</b></div>
+   <div class="checkout-summary"><span>Quantidade</span><b id="reviewQty">1</b></div>
+   <div class="checkout-summary"><span>Valor estimado</span><strong id="reviewTotal">R$ 2.799,00</strong></div>
+   <div class="checkout-summary"><span>Entrega para</span><b id="reviewBuyer">—</b></div>
+   <div class="checkout-note"><b>Pagamento ainda não habilitado.</b><br/>A loja ainda não possui um serviço de pagamento conectado. Não informe dados de cartão ou conta bancária. Compras reais só poderão ser aceitas após configurar o pagamento e validar o lançamento.</div>
+  </section>
+  <section class="checkout-step" data-step="3">
+   <div class="checkout-success"><div class="success-mark">✓</div><div class="checkout-kicker">PRÉVIA CONCLUÍDA</div><h2>Você chegou ao fim do fluxo.</h2><p class="checkout-sub">Nenhum pedido foi enviado e nenhum pagamento foi cobrado. A loja só poderá confirmar compras depois da integração de pagamento e da abertura oficial das vendas.</p><button class="checkout-next" type="button" id="finishCheckout">VOLTAR À LOJA</button></div>
+  </section>
+  <div class="checkout-actions" id="checkoutActions"><button class="checkout-back" id="checkoutBack" type="button">VOLTAR</button><button class="checkout-next" id="checkoutNext" type="button">CONTINUAR →</button></div>
+ </div>
+</div>
+
+<div class="section-heading rv" id="tecnologia" style="margin-top:78px;margin-bottom:28px"><div class="eyebrow">ESPECIFICAÇÕES TÉCNICAS</div><h2>O que existe <em>por dentro.</em></h2><p>Componentes considerados para o protótipo e tecnologias previstas para o ecossistema Pemura.</p></div>
   <div class="spec-grid"><div class="spec-panel rv"><h3>HARDWARE / COMPONENTES</h3><div class="spec-row"><b>ESP32-S3-MINI-1-N4R2</b><small>PROCESSADOR · MODELO SELECIONADO</small><p>Módulo principal previsto para controlar periféricos e comunicação com o smartphone. Dimensões e espaço interno da haste ainda precisam ser compatibilizados.</p></div><div class="spec-row"><b>JAL-KE1-OV2640</b><small>CÂMERA FRONTAL · MODELO SELECIONADO</small><p>Módulo previsto para captura de imagens. Conexão FPC, pinagem e integração serão validadas no protótipo.</p></div><div class="spec-row"><b>2 × TDK T5848</b><small>MICROFONES MEMS · MODELO SELECIONADO</small><p>Dois microfones digitais previstos para captação de voz, um em cada lado da armação.</p></div><div class="spec-row"><b>2 × PUI Audio AR01016MR</b><small>ÁUDIO DE SAÍDA · MODELO SELECIONADO</small><p>Alto-falantes compactos previstos para reproduzir respostas. Potência e circuito de acionamento precisam ser validados.</p></div><div class="spec-row"><b>2 × EEMB LP401429</b><small>BATERIAS · MODELO SELECIONADO</small><p>Células Li-Po de 3,7 V previstas. Topologia, proteção e recarga do conjunto exigem projeto elétrico seguro.</p></div><div class="spec-row"><b>PCB personalizada, botão, LED e carga</b><small>INTEGRAÇÃO · A DESENVOLVER</small><p>Placa, conectores, antena, cabos flexíveis, contatos de carga e controles serão definidos no projeto de engenharia.</p></div></div><div class="spec-panel rv"><h3>SOFTWARE / ECOSSISTEMA</h3><div class="spec-row"><b>TPA6132A2 + PCM5102A</b><small>ÁUDIO · CIRCUITO EM VALIDAÇÃO</small><p>Amplificação e conversão de áudio previstas. A compatibilidade elétrica com os alto-falantes será verificada antes da fabricação.</p></div><div class="spec-row"><b>BQ25120A</b><small>GERENCIAMENTO DE ENERGIA · EM VALIDAÇÃO</small><p>Circuito selecionado inicialmente. A solução para duas células precisa ser projetada e validada.</p></div><div class="spec-row"><b>Firmware ESP-IDF</b><small>FIRMWARE · A DESENVOLVER</small><p>Software embarcado para controlar câmera, áudio, botões, energia e comunicação com o aplicativo.</p></div><div class="spec-row"><b>Aplicativo PEMURA</b><small>SOFTWARE · EM DESENVOLVIMENTO</small><p>Interface do usuário, conexão com os óculos e encaminhamento seguro das solicitações ao serviço de IA.</p></div><div class="spec-row"><b>API de inteligência artificial</b><small>IA · SERVIÇO EXTERNO</small><p>Modelo de IA existente integrado ao aplicativo e ao servidor. O custo varia conforme o uso e os serviços de voz e imagem.</p></div><div class="spec-row"><b>Bluetooth e serviços de voz</b><small>COMUNICAÇÃO · A VALIDAR</small><p>O protocolo de transporte de áudio e a integração com Android e iOS serão testados; BLE por si só não garante áudio de headset.</p></div></div></div><p class="disclaimer">Importante: componentes e arquitetura são referências de projeto, não uma lista de peças já montadas e validadas. Dimensões, peso, autonomia, compatibilidade elétrica e encaixe na armação ainda não estão confirmados.</p>
 
   <p class="store-price-note" style="margin-top:28px">Fornecedores para cotação: Mouser e DigiKey (componentes), Espressif e Texas Instruments (circuitos), Kai Lap Technologies (câmera), EEMB (baterias), CEREBRA e Produza (montagem), além de fabricantes de armações e lentes ópticas.</p>
@@ -192,4 +272,28 @@ requestAnimationFrame(animate);
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2))});
 
 </script>
+
+<script>
+(()=>{
+ const overlay=document.getElementById('checkoutOverlay');if(!overlay)return;
+ const steps=[...overlay.querySelectorAll('.checkout-step')],bars=[...overlay.querySelectorAll('.checkout-progress span')];
+ const actions=document.getElementById('checkoutActions');let step=0,qty=1;
+ const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ const update=()=>{steps.forEach((el,i)=>el.classList.toggle('active',i===step));bars.forEach((el,i)=>el.classList.toggle('active',i<=Math.min(step,2)));actions.style.display=step===3?'none':'flex';document.getElementById('checkoutTotal').textContent=money(qty*2799);document.getElementById('qtyValue').textContent=qty;document.getElementById('reviewQty').textContent=qty;document.getElementById('reviewTotal').textContent=money(qty*2799);document.getElementById('checkoutBack').style.visibility=step===0?'hidden':'visible';document.getElementById('checkoutNext').textContent=step===2?'CONCLUIR PRÉVIA':'CONTINUAR →';};
+ const open=()=>{overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';step=0;update();};
+ const close=()=>{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+ document.getElementById('openCheckout').addEventListener('click',open);document.getElementById('closeCheckout').addEventListener('click',close);document.getElementById('finishCheckout').addEventListener('click',close);
+ overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))close()});
+ document.getElementById('qtyMinus').addEventListener('click',()=>{qty=Math.max(1,qty-1);update()});
+ document.getElementById('qtyPlus').addEventListener('click',()=>{qty=Math.min(5,qty+1);update()});
+ document.getElementById('checkoutBack').addEventListener('click',()=>{step=Math.max(0,step-1);update()});
+ document.getElementById('checkoutNext').addEventListener('click',()=>{
+  if(step===1){const form=document.getElementById('checkoutForm');if(!form.reportValidity())return;const d=new FormData(form);document.getElementById('reviewBuyer').textContent=d.get('name')+' · '+d.get('city');}
+  step=Math.min(3,step+1);update();
+ });
+ update();
+})();
+</script>
+
 </body></html>
